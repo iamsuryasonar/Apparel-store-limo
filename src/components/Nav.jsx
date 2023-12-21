@@ -3,7 +3,7 @@ import { faUser, faMagnifyingGlass, faCartShopping } from '@fortawesome/free-sol
 
 function Nav() {
     return (
-        <nav className="container bg-slate-200 p-6 flex justify-between">
+        <div className=" bg-slate-200 p-6 flex justify-between">
             <div className='flex gap-5 uppercase'>
                 <a href="#" className="hover:underline">Home</a>
                 <a href="#" className="hover:underline">Shop</a>
@@ -15,7 +15,7 @@ function Nav() {
                 <FontAwesomeIcon icon={faMagnifyingGlass} />
                 <FontAwesomeIcon icon={faCartShopping} />
             </div>
-        </nav>
+        </div>
     )
 }
 

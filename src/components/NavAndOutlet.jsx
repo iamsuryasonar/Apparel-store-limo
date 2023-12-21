@@ -2,11 +2,11 @@ import Nav from './Nav';
 import { Outlet } from 'react-router-dom'
 
 function NavAndOutlet() {
-    return <>
+    return <div className=''>
         <Nav />
-        <div className=''>
+        <div className='flex justify-center'>
             <Outlet />
         </div>
-    </>
+    </div>
 }
 export default NavAndOutlet;
