@@ -16,7 +16,7 @@ function App() {
       <Route element={<NavAndOutlet />}>
         <Route path='/' element={<HomePage />} />
         <Route path='/contact-us' element={<ContactPage />} />
-        <Route path='/log-in' element={<LogInPage />} />
+        <Route path='/sign-in' element={<LogInPage />} />
         <Route path='/sign-up' element={<RegisterPage />} />
       </Route>
     </Routes>
