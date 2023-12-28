@@ -8,7 +8,7 @@ import RegisterPage from './pages/RegisterPage'
 import ContactPage from './pages/ContactPage'
 import NavAndOutlet from './components/NavAndOutlet'
 import { Routes, Route } from 'react-router-dom'
-
+import ShopPage from './pages/shop/ShopPage'
 function App() {
 
   return (
@@ -18,6 +18,7 @@ function App() {
         <Route path='/contact-us' element={<ContactPage />} />
         <Route path='/sign-in' element={<LogInPage />} />
         <Route path='/sign-up' element={<RegisterPage />} />
+        <Route path='/shop' element={<ShopPage />}></Route>
       </Route>
     </Routes>
   )

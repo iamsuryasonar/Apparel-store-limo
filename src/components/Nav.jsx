@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faMagnifyingGlass, faCartShopping } from '@fortawesome/free-solid-svg-icons'
 import ContactPage from '../pages/ContactPage';
 import { Link } from 'react-router-dom'
+
 function Nav() {
     return (
         <div className=" bg-slate-100 p-6 flex justify-between">
@@ -12,7 +13,7 @@ function Nav() {
             </div>
             <h1>LIMO</h1>
             <div className='flex gap-5'>
-                <Link to='/log-in' className="hover:underline"><FontAwesomeIcon icon={faUser} /></Link>
+                <Link to='/sign-in' className="hover:underline"><FontAwesomeIcon icon={faUser} /></Link>
                 <Link to='/search' className="hover:underline"><FontAwesomeIcon icon={faMagnifyingGlass} /></Link>
                 <Link to='/cart' className="hover:underline"><FontAwesomeIcon icon={faCartShopping} /></Link>
             </div>

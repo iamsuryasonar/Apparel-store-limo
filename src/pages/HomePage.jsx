@@ -27,7 +27,7 @@ function HomePage() {
                     }
                 })
             },
-            { rootMargin: "0px", threshold: '0.25' }
+            { rootMargin: "-150px", }
         );
         observer.observe(bannerRef.current);
         observer.observe(productRef.current);
@@ -53,7 +53,7 @@ function HomePage() {
             </div>
             <InstagramWrapper instagramWrapperRef={instagramWrapperRef} />
             <Subscribe />
-            
+
         </main>
     )
 }
