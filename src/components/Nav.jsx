@@ -3,8 +3,9 @@ import { faUser, faMagnifyingGlass, faCartShopping, faXmark } from '@fortawesome
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import Cart from '../components/Cart'
-function Nav() {
 
+function Nav() {
+ 
     const [toggleCart, setToggleCart] = useState(false);
 
     return (
