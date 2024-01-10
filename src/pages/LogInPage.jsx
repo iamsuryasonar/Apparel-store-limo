@@ -39,7 +39,7 @@ function LogInPage() {
 
   return (
     <>
-      <div className="w-11/12 md:w-[28rem] m-[6rem] flex flex-col justify-center items-center gap-4 align-center">
+      <div className="md:w-[28rem] m-[6rem] flex flex-col justify-center items-center gap-4">
         <h1 className="font-extrabold text-5xl font-raleway">Login</h1>
         <p className="font-thin text-md font-raleway">
           Don't have an account?{" "}

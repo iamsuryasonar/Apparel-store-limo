@@ -1,8 +1,7 @@
-import ProductCart from "../components/ProductCart";
-import Footer from '../components/Footer'
+import CategoryCard from "../components/CategoryCard";
 import Subscribe from "../components/Subscribe";
 import InstagramWrapper from "../components/InstagramWrapper";
-import { useState, useEffect, useRef, useInsertionEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import './HomePage.css'
 
 function HomePage() {
@@ -42,10 +41,10 @@ function HomePage() {
                 <img className="w-full h-[42rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
             </div>
             <div ref={productRef} id="product-section" className="w-11/12 mt-36 flex flex-col justify-center gap-8 lg:grid lg:grid-cols-4 ">
-                <ProductCart />
-                <ProductCart />
-                <ProductCart />
-                <ProductCart />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
+                <CategoryCard />
             </div>
             <div className="w-full">
                 <img className="w-full mt-36 h-[28rem] object-cover" src='https://plus.unsplash.com/premium_photo-1674748732558-ec38737e30ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />

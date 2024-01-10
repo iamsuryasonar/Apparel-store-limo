@@ -1,6 +1,3 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import HomePage from './pages/HomePage'
 import LogInPage from './pages/LogInPage'
@@ -8,8 +5,7 @@ import RegisterPage from './pages/RegisterPage'
 import ContactPage from './pages/ContactPage'
 import NavAndOutlet from './components/NavAndOutlet'
 import { Routes, Route } from 'react-router-dom'
-import ShopPage from './pages/shop/ShopPage'
-import CartComponent from './pages/shop/components/CartComponent'
+import ShopPage from './pages/ShopPage'
 function App() {
 
   return (
@@ -18,12 +14,11 @@ function App() {
         <Route path='/' element={<HomePage />} />
         <Route path='/contact-us' element={<ContactPage />} />
         <Route path='/sign-in' element={<LogInPage />} />
-        <Route path='/cart' element={<CartComponent />} />
         <Route path='/sign-up' element={<RegisterPage />} />
         <Route path='/shop' element={<ShopPage />}></Route>
       </Route>
       <Route>
-        
+
       </Route>
     </Routes>
   )

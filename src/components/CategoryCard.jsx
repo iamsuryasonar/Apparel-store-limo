@@ -1,4 +1,4 @@
-function ProductCart() {
+function CategoryCard() {
     return (
         <>
             <div className="relative">
@@ -14,4 +14,4 @@ function ProductCart() {
     )
 }
 
-export default ProductCart;
+export default CategoryCard;
