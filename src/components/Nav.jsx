@@ -26,9 +26,7 @@ function Nav() {
     },
 ]
 
-const logOutHandler = () => {
-    dispatchEvent()
-}
+
 
     return (
         <div className="fixed top-0 right-0 left-0 z-10 bg-slate-100 p-6 flex justify-between ">
