@@ -3,6 +3,7 @@ import Subscribe from "../components/Subscribe";
 import InstagramWrapper from "../components/InstagramWrapper";
 import { useState, useEffect, useRef } from 'react';
 import './HomePage.css'
+import AuthService from "../services/auth.services";
 
 function HomePage() {
 

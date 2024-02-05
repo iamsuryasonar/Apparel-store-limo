@@ -9,7 +9,6 @@ const PrivateRoute = ({ userData }) => {
 
     const dispatch = useDispatch()
     const accessToken = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.accessToken;
-
     const isAuthenticated = useMemo(() => {
         return (userData, accessToken) => {
             return userData && accessToken;
@@ -24,7 +23,7 @@ const PrivateRoute = ({ userData }) => {
     return isAuthenticated(userData, accessToken) ? (
         <Outlet />
     ) : (
-        <Navigate to="/sign-up" />
+        <Navigate to="/sign-in" />
     )
 
 }

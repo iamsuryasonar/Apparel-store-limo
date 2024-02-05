@@ -7,7 +7,6 @@ let headersList = {
 }
 
 const register = (creds) => {
-
     return axios.post(API_URL + 'auth/customer-register', creds)
 }
 
