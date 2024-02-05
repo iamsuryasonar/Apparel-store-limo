@@ -30,7 +30,7 @@ function LogInPage() {
       .unwrap()
       .then(() => {
         console.log("logged in successfully");
-        // navigate("");
+        navigate("/homepage");
       })
       .catch(() => {
         setLoading(false);

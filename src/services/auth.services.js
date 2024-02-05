@@ -7,24 +7,16 @@ let headersList = {
 }
 
 const register = (creds) => {
-    creds.avatar = "https://i.imgur.com/yhW6Yw1.jpg";
 
-    return axios.post(API_URL + 'users/', creds)
+    return axios.post(API_URL + 'auth/customer-register', creds)
 }
-
-
-
-
 
 
 const login = async (creds) => {
     return axios
-        .post(API_URL + "auth/login", creds)
+        .post(API_URL + "auth/customer-login", creds)
         .then((response) => {
-            if (response.data.data.name) {
-                localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(response.data.data));
-            }
-            return response.data.data;
+            return response.data.results;
         });
 }
 
@@ -33,7 +25,7 @@ const logout = () => {
 };
 
 const getCurrentUser = () => {
-    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME));
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.userData;
 };
 
 const AuthService = {
