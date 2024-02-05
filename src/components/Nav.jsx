@@ -59,8 +59,8 @@ function Nav() {
             {
                 loading && <LoadingBar />
             }
-            <div className="fixed top-0 right-0 left-0 z-10 bg-slate-100 p-6 flex justify-between ">
-                <div className='flex gap-5 uppercase items-center'>
+            <div className="fixed top-0 right-0 left-0 z-10 bg-slate-100 p-6  justify-between flex">
+                <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {user ?
                         authNavItems.map((item) => {
                             return <Link key={item.id} to={item.path} className={`text-base hover:text-blue-600 hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title}</Link>
