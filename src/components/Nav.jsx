@@ -103,15 +103,18 @@ function Nav() {
                             return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out  ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
                         })
                 }
-                <div className='gap-5 text-xl flex' >
-                    <Link to='' className="hover:text-blue-500"><FontAwesomeIcon icon={faUser} /></Link>
-                    <Link to='' className="hover:text-blue-500"><FontAwesomeIcon icon={faMagnifyingGlass} /></Link>
-                    <FontAwesomeIcon className='hover:text-blue-500'
-                        onClick={() => {
-                            setToggleCart(!toggleCart)
-                            toggleMenu();
-                        }} icon={faCartShopping} />
-                </div>
+                {
+                    user &&
+                    <div className='gap-5 text-xl flex' >
+                        <Link to='' className="hover:text-blue-500"><FontAwesomeIcon icon={faUser} /></Link>
+                        <Link to='' className="hover:text-blue-500"><FontAwesomeIcon icon={faMagnifyingGlass} /></Link>
+                        <FontAwesomeIcon className='hover:text-blue-500'
+                            onClick={() => {
+                                setToggleCart(!toggleCart)
+                                toggleMenu();
+                            }} icon={faCartShopping} />
+                    </div>
+                }
                 {
                     user &&
                     <button onClick={() => {

@@ -29,7 +29,6 @@ function LogInPage() {
     dispatch(login(input))
       .unwrap()
       .then(() => {
-        console.log("logged in successfully");
         navigate("/");
       })
       .catch(() => {
@@ -39,7 +38,7 @@ function LogInPage() {
 
   return (
     <>
-      <div className="md:w-[28rem] m-[6rem] flex flex-col justify-center items-center gap-4">
+      <div className="max-w-2xl w-full p-4 flex flex-col justify-center items-center gap-4">
         <h1 className="font-extrabold text-5xl font-raleway">Login</h1>
         <p className="font-thin text-md font-raleway">
           Don't have an account?{" "}
