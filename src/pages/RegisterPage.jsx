@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { register } from '../store/slices/authSlice'
 import { clearMessage } from '../store/slices/messageSlice'
-
+import BottomAlert from '../components/BottomAlert'
 
 function RegisterPage() {
 
@@ -55,6 +55,7 @@ function RegisterPage() {
                 <button onClick={registerHandler} className="px-6 py-2 bg-black text-white font-light">Create</button>
             </div>
         </div>
+        {message && <BottomAlert message={message} />}
     </>)
 }
 

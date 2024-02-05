@@ -66,32 +66,34 @@ export const register = createAsyncThunk(
   }
 );
 
-export const login = createAsyncThunk("auth/login", async (creds, thunkAPI) => {
-  try {
-    thunkAPI.dispatch(setLoading(true));
-    const res = await AuthService.login(creds);
-    const data = {
-      userData: {
-        email: res.email,
-      },
-      accessToken: res.token,
-    };
-    localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(data));
-    return data;
-  } catch (error) {
-    const message =
-      (error.response && error.response.data && error.response.data.message) ||
-      error.message ||
-      error.toString();
-    thunkAPI.dispatch(setMessage(message));
-    return thunkAPI.rejectWithValue();
-  } finally {
-    setTimeout(() => {
-      thunkAPI.dispatch(clearMessage());
-    }, 3000);
-    thunkAPI.dispatch(setLoading(false));
-  }
-});
+export const login = createAsyncThunk(
+  "auth/login",
+  async (creds, thunkAPI) => {
+    try {
+      thunkAPI.dispatch(setLoading(true));
+      const res = await AuthService.login(creds);
+      const data = {
+        userData: {
+          email: res.email,
+        },
+        accessToken: res.token,
+      };
+      localStorage.setItem(LOCAL_STORAGE_NAME, JSON.stringify(data));
+      return data;
+    } catch (error) {
+      const message =
+        (error.response && error.response.data && error.response.data.message) ||
+        error.message ||
+        error.toString();
+      thunkAPI.dispatch(setMessage(message));
+      return thunkAPI.rejectWithValue();
+    } finally {
+      setTimeout(() => {
+        thunkAPI.dispatch(clearMessage());
+      }, 3000);
+      thunkAPI.dispatch(setLoading(false));
+    }
+  });
 
 export const logout = createAsyncThunk(
   "auth/logout",
@@ -141,7 +143,6 @@ const authSlice = createSlice({
         state.accessToken = null;
       })
       .addCase(login.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.userData = action.payload.userData;
         state.accessToken = action.payload.accessToken;
       })

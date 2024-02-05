@@ -20,6 +20,7 @@ const PrivateRoute = ({ userData }) => {
             dispatch(initialiseUser());
         }
     }, [dispatch, userData, accessToken, isAuthenticated]);
+
     return isAuthenticated(userData, accessToken) ? (
         <Outlet />
     ) : (

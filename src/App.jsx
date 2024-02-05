@@ -13,7 +13,7 @@ import PrivateRoute from "./components/auth_guards/private_route";
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
-
+  console.log(userData);
   return (
     <Routes>
       <Route element={<NavAndOutlet />}>

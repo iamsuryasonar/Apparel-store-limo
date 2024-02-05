@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import { setLoading } from "../store/slices/loadingSlice";
+import BottomAlert from '../components/BottomAlert'
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -81,6 +82,7 @@ function LogInPage() {
           </a>
         </div>
       </div>
+      {message && <BottomAlert message={message} />}
     </>
   );
 }

@@ -1,4 +1,9 @@
+import { useSelector } from 'react-redux'
+import BottomAlert from '../components/BottomAlert'
+
 function ContactPage() {
+    const message = useSelector((state) => state.message.message);
+
     return (
         <>
             <div className="max-w-7xl w-full flex flex-col justify-center items-center">
@@ -42,6 +47,7 @@ function ContactPage() {
                     </form>
                 </div>
             </div>
+            {message && <BottomAlert message={message} />}
         </>
 
     )

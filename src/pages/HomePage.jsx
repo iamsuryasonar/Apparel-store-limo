@@ -3,7 +3,8 @@ import Subscribe from "../components/Subscribe";
 import InstagramWrapper from "../components/InstagramWrapper";
 import { useState, useEffect, useRef } from 'react';
 import './HomePage.css'
-import AuthService from "../services/auth.services";
+import { useSelector } from 'react-redux'
+import BottomAlert from '../components/BottomAlert'
 
 function HomePage() {
 
@@ -11,6 +12,7 @@ function HomePage() {
     const productRef = useRef(null);
     const subscribeRef = useRef(null);
     const instagramWrapperRef = useRef(null);
+    const message = useSelector((state) => state.message.message);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -53,7 +55,7 @@ function HomePage() {
             </div>
             <InstagramWrapper instagramWrapperRef={instagramWrapperRef} />
             <Subscribe />
-
+            {message && <BottomAlert message={message} />}
         </main>
     )
 }

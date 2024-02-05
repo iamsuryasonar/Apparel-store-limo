@@ -7,6 +7,7 @@ import { Outlet } from 'react-router-dom';
 const PublicRoute = ({ userData, children }) => {
     const dispatch = useDispatch()
     const accessToken = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.accessToken;
+
     const isAuthenticated = useMemo(() => {
         return (userData, accessToken) => {
             return userData && accessToken;
