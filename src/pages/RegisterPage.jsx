@@ -40,11 +40,11 @@ function RegisterPage() {
     }
 
     return (<>
-        <div className="max-w-2xl w-full p-4 flex flex-col justify-center items-center gap-4">
+        <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
             <h1 className="font-extrabold text-5xl font-raleway">Sign Up</h1>
             <p className="font-light text-md">Have an account? <Link to='/' className="underline">Sign in here</Link></p>
             <div className="w-full flex flex-col justify-center items-center">
-                <form className="w-full flex flex-col gap-6 font-light ">
+                <form className="w-full flex flex-col gap-4 font-light ">
                     <input onChange={onChangeHandler} name='firstName' type="text" placeholder='First Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
                     <input onChange={onChangeHandler} name='lastName' type="text" placeholder='Last Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
                     <input onChange={onChangeHandler} name='email' type="email" placeholder='Email' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>

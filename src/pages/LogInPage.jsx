@@ -39,7 +39,7 @@ function LogInPage() {
 
   return (
     <>
-      <div className="max-w-2xl w-full p-4 flex flex-col justify-center items-center gap-4">
+      <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
         <h1 className="font-extrabold text-5xl font-raleway">Login</h1>
         <p className="font-thin text-md font-raleway">
           Don't have an account?{" "}
@@ -48,7 +48,7 @@ function LogInPage() {
           </Link>
         </p>
         <div className="w-full flex flex-col justify-center items-center">
-          <form className="w-full flex flex-col gap-6 font-light ">
+          <form className="w-full flex flex-col gap-4 font-light ">
             <input
               onChange={onChangeHandler}
               name="email"

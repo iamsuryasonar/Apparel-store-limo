@@ -17,7 +17,7 @@ function ProductsByCategoryPage() {
     }, [])
 
     return (
-        <div className="max-w-7xl w-full flex flex-col items-center mt-10">
+        <div className="max-w-7xl w-full flex flex-col items-center mt-10 p-4">
             <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6">
                 {products?.products && products?.products?.map((product) => {
                     return <>
