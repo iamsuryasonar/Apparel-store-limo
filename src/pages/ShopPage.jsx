@@ -11,7 +11,7 @@ function ShopPage() {
         </div>
         <div className="w-11/12 ">
             <h1 className="pt-6 place-self-start text-3xl font-bold">{categoryName}</h1>
-            <div className="py-6 w-full grid lg:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="py-6 w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <ProductCard title={title} price={price} />
                 <ProductCard title={title} price={price} />
                 <ProductCard title={title} price={price} />

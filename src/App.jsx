@@ -1,19 +1,20 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import HomePage from "./pages/HomePage";
 import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import ContactPage from "./pages/ContactPage";
 import NavAndOutlet from "./components/NavAndOutlet";
-import { Routes, Route } from "react-router-dom";
 import ShopPage from "./pages/ShopPage";
-
-import { useSelector } from "react-redux";
+import ProductsByCategoryPage from './pages/products/ProductsByCategoryPage'
 import PublicRoute from "./components/auth_guards/public_route";
 import PrivateRoute from "./components/auth_guards/private_route";
+import ProductPage from './pages/ProductPage'
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
-  console.log(userData);
+
   return (
     <Routes>
       <Route element={<NavAndOutlet />}>
@@ -23,8 +24,11 @@ function App() {
         </Route>
         <Route element={<PrivateRoute userData={userData} />}>
           <Route path="/" element={<HomePage />} />
+          <Route path="/products/:id" element={<ProductsByCategoryPage />} />
           <Route path="/contact-us" element={<ContactPage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/product" element={<ProductPage />} />
+
         </Route>
       </Route>
       <Route></Route>

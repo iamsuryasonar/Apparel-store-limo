@@ -3,10 +3,10 @@ import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
 
 function NavAndOutlet() {
-    return <div className=' relative'>
+    return <div className='relative'>
         <Nav />
         <div className='w-screen h-[4.4rem]'></div>
-        <div className='flex mx-auto min-h-screen justify-center'>
+        <div className='flex mx-auto min-h-screen p-6 justify-center'>
             <Outlet />
         </div>
         <Footer />

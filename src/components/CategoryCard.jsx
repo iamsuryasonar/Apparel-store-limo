@@ -1,15 +1,15 @@
-function CategoryCard() {
+import { Link } from 'react-router-dom'
+
+function CategoryCard({ category }) {
     return (
         <>
             <div className="relative">
-                <img src='https://cdn.shopify.com/s/files/1/0551/6869/6420/files/lama-co-ords.png?v=1702552705' />
+                <img src={category?.bannerImage?.url} />
                 <div className="absolute left-4 bottom-4">
-                    <h1 className="text-2xl  text-white sm:text-3xl">CO-ORDS</h1>
-                    <div className="p-2 bg-white">
-                        <p className="font-thin text-center text-base sm:text-xl">SHOP NOW</p>
-                    </div>
+                    <h1 className="text-2xl uppercase text-white sm:text-3xl">{category?.name}</h1>
+                    <Link to={`/products/${category?._id}`} className="p-2 font-light text-center text-lg bg-white hover:bg-black hover:text-white">SHOP NOW</Link>
                 </div>
-            </div>
+            </div >
         </>
     )
 }

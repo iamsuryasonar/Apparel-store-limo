@@ -5,7 +5,6 @@ import AuthService from "../../services/auth.services";
 import { setLoading } from "./loadingSlice";
 import isValidToken from '../../constants/authUtil'
 
-// const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME));
 export const initialiseUser = createAsyncThunk(
   'auth/initialise',
   async (_, thunkAPI) => {
