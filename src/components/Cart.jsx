@@ -8,10 +8,10 @@ function Cart({ setToggleCart }) {
     const [count, setCount] = useState(0)
 
     const increment = () => {
-        setCount(count++);
+        setCount((prev) => prev++);
     }
     const decrement = () => {
-        if (count > 0) setCount(count--);
+        if (count > 0) setCount((prev) => prev--);
     }
 
     let totalPrice = 1200;

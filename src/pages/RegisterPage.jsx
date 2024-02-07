@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState } from 'react'
 import { register } from '../store/slices/authSlice'
 import { clearMessage } from '../store/slices/messageSlice'
-
+import BottomAlert from '../components/BottomAlert'
 
 function RegisterPage() {
 
@@ -40,7 +40,7 @@ function RegisterPage() {
     }
 
     return (<>
-        <div className="w-11/12 md:w-[28rem] m-[6rem] flex flex-col justify-center items-center gap-4">
+        <div className="max-w-2xl w-full p-4 flex flex-col justify-center items-center gap-4">
             <h1 className="font-extrabold text-5xl font-raleway">Sign Up</h1>
             <p className="font-light text-md">Have an account? <Link to='/' className="underline">Sign in here</Link></p>
             <div className="w-full flex flex-col justify-center items-center">
@@ -55,6 +55,7 @@ function RegisterPage() {
                 <button onClick={registerHandler} className="px-6 py-2 bg-black text-white font-light">Create</button>
             </div>
         </div>
+        {message && <BottomAlert message={message} />}
     </>)
 }
 

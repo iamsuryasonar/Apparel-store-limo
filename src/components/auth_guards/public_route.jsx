@@ -15,7 +15,7 @@ const PublicRoute = ({ userData, children }) => {
     }, []);
 
     return isAuthenticated(userData, accessToken) ? (
-        <Navigate to="/homepage" />
+        <Navigate to="/" />
     ) : (
         <Outlet />
     )

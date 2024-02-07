@@ -1,7 +1,12 @@
+import { useSelector } from 'react-redux'
+import BottomAlert from '../components/BottomAlert'
+
 function ContactPage() {
+    const message = useSelector((state) => state.message.message);
+
     return (
         <>
-            <div className="w-screen flex flex-col justify-center items-center">
+            <div className="max-w-7xl w-full flex flex-col justify-center items-center">
                 <div className="w-full h-[8rem] bg-red-50 flex justify-center items-center font-bold">CONTACT</div>
                 <div className="w-5/6 h-[8rem] md:h-[20rem] my-10 flex flex-col justify-start md:flex-row md:justify-between md:items-center  gap-6">
                     <div className="flex flex-col justify-center items-start ">
@@ -42,6 +47,7 @@ function ContactPage() {
                     </form>
                 </div>
             </div>
+            {message && <BottomAlert message={message} />}
         </>
 
     )

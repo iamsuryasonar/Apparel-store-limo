@@ -9,6 +9,12 @@ export default {
       fontFamily: {
         raleway: ['Raleway', 'sans-serif'],
       },
+      keyframes: {
+        movingline: {
+          '0%, 100%': { transform: 'translateX(0)' },
+          '50%': { transform: 'translateX(100%)' },
+        }
+      }
     },
   },
   plugins: [],
