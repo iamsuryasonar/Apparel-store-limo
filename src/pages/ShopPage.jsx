@@ -23,6 +23,8 @@ function ShopPage() {
 
 }
 
+export default ShopPage
+
 function ProductCard({ title, price }) {
     return <div className="flex flex-col justify-center items-center">
         <div className="aspect-square">
@@ -32,6 +34,3 @@ function ProductCard({ title, price }) {
         <p className="text-lg">${price}</p>
     </div>
 }
-
-
-export default ShopPage
