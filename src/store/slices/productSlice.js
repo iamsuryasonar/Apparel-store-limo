@@ -28,13 +28,13 @@ export const get_products = createAsyncThunk(
     }
 )
 
-
 export const get_products_by_category_id = createAsyncThunk(
     'product/get_products_by_category_id',
-    async (id, thunkAPI) => {
+    async (data, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
-            let response = await ProductsService.getProductsByCategoryId(id);
+            thunkAPI.dispatch(clearProducts());
+            let response = await ProductsService.getProductsByCategoryId(data);
             return response;
         } catch (error) {
             const message =
@@ -80,7 +80,6 @@ const productSlice = createSlice({
             .addCase(get_products_by_category_id.rejected, (state, action) => {
                 state.products = null;
             })
-
     },
 });
 
