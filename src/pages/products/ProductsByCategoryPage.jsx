@@ -8,10 +8,12 @@ import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
+import { useNavigate } from 'react-router-dom'
 
 function ProductsByCategoryPage() {
     const { id } = useParams();
     let { state } = useLocation();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products)
 
@@ -107,7 +109,7 @@ function ProductsByCategoryPage() {
     }, [sortType, removedCriteria])
 
     return (
-        <div className="max-w-7xl w-full flex flex-col items-center">
+        <div className="max-w-7xl  w-full flex flex-col items-center">
             <div className="w-full">
                 {/* {state?.bannerImage?.url} */}
                 <img className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
@@ -195,18 +197,30 @@ function ProductsByCategoryPage() {
                         </select>
                     </div>
                 }
-                <div className="w-full  grid grid-cols-1 md:grid-cols-2 p-4 mt-4 md:p-8 md:mt-0 gap-8">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-4 mt-4 md:p-8 md:mt-0 gap-8">
                     {products?.products && products?.products?.map((product, index) => {
-                        return <div key={index} className="w-full flex flex-col">
+                        return <div key={index} className="w-full flex flex-col border border-slate-200 cursor-pointer group"
+                            onClick={() => {
+                                navigate(`/product/${product?._id}`, {
+                                    state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
+                                })
+                            }}>
                             <div className='relative'>
                                 <img className='object-cover w-full h-full' src={product?.images[0]?.url} />
                                 <div className='absolute top-6 left-6 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                                     <p className='text-white text-sm font-light'>{product?.tag}</p>
                                 </div>
                             </div>
-                            <div className='bg-white p-2'>
-                                <p className='text-black'>{product?.name}</p>
-                                <p className='text-black'>₹ {product?.sizeVariants.selling_price}</p>
+                            <div className='bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2'>
+                                <p className=''>{product?.name}</p>
+                                <p className='text-slate-400 font-light text-sm'>{product?.category?.name}</p>
+                                <div className='flex flex-row gap-4'>
+                                    <p className=''>₹{product?.sizeVariants.selling_price}</p>
+                                    <div className='flex flex-row gap-1'>
+                                        <p className=' line-through text-slate-400'>₹{product?.sizeVariants.mrp} </p>
+                                        <p className='text-green-400'>({Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off)</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     })}

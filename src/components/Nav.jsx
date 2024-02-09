@@ -19,16 +19,17 @@ function Nav() {
     const loading = useSelector((state) => state.loading.loading);
     const currentPageName = location.pathname;
 
-    let navItems = [{
-        id: 1,
-        title: 'Log In',
-        path: '/sign-in'
-    },
-    {
-        id: 2,
-        title: 'Sign Up',
-        path: '/sign-up'
-    },]
+    let navItems = [
+        {
+            id: 1,
+            title: 'Sign Up',
+            path: '/sign-up'
+        },
+        {
+            id: 2,
+            title: 'Log In',
+            path: '/sign-in'
+        },]
 
     let authNavItems = [
         {
@@ -38,13 +39,13 @@ function Nav() {
         },
         {
             id: 2,
-            title: 'Contact',
-            path: '/contact-us'
+            title: 'Shop',
+            path: '/shop'
         },
         {
             id: 3,
-            title: 'Shop',
-            path: '/shop'
+            title: 'Contact',
+            path: '/contact-us'
         },
     ]
 
@@ -59,13 +60,13 @@ function Nav() {
 
     const toggleLogoutModal = () => {
         setShowLogoutModal(!showLogoutModal);
-    }  
+    }
     const confirmLogout = () => {
-        console.log("Confirming logout..."); 
+        console.log("Confirming logout...");
         toggleLogoutModal();
         logOutHandler();
-       
-    }  
+
+    }
     const handleMobileMenuLogout = () => {
         confirmLogout();
         toggleMenu();
@@ -74,7 +75,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <div className="fixed top-0 right-0 left-0 z-10 bg-slate-100 p-6  justify-between flex">
+            <div className="fixed top-0 right-0 left-0 z-10 bg-slate-100 p-6 justify-between flex">
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {user ?
                         authNavItems.map((item) => {
@@ -84,27 +85,25 @@ function Nav() {
                             return <Link key={item.id} to={item.path} className={`text-base hover:text-blue-600 hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title}</Link>
                         })
                     }
-                   
+
                 </div>
 
-
-                <h1 className='place-self-center text-3xl'>LIMO</h1>
+                <Link to={'/'} className='place-self-center text-3xl'>LIMO</Link>
                 <div className='flex items-center gap-1 md:flex'>
                     <FontAwesomeIcon className="text-xl mr-3 hidden md:flex hover:text-blue-500" icon={faUser} />
                     <FontAwesomeIcon className='text-xl mr-3 hover:text-blue-500' icon={faMagnifyingGlass} />
                     <FontAwesomeIcon className='text-xl mr-3 hover:text-blue-500' onClick={() => setToggleCart(!toggleCart)} icon={faCartShopping} />
                     {/* signout button */}
                     {user &&
-                    <> 
-                    <FontAwesomeIcon className="text-2xl mr-3 hidden md:flex  hover:text-red-700 " onClick={toggleLogoutModal} icon={faSignOut} />
-                    {toggleLogoutModal &&
-                    <SignoutModal isOpen={showLogoutModal} confirmLogout={confirmLogout} onClose={toggleLogoutModal} />
-                    }
-                    </>   
+                        <>
+                            <FontAwesomeIcon className="text-2xl mr-3 hidden md:flex  hover:text-red-700 " onClick={toggleLogoutModal} icon={faSignOut} />
+                            {toggleLogoutModal &&
+                                <SignoutModal isOpen={showLogoutModal} confirmLogout={confirmLogout} onClose={toggleLogoutModal} />
+                            }
+                        </>
                     }
                     {/* mobile menu toggle */}
                     <FontAwesomeIcon className="text-2xl hover:text-blue-500 md:hidden transition-all duration-300 ease-in-out place-self-center" icon={faBars} onClick={() => toggleMenu()} />
-                   
                 </div>
 
                 {toggleCart && (
@@ -122,23 +121,13 @@ function Nav() {
                             return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out  ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
                         })
                     }
-                    {/* {user &&
-                        <div className='gap-5 text-xl flex'>
-                            <Link to='' className="hover:text-blue-500"><FontAwesomeIcon icon={faUser} /></Link>
-                            <Link to='' className="hover:text-blue-500"><FontAwesomeIcon icon={faMagnifyingGlass} /></Link>
-                            <FontAwesomeIcon className='hover:text-blue-500' onClick={() => {
-                                setToggleCart(!toggleCart)
-                                toggleMenu();
-                            }} icon={faCartShopping} />
-                        </div>
-                    } */}
-                     {user &&
-                    <> 
-                    <FontAwesomeIcon className="text-xl mr-3  hover:text-blue-500" onClick={toggleLogoutModal} icon={faSignOut} />
-                    {toggleLogoutModal &&
-                    <SignoutModal isOpen={showLogoutModal} confirmLogout={handleMobileMenuLogout} onClose={toggleLogoutModal} />
-                    }
-                    </>   
+                    {user &&
+                        <>
+                            <FontAwesomeIcon className="text-xl mr-3  hover:text-blue-500" onClick={toggleLogoutModal} icon={faSignOut} />
+                            {toggleLogoutModal &&
+                                <SignoutModal isOpen={showLogoutModal} confirmLogout={handleMobileMenuLogout} onClose={toggleLogoutModal} />
+                            }
+                        </>
                     }
                 </div>}
             </div>

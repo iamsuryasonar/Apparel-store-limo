@@ -11,6 +11,12 @@ const getheaders = () => {
     return headers
 }
 
+const getProduct = async (id) => {
+    const response = await axios
+        .get(API_URL + 'product/product/' + id, { headers: getheaders() })
+    return response.data.results
+}
+
 const getProducts = async () => {
     const response = await axios
         .get(API_URL + 'product/products', { headers: getheaders() })
@@ -31,6 +37,7 @@ const getProductsByCategoryId = async (data) => {
 }
 
 const ProductsService = {
+    getProduct,
     getProducts,
     getProductsByCategoryId,
     getProductsByCategoryId
