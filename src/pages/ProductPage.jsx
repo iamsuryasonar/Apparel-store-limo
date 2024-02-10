@@ -9,11 +9,8 @@ function ProductPage() {
     const [selectedColorVariantIndex, setSelectedColorVariantIndex] = useState(null);
     const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] = useState(null);
 
-
-
     const getAProduct = async () => {
         const response = await ProductsService.getProduct(state?.productId);
-        // console.log(response.product);
         setProduct(response?.product)
     }
 
@@ -39,8 +36,11 @@ function ProductPage() {
 
     return <>
         <div className="max-w-7xl w-full flex ">
-            {product && <div className='grid grid-cols-1 md:grid-cols-2 my-4'>
-                <div className="p-4 w-full">
+            {product && <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 my-4'>
+                <div className="p-4 w-full h-min relative">
+                    <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
+                        <p className='text-white sm:text-lg md:text-xl font-light'>{product?.tag}</p>
+                    </div>
                     {product?.colorvariants[selectedColorVariantIndex]?.images && <ImageCarousal images={product?.colorvariants[selectedColorVariantIndex]?.images} />}
                 </div>
                 <div className="p-4 flex flex-col gap-4">
@@ -82,7 +82,7 @@ function ProductPage() {
                         <select name="" id="" className='px-2 py-2 cursor-pointer border-[1px] border-black'>
                             <option disabled value="Select...">Select...</option>
                             {['1', '2', '3', '4', '5'].map((i) => {
-                                return <option value={i}>{i}</option>
+                                return <option key={i} value={i}>{i}</option>
                             })}
                         </select>
                     </div>

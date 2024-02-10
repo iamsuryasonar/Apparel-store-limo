@@ -15,6 +15,8 @@ function ProductsByCategoryPage() {
     let { state } = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    const [loadedImages, setLoadedImages] = useState([]);
+
     const products = useSelector((state) => state.products.products)
 
     const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
@@ -53,6 +55,10 @@ function ProductsByCategoryPage() {
             ...activeFilters,
             range: '₹ ' + values[0] * 60 + ' - ' + '₹ ' + values[1] * 60
         })
+    };
+
+    const handleImageLoad = (index) => {
+        setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
     };
 
     const removeFilterCriteria = (type) => {
@@ -197,19 +203,22 @@ function ProductsByCategoryPage() {
                         </select>
                     </div>
                 }
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-4 mt-4 md:p-8 md:mt-0 gap-8">
+                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-4 mt-4 md:p-8 md:mt-0 gap-8 ">
                     {products?.products && products?.products?.map((product, index) => {
-                        return <div key={index} className="w-full flex flex-col border border-slate-200 cursor-pointer group"
+                        return <div key={index} className="w-full h-full flex flex-col  border border-slate-200 cursor-pointer group"
                             onClick={() => {
                                 navigate(`/product/${product?._id}`, {
                                     state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
                                 })
                             }}>
+                            {loadedImages.includes(product?.images[0]?._id) ? <></> : <div className='w-full aspect-square flex flex-col justify-center items-center'>
+                                <div className='w-12 h-12 bg-transparent rounded-full border-black animate-spin border-8 border-dashed border-t-transparent'></div>
+                            </div>}
                             <div className='relative'>
-                                <img className='object-cover w-full h-full' src={product?.images[0]?.url} />
-                                <div className='absolute top-6 left-6 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
+                                <img className='object-cover w-full h-full' src={product?.images[0]?.url} onLoad={() => handleImageLoad(product?.images[0]?._id)} />
+                                {loadedImages.includes(product?.images[0]?._id) ? <div className='absolute top-6 left-6 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                                     <p className='text-white text-sm font-light'>{product?.tag}</p>
-                                </div>
+                                </div> : <></>}
                             </div>
                             <div className='bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2'>
                                 <p className=''>{product?.name}</p>
