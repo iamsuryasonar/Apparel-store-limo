@@ -1,28 +1,27 @@
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react'
-import { get_products_by_category_id, clearProducts } from '../../store/slices/productSlice'
+import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import { useNavigate } from 'react-router-dom'
+import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productSlice'
 
 function ProductsByCategoryPage() {
     const { id } = useParams();
     let { state } = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [loadedImages, setLoadedImages] = useState([]);
-
     const products = useSelector((state) => state.products.products)
-
     const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
-
+    const [loadedImages, setLoadedImages] = useState([]);
     const [sortType, setSortType] = useState(null);
     const [removedCriteria, setRemovedCriteria] = useState(null);
+    const observer = useRef();
+
     const [minMaxValue, setMinMaxValue] = useState({
         minValue: 0,
         maxValue: 100,
@@ -42,7 +41,6 @@ function ProductsByCategoryPage() {
         setActiveFilters({
             ...activeFilters,
             sortType: type,
-
         })
     }
 
@@ -101,9 +99,10 @@ function ProductsByCategoryPage() {
         setRemovedCriteria(type)
     }
 
-    const getProductByCategoryId = () => {
+    const getProductByCategoryId = (sortType) => {
         dispatch(get_products_by_category_id({
             id,
+            pageNo: 0,
             sortType,
             from: priceRange[0],
             to: priceRange[1],
@@ -111,11 +110,49 @@ function ProductsByCategoryPage() {
     }
 
     useEffect(() => {
-        getProductByCategoryId()
+        getProductByCategoryId(sortType)
     }, [sortType, removedCriteria])
 
+    useEffect(() => {
+        observer.current = new IntersectionObserver(entries => {
+            if (entries[0].isIntersecting) {
+
+                if (products?.pagination?.page_no === products?.pagination?.total_pages) {
+                    // if total pages retrieved, disconnect the obeserver and return
+                    observer.current.disconnect();
+                    return;
+                }
+
+                // another slice to get one more page and append it to the
+                // previously fetched products list also replacing pagination information
+                dispatch(get_more_products_by_category_id({
+                    id,
+                    pageNo: products?.pagination?.page_no + 1,
+                    sortType,
+                    from: priceRange[0],
+                    to: priceRange[1],
+                }))
+
+                observer.current.disconnect();
+            }
+        }, { threshold: 0.5 });
+
+        const scrollContainer = document.querySelector('.scroll-container');
+
+        if (scrollContainer) {
+            // observes the scroll-container className that is attached to the last third product card
+            observer.current.observe(scrollContainer);
+        }
+
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
+            }
+        };
+    }, [products]);
+
     return (
-        <div className="max-w-7xl  w-full flex flex-col items-center">
+        <div className=" max-w-7xl  w-full flex flex-col items-center overflow-auto">
             <div className="w-full">
                 {/* {state?.bannerImage?.url} */}
                 <img className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
@@ -159,23 +196,23 @@ function ProductsByCategoryPage() {
                     }
                 </div>
             </div>
-            <div className='w-full flex md:flex-row flex-col'>
+            <div className='w-full flex lg:flex-row flex-col'>
                 {isFilterContainerVisible &&
-                    <div className='md:w-1/3 w-full h-full bg-slate-50 flex flex-col p-4 gap-4'>
+                    <div className='lg:w-1/3 w-full h-full bg-slate-50 flex flex-col p-4 gap-6'>
                         <div>
                             <p className='uppercase font-thin'>By Price</p>
                             <div className='w-full h-[1px] bg-black'></div>
                         </div>
                         <div className='flex flex-row justify-between'>
                             <p>Price low to high</p>
-                            <input type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
+                            <input className=' h-5 w-5' type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
                                 onChange={() => {
                                     sortHandler('ASCENDING')
                                 }} />
                         </div>
                         <div className='flex flex-row justify-between'>
                             <p>Price high to low</p>
-                            <input type="checkbox" checked={sortType === 'DECENDING' ? true : false}
+                            <input className=' h-5 w-5' type="checkbox" checked={sortType === 'DECENDING' ? true : false}
                                 onChange={() => { sortHandler('DECENDING') }} />
                         </div>
                         <div className='flex flex-col gap-2'>
@@ -191,21 +228,11 @@ function ProductsByCategoryPage() {
                                 <p>{priceRange[1]}</p>
                             </div>
                         </div>
-                        <div className='mt-4'>
-                            <p className='uppercase font-thin'>By Tag</p>
-                            <div className='w-full h-[1px] bg-black'></div>
-                        </div>
-                        <select name="" id="" className='px-2 py-1 cursor-pointer border-[1px] border-black'>
-                            {/* options will be filled by data from API call or may be CONSTANT object */}
-                            <option disabled value="Select...">Select...</option>
-                            <option value="Popular">Popular</option>
-                            <option value="Most purchased">Most purchased</option>
-                        </select>
                     </div>
                 }
-                <div className="w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 p-4 mt-4 md:p-8 md:mt-0 gap-8 ">
-                    {products?.products && products?.products?.map((product, index) => {
-                        return <div key={index} className="w-full h-full flex flex-col  border border-slate-200 cursor-pointer group"
+                <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  p-4 mt-4 md:p-8 md:mt-0 gap-4">
+                    {products?.products && products?.products?.map((product, index, arr) => {
+                        return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} w-full h-full flex flex-col  border border-slate-200 cursor-pointer group`}
                             onClick={() => {
                                 navigate(`/product/${product?._id}`, {
                                     state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
@@ -216,18 +243,20 @@ function ProductsByCategoryPage() {
                             </div>}
                             <div className='relative'>
                                 <img className='object-cover w-full h-full' src={product?.images[0]?.url} onLoad={() => handleImageLoad(product?.images[0]?._id)} />
-                                {loadedImages.includes(product?.images[0]?._id) ? <div className='absolute top-6 left-6 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
-                                    <p className='text-white text-sm font-light'>{product?.tag}</p>
+                                {loadedImages.includes(product?.images[0]?._id) ? <div className='absolute top-3 left-3 sm:top-6 sm:left-6 p-[2px] sm:p-1 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400'>
+                                    <p className='text-white text-[10px] sm:text-sm  font-light'>{product?.tag}</p>
                                 </div> : <></>}
                             </div>
-                            <div className='bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2'>
-                                <p className=''>{product?.name}</p>
-                                <p className='text-slate-400 font-light text-sm'>{product?.category?.name}</p>
-                                <div className='flex flex-row gap-4'>
-                                    <p className=''>₹{product?.sizeVariants.selling_price}</p>
-                                    <div className='flex flex-row gap-1'>
-                                        <p className=' line-through text-slate-400'>₹{product?.sizeVariants.mrp} </p>
-                                        <p className='text-green-400'>({Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off)</p>
+                            <div className='flex flex-col justify-between w-full h-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
+                                <p className='text-sm font-semibold'>{product?.name}</p>
+                                <div>
+                                    <p className='text-slate-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
+                                    <div className='flex flex-row gap-1 text-xs sm:text-sm'>
+                                        <p className=''>₹{product?.sizeVariants.selling_price}</p>
+                                        <div className='flex flex-row gap-1'>
+                                            <p className=' line-through text-slate-400'>₹{product?.sizeVariants.mrp} </p>
+                                            <p className='text-green-400'>({Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off)</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

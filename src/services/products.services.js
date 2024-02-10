@@ -1,7 +1,5 @@
-
-
 import axios from "axios";
-import { LOCAL_STORAGE_NAME, API_URL } from '../constants/constant'
+import { API_URL } from '../constants/constant'
 
 const getheaders = () => {
     const headers = {
@@ -27,6 +25,7 @@ const getProductsByCategoryId = async (data) => {
     const response = await axios
         .get(API_URL + 'product/category/' + data.id, {
             params: {
+                page: data?.pageNo,
                 sort_type: data?.sortType,
                 from: data?.from,
                 to: data?.to,
