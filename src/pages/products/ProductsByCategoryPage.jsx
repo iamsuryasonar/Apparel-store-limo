@@ -238,12 +238,12 @@ function ProductsByCategoryPage() {
                                     state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
                                 })
                             }}>
-                            {loadedImages.includes(product?.images[0]?._id) ? <></> : <div className='w-full aspect-square flex flex-col justify-center items-center'>
+                            {loadedImages.includes(product?.image?._id) ? <></> : <div className='w-full aspect-square flex flex-col justify-center items-center'>
                                 <div className='w-12 h-12 bg-transparent rounded-full border-black animate-spin border-8 border-dashed border-t-transparent'></div>
                             </div>}
                             <div className='relative'>
-                                <img className='object-cover w-full h-full' src={product?.images[0]?.url} onLoad={() => handleImageLoad(product?.images[0]?._id)} />
-                                {loadedImages.includes(product?.images[0]?._id) ? <div className='absolute top-3 left-3 sm:top-6 sm:left-6 p-[2px] sm:p-1 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400'>
+                                <img className='object-cover w-full h-full' src={product?.image?.url} onLoad={() => handleImageLoad(product?.image?._id)} />
+                                {loadedImages.includes(product?.image?._id) ? <div className='absolute top-3 left-3 sm:top-6 sm:left-6 p-[2px] sm:p-1 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400'>
                                     <p className='text-white text-[10px] sm:text-sm  font-light'>{product?.tag}</p>
                                 </div> : <></>}
                             </div>
