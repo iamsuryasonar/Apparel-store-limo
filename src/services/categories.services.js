@@ -12,7 +12,7 @@ const getheaders = () => {
 
 const getCategories = async () => {
     const response = await axios
-        .get(API_URL + 'category/categories', { headers: getheaders() })
+        .get(API_URL + 'category/', { headers: getheaders() })
     return response.data.results
 }
 

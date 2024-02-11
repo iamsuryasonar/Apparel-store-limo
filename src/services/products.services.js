@@ -11,13 +11,13 @@ const getheaders = () => {
 
 const getProduct = async (id) => {
     const response = await axios
-        .get(API_URL + 'product/product/' + id, { headers: getheaders() })
+        .get(API_URL + 'product/public/' + id, { headers: getheaders() })
     return response.data.results
 }
 
 const getProducts = async () => {
     const response = await axios
-        .get(API_URL + 'product/products', { headers: getheaders() })
+        .get(API_URL + 'product/public/products', { headers: getheaders() })
     return response.data.results
 }
 

@@ -6,8 +6,8 @@ import ImageCarousal from '../components/ImageCarousal';
 function ProductPage() {
     let { state } = useLocation();
     const [product, setProduct] = useState(null);
-    const [selectedColorVariantIndex, setSelectedColorVariantIndex] = useState(null);
-    const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] = useState(null);
+    const [selectedColorVariantIndex, setSelectedColorVariantIndex] = useState(0);
+    const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] = useState(0);
 
     const getAProduct = async () => {
         const response = await ProductsService.getProduct(state?.productId);
@@ -21,7 +21,7 @@ function ProductPage() {
     useEffect(() => {
         const currentColorVariantIndex = product?.colorvariants?.reduce((acc, curr, index) => {
             return curr._id === state.colorVariantId ? index : acc;
-        }, null);
+        }, 0);
 
         setSelectedColorVariantIndex(currentColorVariantIndex);
     }, [product])
@@ -29,7 +29,7 @@ function ProductPage() {
     useEffect(() => {
         const currentSizeVariantIndex = product?.colorvariants[selectedColorVariantIndex].sizevariants?.reduce((acc, curr, index) => {
             return curr._id === state.sizeVariantId ? index : acc;
-        }, null);
+        }, 0);
 
         setSelectedSizeVariantIndex(currentSizeVariantIndex);
     }, [selectedColorVariantIndex])

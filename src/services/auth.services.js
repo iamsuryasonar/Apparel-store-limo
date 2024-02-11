@@ -7,13 +7,13 @@ let headersList = {
 }
 
 const register = (creds) => {
-    return axios.post(API_URL + 'auth/customer-register', creds)
+    return axios.post(API_URL + 'auth/customer_register', creds)
 }
 
 
 const login = async (creds) => {
     return axios
-        .post(API_URL + "auth/customer-login", creds)
+        .post(API_URL + "auth/customer_login", creds)
         .then((response) => {
             return response.data.results;
         });
