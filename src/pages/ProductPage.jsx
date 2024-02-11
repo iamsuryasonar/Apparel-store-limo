@@ -1,40 +1,48 @@
-import { useState, useEffect } from 'react';
-import ProductsService from '../services/products.services';
-import { useLocation } from 'react-router-dom'
-import ImageCarousal from '../components/ImageCarousal';
+import { useState, useEffect } from "react";
+import ProductsService from "../services/products.services";
+import { useLocation } from "react-router-dom";
+import ImageCarousal from "../components/ImageCarousal";
+import { setLoading } from "../store/slices/loadingSlice";
+import { useDispatch } from "react-redux";
+import { addToCart} from "../store/slices/cartSlice";
 
 function ProductPage() {
-    let { state } = useLocation();
-    const [product, setProduct] = useState(null);
-    const [selectedColorVariantIndex, setSelectedColorVariantIndex] = useState(0);
-    const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] = useState(0);
+
+const dispatch = useDispatch()
+
+  let { state } = useLocation();
+  const [product, setProduct] = useState(null);
+  const [selectedColorVariantIndex, setSelectedColorVariantIndex] =
+    useState(0);
+  const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] =
+    useState(0);
 
     const getAProduct = async () => {
         const response = await ProductsService.getProduct(state?.productId);
         setProduct(response?.product)
     }
 
-    useEffect(() => {
-        getAProduct()
-    }, [])
+  useEffect(() => {
+    getAProduct();
+  }, []);
 
     useEffect(() => {
         const currentColorVariantIndex = product?.colorvariants?.reduce((acc, curr, index) => {
             return curr._id === state.colorVariantId ? index : acc;
         }, 0);
 
-        setSelectedColorVariantIndex(currentColorVariantIndex);
-    }, [product])
+    setSelectedColorVariantIndex(currentColorVariantIndex);
+  }, [product]);
 
     useEffect(() => {
         const currentSizeVariantIndex = product?.colorvariants[selectedColorVariantIndex].sizevariants?.reduce((acc, curr, index) => {
             return curr._id === state.sizeVariantId ? index : acc;
         }, 0);
 
-        setSelectedSizeVariantIndex(currentSizeVariantIndex);
-    }, [selectedColorVariantIndex])
+    setSelectedSizeVariantIndex(currentSizeVariantIndex);
+  }, [selectedColorVariantIndex]);
 
-    return <>
+    return ( <>
         <div className="max-w-7xl w-full flex ">
             {product && <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 my-4'>
                 <div className="p-4 w-full h-min relative">
@@ -96,5 +104,6 @@ function ProductPage() {
             }
         </div>
     </>
+  );
 }
 export default ProductPage;
