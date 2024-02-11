@@ -75,7 +75,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <div className="fixed top-0 right-0 left-0 z-10 bg-slate-100 p-6 justify-between flex">
+            <div className="fixed top-0 right-0 left-0 z-50 bg-slate-100 p-6 justify-between flex">
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {user ?
                         authNavItems.map((item) => {
@@ -111,7 +111,7 @@ function Nav() {
                         <Cart setToggleCart={setToggleCart} />
                     </div>
                 )}
-                {menu && <div className='bg-white flex flex-col justify-center items-center gap-6 fixed top-0 bottom-0 right-0 left-1/4 md:hidden z-10'>
+                {menu && <div className='bg-white flex flex-col justify-center items-center gap-6 fixed top-0 bottom-0 right-0 left-1/4 md:hidden z-50'>
                     <FontAwesomeIcon className="text-3xl fixed top-7 right-10 hover:scale-150  hover:text-red-500 transition-all duration-300 ease-in-out " icon={faXmark} onClick={() => toggleMenu()} />
                     {user ?
                         authNavItems.map((item) => {
