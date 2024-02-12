@@ -4,50 +4,56 @@ import { useLocation } from "react-router-dom";
 import ImageCarousal from "../components/ImageCarousal";
 import { setLoading } from "../store/slices/loadingSlice";
 import { useDispatch } from "react-redux";
-import { addToCart} from "../store/slices/cartSlice";
+import { addToCart } from "../store/slices/cartSlice";
 
 function ProductPage() {
 
-const dispatch = useDispatch()
+    const dispatch = useDispatch()
+    let { state } = useLocation();
 
-  let { state } = useLocation();
-  const [product, setProduct] = useState(null);
-  const [selectedColorVariantIndex, setSelectedColorVariantIndex] =
-    useState(0);
-  const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] =
-    useState(0);
+    const [quantity, setQuantity] = useState(1);
+
+    const [product, setProduct] = useState(null);
+    const [selectedColorVariantIndex, setSelectedColorVariantIndex] =
+        useState(0);
+    const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] =
+        useState(0);
 
     const getAProduct = async () => {
         const response = await ProductsService.getProduct(state?.productId);
         setProduct(response?.product)
     }
 
-  useEffect(() => {
-    getAProduct();
-  }, []);
+    useEffect(() => {
+        getAProduct();
+    }, []);
 
     useEffect(() => {
         const currentColorVariantIndex = product?.colorvariants?.reduce((acc, curr, index) => {
             return curr._id === state.colorVariantId ? index : acc;
         }, 0);
 
-    setSelectedColorVariantIndex(currentColorVariantIndex);
-  }, [product]);
+        setSelectedColorVariantIndex(currentColorVariantIndex);
+    }, [product]);
 
     useEffect(() => {
         const currentSizeVariantIndex = product?.colorvariants[selectedColorVariantIndex].sizevariants?.reduce((acc, curr, index) => {
             return curr._id === state.sizeVariantId ? index : acc;
         }, 0);
 
-    setSelectedSizeVariantIndex(currentSizeVariantIndex);
-  }, [selectedColorVariantIndex]);
+        setSelectedSizeVariantIndex(currentSizeVariantIndex);
+    }, [selectedColorVariantIndex]);
 
-  const handleCart = () => {
-    if (product) {
-      dispatch(addToCart(product)); 
+    const addToCartHandler = () => {
+        dispatch(addToCart({
+            quantity,
+            productId: product?._id,
+            colorVariantId: product?.colorvariants[selectedColorVariantIndex]._id,
+            sizeVariantId: product?.colorvariants[selectedColorVariantIndex].sizevariants[selectedSizeVariantIndex]._id,
+        }))
     }
-  };
-    return ( <>
+
+    return (<>
         <div className="max-w-7xl w-full flex ">
             {product && <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 my-4'>
                 <div className="p-4 w-full h-min relative">
@@ -92,14 +98,14 @@ const dispatch = useDispatch()
                     </div>
                     <div className='flex flex-row gap-2 items-center'>
                         <label>QTY:</label>
-                        <select name="" id="" className='px-2 py-2 cursor-pointer border-[1px] border-black'>
+                        <select name="Quantity" id="" onChange={(e) => setQuantity(e.target.value)} className='px-2 py-2 cursor-pointer border-[1px] border-black'>
                             <option disabled value="Select...">Select...</option>
                             {['1', '2', '3', '4', '5'].map((i) => {
                                 return <option key={i} value={i}>{i}</option>
                             })}
                         </select>
                     </div>
-                    <button className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white" onClick={handleCart}>ADD TO CART</button>
+                    <button onClick={addToCartHandler} className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white">ADD TO CART</button>
                 </div>
                 <div className="p-4 w-full">
                     <p className="p-1  text-md ">{product?.description}</p>
@@ -109,6 +115,6 @@ const dispatch = useDispatch()
             }
         </div>
     </>
-  );
+    );
 }
 export default ProductPage;

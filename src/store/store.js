@@ -5,6 +5,7 @@ import messageReducer from "./slices/messageSlice";
 import loadingReducer from "./slices/loadingSlice";
 import categoriesReducer from "./slices/categorySlice";
 import productsReducer from "./slices/productSlice";
+import cartReducer from './slices/cartSlice';
 
 const reducer = {
     auth: authReducer,
@@ -12,6 +13,7 @@ const reducer = {
     loading: loadingReducer,
     categories: categoriesReducer,
     products: productsReducer,
+    cart: cartReducer,
 }
 
 export const store = configureStore({

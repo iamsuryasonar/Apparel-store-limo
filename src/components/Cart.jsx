@@ -1,35 +1,34 @@
 import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faMagnifyingGlass, faCartShopping, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
-// import { getAllCartItems } from '../store/slices/cartSlice'
-import CartServices from '../services/cart.services'
+import { get_all_cart_items, update_item_quantity, remove_item_from_cart } from '../store/slices/cartSlice'
 
 function Cart({ setToggleCart }) {
-    const cartItems = useSelector((state) => state.cart)
-
-    const [cartData, setCartData] = useState([])
-    const [count, setCount] = useState(0)
     const dispatch = useDispatch()
+    const cartItems = useSelector((state) => state.cart.cart?.cartItems);
+    console.log(cartItems)
+    const totalPrice = cartItems?.reduce((acc, item) => {
+        return acc + item?.sizevariant?.selling_price * item?.quantity;
+    }, 0);
 
-    const getCart = async () => {
-        const response = await CartServices.getAllCartItems(state?.cart);
-        setCartData(response?.cart)
+    const incrementQuantity = (item) => {
+        // 5 is the max quantity one can purchase
+        if (item?.quantity < 6) {
+            dispatch(update_item_quantity({ itemId: item?._id, type: 'INCREMENT', productId: item?.product?._id }))
+        }
+    }
+    const decrementQuantity = (item) => {
+        dispatch(update_item_quantity({ itemId: item?._id, type: 'DECREMENT', productId: item?.product?._id }))
     }
 
+    const removeItemFromCart = (item) => {
+        dispatch(remove_item_from_cart({ itemId: item?._id }));
+    }
 
     useEffect(() => {
-        getCart()
-    }, [cartItems])
-
-    const increment = () => {
-        setCount((prev) => prev++);
-    }
-    const decrement = () => {
-        if (count > 0) setCount((prev) => prev--);
-    }
-
-    let totalPrice = 1200;
+        dispatch(get_all_cart_items())
+    }, [])
 
     return (
         <div className='flex flex-col justify-center bg-slate-100 p-6'>
@@ -41,7 +40,7 @@ function Cart({ setToggleCart }) {
                     </div>
                     <div className='h-[1px] bg-black w-full'></div>
                 </div>
-                {cartData.length === 0 ?
+                {cartItems?.length === 0 ?
                     (
                         <div className="flex flex-col mt-20 justify-center items-center">
                             <p>Your cart is empty</p>
@@ -49,20 +48,22 @@ function Cart({ setToggleCart }) {
                     )
                     :
                     (
-                        cartData?.map((item) => {
+                        cartItems?.map((item) => {
                             return (
-                                <div className='flex flex-row'>
-                                    <img className='w-40 h-40' src={item.image}></img>
-                                    <div className='flex flex-col gap-2'>
-                                        <p>{item.name}</p>
-                                        <p>Rs. {item.price}</p>
-                                        <div className='flex gap-2 border-[1px] border-black'>
-                                            <p onClick={decrement}>-</p>
-                                            <p>{count}</p>
-                                            <p onClick={increment}>+</p>
+                                <div key={item._id} className='relative flex flex-row justify-between border border-black p-2 gap-2'>
+                                    <img className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
+                                    <div className='flex flex-col gap-2 py-2'>
+                                        <p>{item?.product?.name}</p>
+                                        <p className='place-self-end'>Rs. {item?.sizevariant?.selling_price}</p>
+                                        <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
+                                            <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => decrementQuantity(item)}>-</p>
+                                            <p className='p-1 cursor-pointer'>{item?.quantity}</p>
+                                            <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => incrementQuantity(item)}>+</p>
                                         </div>
                                     </div>
-                                    <FontAwesomeIcon icon={faXmark} />
+                                    <div onClick={() => removeItemFromCart(item)} className='absolute top-0 right-0 w-6 aspect-square bg-slate-200  text-red-600 hover:bg-black hover:text-white  rounded-full flex justify-center items-center' >
+                                        <FontAwesomeIcon icon={faXmark} />
+                                    </div>
                                 </div>
                             )
                         })
@@ -75,12 +76,14 @@ function Cart({ setToggleCart }) {
                             <p>SUBTOTAL</p>
                             <p>Rs. {totalPrice}</p>
                         </div>
-                        <p>Shipping, taxes and discount codes are calculated at check-out</p>
-                        <button className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
+                        {cartItems?.length > 0 && <>
+                            <p>Shipping, taxes and discount codes are calculated at check-out</p>
+                            <button className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
+                        </>}
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

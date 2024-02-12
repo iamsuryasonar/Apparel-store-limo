@@ -107,7 +107,7 @@ function Nav() {
                 </div>
 
                 {toggleCart && (
-                    <div className='w-full md:w-1/2 fixed top-0 right-0 bottom-0'>
+                    <div className='w-full md:w-1/2 max-w-xl fixed top-0 right-0 bottom-0'>
                         <Cart setToggleCart={setToggleCart} />
                     </div>
                 )}

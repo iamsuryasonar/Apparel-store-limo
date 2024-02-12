@@ -1,5 +1,3 @@
-
-
 import axios from "axios";
 import { LOCAL_STORAGE_NAME, API_URL } from '../constants/constant'
 
@@ -14,23 +12,33 @@ const getheaders = () => {
 
 const getAllCartItems = async () => {
     const response = await axios
-        .get(API_URL + 'cart/' + id, { headers: getheaders() })
+        .get(API_URL + 'cart/', { headers: getheaders() })
     return response.data.results
 }
 
-const addToCart = async (id) => {
+const addToCart = async (data) => {
     const response = await axios
-        .post(API_URL + 'cart/' + id, { headers: getheaders() })
+        .post(API_URL + 'cart/', data, { headers: getheaders() })
     return response.data.results
 }
 
-// const updateCartItemQuantity = async (cart_id) => {
-//     const response = await axios.put(API_URL + 'cart/cart_id')
-// }
+const UpdateItemQuantity = async (data) => {
+    const response = await axios
+        .put(API_URL + 'cart/' + data.itemId, { type: data.type, productId: data.productId }, { headers: getheaders() })
+    return response.data.results
+}
+
+const RemoveItemFromCart = async (data) => {
+    const response = await axios
+        .delete(API_URL + 'cart/' + data.itemId, { headers: getheaders() })
+    return response.data.results
+}
 
 const CartServices = {
     getAllCartItems,
-    addToCart
+    addToCart,
+    UpdateItemQuantity,
+    RemoveItemFromCart
 }
 
 export default CartServices;
