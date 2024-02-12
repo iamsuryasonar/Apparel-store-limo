@@ -8,7 +8,7 @@ import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useRef } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productSlice'
+import { get_products_by_category_id} from '../../store/slices/productSlice'
 
 function ProductsByCategoryPage() {
     const { id } = useParams();

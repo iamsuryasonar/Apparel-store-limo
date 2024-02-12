@@ -54,32 +54,6 @@ export const get_products_by_category_id = createAsyncThunk(
     }
 )
 
-export const get_more_products_by_category_id = createAsyncThunk(
-    'product/get_more_products_by_category_id',
-    async (data, thunkAPI) => {
-        try {
-            thunkAPI.dispatch(setLoading(true));
-            let response = await ProductsService.getProductsByCategoryId(data);
-            return response;
-        } catch (error) {
-            const message =
-                (error.response &&
-                    error.response.data &&
-                    error.response.data.message) ||
-                error.message ||
-                error.toString();
-            thunkAPI.dispatch(setMessage(message));
-            return thunkAPI.rejectWithValue();
-        } finally {
-            setTimeout(() => {
-                thunkAPI.dispatch(clearMessage());
-            }, 3000);
-            thunkAPI.dispatch(setLoading(false));
-        }
-    }
-)
-
-
 const initialState = {
     products: null,
 };
@@ -105,11 +79,6 @@ const productSlice = createSlice({
             })
             .addCase(get_products_by_category_id.rejected, (state, action) => {
                 state.products = null;
-            }).addCase(get_more_products_by_category_id.fulfilled, (state, action) => {
-                state.products.products.push(...action.payload.products)
-                state.products.pagination = action.payload.pagination;
-            })
-            .addCase(get_more_products_by_category_id.rejected, (state, action) => {
             })
     },
 });

@@ -1,11 +1,26 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faMagnifyingGlass, faCartShopping, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { useDispatch, useSelector } from 'react-redux'
+// import { getAllCartItems } from '../store/slices/cartSlice'
+import CartServices from '../services/cart.services'
 
 function Cart({ setToggleCart }) {
+    const cartItems = useSelector((state) => state.cart)
 
     const [cartData, setCartData] = useState([])
     const [count, setCount] = useState(0)
+    const dispatch = useDispatch()
+
+    const getCart = async () => {
+        const response = await CartServices.getAllCartItems(state?.cart);
+        setCartData(response?.cart)
+    }
+
+
+    useEffect(() => {
+        getCart()
+    }, [cartItems])
 
     const increment = () => {
         setCount((prev) => prev++);

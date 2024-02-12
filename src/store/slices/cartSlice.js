@@ -4,8 +4,8 @@ import { setMessage, clearMessage } from "./messageSlice";
 import { setLoading } from "./loadingSlice";
 import CartServices from "../../services/cart.services";
 
-export const get_all_cartitems = createAsyncThunk(
-    'cart/get_all_cartitems',
+export const getAllCartItems = createAsyncThunk(
+    'cart/getAllCartItems',
     async (_, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
@@ -62,8 +62,22 @@ const initialState = {
 const cartSlice = createSlice({
     name: "cart",
     initialState,
+    extraReducers : (builder) => {
+        builder.addCase(addToCart.fulfilled, (state,action) => {
+            state.cart.push(action.payload)
+        })
+        builder.addCase(addToCart.rejected,(state) => {
+            state.cart = null
+        })
+        builder.addCase(getAllCartItems.fulfilled, (state,action)=>{
+            state.cart = action.payload
+        })
+        builder.addCase(getAllCartItems.rejected, (state) => {
+            state.cart = null
+        })
+    }
 
 })
 
-
-export default cartSlice.reducer;
+const {reducer, action} = cartSlice
+export default reducer;

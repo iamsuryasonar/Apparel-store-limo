@@ -42,6 +42,11 @@ const dispatch = useDispatch()
     setSelectedSizeVariantIndex(currentSizeVariantIndex);
   }, [selectedColorVariantIndex]);
 
+  const handleCart = () => {
+    if (product) {
+      dispatch(addToCart(product)); 
+    }
+  };
     return ( <>
         <div className="max-w-7xl w-full flex ">
             {product && <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 my-4'>
@@ -94,7 +99,7 @@ const dispatch = useDispatch()
                             })}
                         </select>
                     </div>
-                    <button className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white">ADD TO CART</button>
+                    <button className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white" onClick={handleCart}>ADD TO CART</button>
                 </div>
                 <div className="p-4 w-full">
                     <p className="p-1  text-md ">{product?.description}</p>
