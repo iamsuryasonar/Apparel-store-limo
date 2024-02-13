@@ -24,7 +24,7 @@ const addToCart = async (data) => {
 
 const UpdateItemQuantity = async (data) => {
     const response = await axios
-        .put(API_URL + 'cart/' + data.itemId, { type: data.type, productId: data.productId }, { headers: getheaders() })
+        .put(API_URL + 'cart/' + data.itemId, { quantity: data.quantity }, { headers: getheaders() })
     return response.data.results
 }
 

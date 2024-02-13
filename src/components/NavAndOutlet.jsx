@@ -6,7 +6,7 @@ function NavAndOutlet() {
     return <div className='relative'>
         <Nav />
         <div className='w-screen h-[4.4rem]'></div>
-        <div className='flex mx-auto min-h-screen justify-center scroll-pt-0'>
+        <div className='flex mx-auto min-h-screen justify-center scroll-pt-0 overflow-x-hidden'>
             <Outlet />
         </div>
         <Footer />

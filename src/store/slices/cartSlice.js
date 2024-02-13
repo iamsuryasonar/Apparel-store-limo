@@ -33,7 +33,6 @@ export const addToCart = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
-            console.log(data);
             let response = await CartServices.addToCart(data);
             thunkAPI.dispatch(get_all_cart_items());
             return response;
@@ -55,8 +54,7 @@ export const addToCart = createAsyncThunk(
     }
 )
 
-
-export const update_item_quantity = createAsyncThunk(
+export const updateItemQuantity = createAsyncThunk(
     'cart/update_item_quantity',
     async (data, thunkAPI) => {
         try {

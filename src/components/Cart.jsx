@@ -2,28 +2,84 @@ import { useEffect, useState } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { get_all_cart_items, update_item_quantity, remove_item_from_cart } from '../store/slices/cartSlice'
+import { get_all_cart_items, updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
 
 function Cart({ setToggleCart }) {
     const dispatch = useDispatch()
     const cartItems = useSelector((state) => state.cart.cart?.cartItems);
-    console.log(cartItems)
+    // console.log(cartItems)
+
+    const [countMap, setCountMap] = useState(new Map());
+
+    const countHandler = (itemId, itemCount, type) => {
+        let currentCount = countMap?.get(itemId);
+
+        if (!currentCount) {
+            if (type === 'INCREMENT' && itemCount >= 5) return;
+            if (type === 'DECREMENT' && itemCount <= 1) return;
+        } else {
+            if (type === 'INCREMENT' && currentCount >= 5) return;
+            if (type === 'DECREMENT' && currentCount <= 1) return;
+        }
+
+        if (countMap?.has(itemId)) {
+            if (type === 'DECREMENT') {
+                setCountMap(prev => {
+                    const updatedMap = new Map(prev);
+                    updatedMap.set(itemId, currentCount - 1);
+                    return updatedMap;
+                })
+            }
+
+            if (type === 'INCREMENT') {
+                setCountMap(prev => {
+                    const updatedMap = new Map(prev);
+                    updatedMap.set(itemId, currentCount + 1);
+                    return updatedMap;
+                })
+            }
+        } else {
+            console.log('does not have')
+            if (type === 'DECREMENT') {
+                setCountMap(prev => {
+                    console.log(prev)
+                    const updatedMap = new Map(prev);
+                    updatedMap.set(itemId, itemCount - 1);
+                    return updatedMap;
+                })
+            }
+
+            if (type === 'INCREMENT') {
+                setCountMap(prev => {
+                    const updatedMap = new Map(prev);
+                    updatedMap.set(itemId, itemCount + 1);
+                    return updatedMap;
+                })
+            }
+        }
+    }
+
     const totalPrice = cartItems?.reduce((acc, item) => {
         return acc + item?.sizevariant?.selling_price * item?.quantity;
     }, 0);
 
-    const incrementQuantity = (item) => {
-        // 5 is the max quantity one can purchase
-        if (item?.quantity < 6) {
-            dispatch(update_item_quantity({ itemId: item?._id, type: 'INCREMENT', productId: item?.product?._id }))
-        }
-    }
-    const decrementQuantity = (item) => {
-        dispatch(update_item_quantity({ itemId: item?._id, type: 'DECREMENT', productId: item?.product?._id }))
-    }
-
     const removeItemFromCart = (item) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
+    }
+
+    const updateItemQuantityHandler = (quantity, itemId) => {
+        dispatch(updateItemQuantity({
+            quantity,
+            itemId
+        })).then(() => {
+            setCountMap(prev => {
+                const updatedMap = new Map(prev);
+                updatedMap.delete(itemId);
+                return updatedMap;
+            });
+        })
+
+
     }
 
     useEffect(() => {
@@ -40,36 +96,39 @@ function Cart({ setToggleCart }) {
                     </div>
                     <div className='h-[1px] bg-black w-full'></div>
                 </div>
-                {cartItems?.length === 0 ?
-                    (
-                        <div className="flex flex-col mt-20 justify-center items-center">
-                            <p>Your cart is empty</p>
-                        </div>
-                    )
-                    :
-                    (
-                        cartItems?.map((item) => {
-                            return (
-                                <div key={item._id} className='relative flex flex-row justify-between border border-black p-2 gap-2'>
-                                    <img className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
-                                    <div className='flex flex-col gap-2 py-2'>
-                                        <p>{item?.product?.name}</p>
-                                        <p className='place-self-end'>Rs. {item?.sizevariant?.selling_price}</p>
-                                        <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
-                                            <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => decrementQuantity(item)}>-</p>
-                                            <p className='p-1 cursor-pointer'>{item?.quantity}</p>
-                                            <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => incrementQuantity(item)}>+</p>
+                <div className='h-full flex flex-col gap-4 overflow-y-scroll overscroll-none'>
+                    {cartItems?.length === 0 ?
+                        (
+                            <div className="flex flex-col mt-20 justify-center items-center">
+                                <p>Your cart is empty</p>
+                            </div>
+                        )
+                        :
+                        (
+                            cartItems?.map((item) => {
+                                return (
+                                    <div key={item._id} className='relative flex flex-row justify-between border border-black p-2 gap-2'>
+                                        <img className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
+                                        <div className='flex flex-col gap-2 py-2'>
+                                            <p>{item?.product?.name}</p>
+                                            <p className='place-self-end'>Rs. {item?.sizevariant?.selling_price}</p>
+                                            <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
+                                                <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => countHandler(item._id, item?.quantity, 'DECREMENT')}>-</p>
+                                                <p className='px-1 cursor-pointer'>{countMap?.has(item?._id) ? countMap?.get(item?._id) : item?.quantity}</p>
+                                                <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => countHandler(item._id, item?.quantity, 'INCREMENT')}>+</p>
+                                            </div>
+                                            {countMap?.has(item?._id) && <div onClick={() => { updateItemQuantityHandler(countMap?.get(item?._id), item?._id) }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
+                                        </div>
+                                        <div onClick={() => removeItemFromCart(item)} className='absolute top-0 right-0 w-6 aspect-square bg-slate-200  text-red-600 hover:bg-black hover:text-white  rounded-full flex justify-center items-center' >
+                                            <FontAwesomeIcon icon={faXmark} />
                                         </div>
                                     </div>
-                                    <div onClick={() => removeItemFromCart(item)} className='absolute top-0 right-0 w-6 aspect-square bg-slate-200  text-red-600 hover:bg-black hover:text-white  rounded-full flex justify-center items-center' >
-                                        <FontAwesomeIcon icon={faXmark} />
-                                    </div>
-                                </div>
-                            )
-                        })
-                    )
-                }
-                <div className='w-full absolute bottom-0 right-0 p-4'>
+                                )
+                            })
+                        )
+                    }
+                </div>
+                <div className='w-full h-max relative bottom-0 right-0 mb-16 bg-slate-100'>
                     <div className='w-full h-[1px] bg-black'></div>
                     <div className='flex flex-col gap-2'>
                         <div className='flex flex-row justify-between'>
