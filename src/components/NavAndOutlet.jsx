@@ -5,8 +5,7 @@ import Footer from '../components/Footer'
 function NavAndOutlet() {
     return <div className='relative'>
         <Nav />
-        <div className='w-screen h-[4.4rem]'></div>
-        <div className='flex mx-auto min-h-screen justify-center scroll-pt-0 overflow-x-hidden'>
+        <div className='flex mx-auto mt-[4.4rem] min-h-screen justify-center '>
             <Outlet />
         </div>
         <Footer />

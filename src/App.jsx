@@ -6,7 +6,7 @@ import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import ContactPage from "./pages/ContactPage";
 import NavAndOutlet from "./components/NavAndOutlet";
-import ShopPage from "./pages/ShopPage";
+import ShopPage from "./pages/products/ShopPage";
 import ProductsByCategoryPage from './pages/products/ProductsByCategoryPage'
 import PublicRoute from "./components/auth_guards/public_route";
 import PrivateRoute from "./components/auth_guards/private_route";

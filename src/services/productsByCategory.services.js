@@ -15,11 +15,15 @@ const getProduct = async (id) => {
     return response.data.results
 }
 
-
-
-const getProducts = async (data) => {
+const getProducts = async () => {
     const response = await axios
-        .get(API_URL + 'product/public/products', {
+        .get(API_URL + 'product/public/products', { headers: getheaders() })
+    return response.data.results
+}
+
+const getProductsByCategoryId = async (data) => {
+    const response = await axios
+        .get(API_URL + 'product/category/' + data.id, {
             params: {
                 page: data?.pageNo,
                 sort_type: data?.sortType,
@@ -31,9 +35,11 @@ const getProducts = async (data) => {
     return response.data.results
 }
 
-const ProductsService = {
+const ProductsByCategoryService = {
     getProduct,
     getProducts,
+    getProductsByCategoryId,
+    getProductsByCategoryId
 }
 
-export default ProductsService;
+export default ProductsByCategoryService;

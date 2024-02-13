@@ -8,16 +8,18 @@ import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useRef } from 'react';
 import RangeSlider from 'react-range-slider-input';
 import 'react-range-slider-input/dist/style.css';
-import { get_products_by_category_id} from '../../store/slices/productSlice'
+import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
+import ProductCard from './components/ProductCard'
 
 function ProductsByCategoryPage() {
     const { id } = useParams();
     let { state } = useLocation();
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const products = useSelector((state) => state.products.products)
+    const products = useSelector((state) => state.productsByCategory.productsByCategory)
+    const numberOfProducts = (products?.pagination?.per_page * products?.pagination?.page_no) - products?.pagination?.total_products > 0 ? products?.pagination?.total_products : products?.pagination?.per_page * products?.pagination?.page_no;
     const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
-    const [loadedImages, setLoadedImages] = useState([]);
+
     const [sortType, setSortType] = useState(null);
     const [removedCriteria, setRemovedCriteria] = useState(null);
     const observer = useRef();
@@ -55,9 +57,7 @@ function ProductsByCategoryPage() {
         })
     };
 
-    const handleImageLoad = (index) => {
-        setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
-    };
+
 
     const removeFilterCriteria = (type) => {
         //this function removes criteria of filter and sets values to default values.
@@ -152,7 +152,7 @@ function ProductsByCategoryPage() {
     }, [products]);
 
     return (
-        <div className=" max-w-7xl  w-full flex flex-col items-center overflow-auto">
+        <div className=" max-w-7xl  w-full flex flex-col items-center">
             <div className="w-full">
                 {/* {state?.bannerImage?.url} */}
                 <img className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
@@ -161,8 +161,8 @@ function ProductsByCategoryPage() {
                 <p className='text-3xl font-extrabold'>{state?.name}</p>
             </div>
             <div className='w-full h-[1px] bg-black'></div>
-            <div className='w-full flex bg-slate-50 items-center gap-6'>
-                <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group border-r border-black flex items-center gap-2 p-2 cursor-pointer'>
+            <div className='fixed md:sticky top-20 w-full h-12 flex bg-slate-50 items-center justify-between gap-6 z-50'>
+                <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8 border-r border-black flex items-center gap-2 p-2 cursor-pointer'>
                     <p className='font-thin'>FILTER</p>
                     <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
                 </div>
@@ -195,74 +195,59 @@ function ProductsByCategoryPage() {
                         </div>
                     }
                 </div>
+                {numberOfProducts !== 'NaN' && products?.pagination?.total_products ? <div className='mr-8 flex gap-1 text-lg font-semibold text-slate-500'><span>{numberOfProducts}</span><span>of</span><span> {products?.pagination?.total_products}</span></div> : <div></div>}
             </div>
             <div className='w-full flex lg:flex-row flex-col'>
                 {isFilterContainerVisible &&
-                    <div className='lg:w-1/3 w-full h-full bg-slate-50 flex flex-col p-4 gap-6'>
-                        <div>
-                            <p className='uppercase font-thin'>By Price</p>
-                            <div className='w-full h-[1px] bg-black'></div>
-                        </div>
-                        <div className='flex flex-row justify-between'>
-                            <p>Price low to high</p>
-                            <input className=' h-5 w-5' type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
-                                onChange={() => {
-                                    sortHandler('ASCENDING')
-                                }} />
-                        </div>
-                        <div className='flex flex-row justify-between'>
-                            <p>Price high to low</p>
-                            <input className=' h-5 w-5' type="checkbox" checked={sortType === 'DECENDING' ? true : false}
-                                onChange={() => { sortHandler('DECENDING') }} />
-                        </div>
-                        <div className='flex flex-col gap-2'>
-                            <RangeSlider
-                                className='h-[4px]'
-                                value={[minMaxValue.minValue, minMaxValue.maxValue]}
-                                onInput={handleRangeChange}
-                                onThumbDragEnd={getProductByCategoryId}
-                                onRangeDragEnd={getProductByCategoryId}
-                            />
-                            <div className='flex justify-between px-2'>
-                                <p>{priceRange[0]}</p>
-                                <p>{priceRange[1]}</p>
+                    <div className=' md:sticky md:top-32 w-full h-full md:h-screen lg:w-1/3 bg-slate-50 '>
+                        <div className=' md:sticky md:top-32 w-full bg-slate-50 flex flex-col p-4 gap-6 '>
+                            <div>
+                                <p className='uppercase font-thin'>By Price</p>
+                                <div className='w-full h-[1px] bg-black'></div>
+                            </div>
+                            <div className='flex flex-row justify-between'>
+                                <p>Price low to high</p>
+                                <input className=' h-5 w-5' type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
+                                    onChange={() => {
+                                        sortHandler('ASCENDING')
+                                    }} />
+                            </div>
+                            <div className='flex flex-row justify-between'>
+                                <p>Price high to low</p>
+                                <input className=' h-5 w-5' type="checkbox" checked={sortType === 'DECENDING' ? true : false}
+                                    onChange={() => { sortHandler('DECENDING') }} />
+                            </div>
+                            <div className='flex flex-col gap-2'>
+                                <RangeSlider
+                                    className='h-[4px]'
+                                    value={[minMaxValue.minValue, minMaxValue.maxValue]}
+                                    onInput={handleRangeChange}
+                                    onThumbDragEnd={getProductByCategoryId}
+                                    onRangeDragEnd={getProductByCategoryId}
+                                />
+                                <div className='flex justify-between px-2'>
+                                    <p>{priceRange[0]}</p>
+                                    <p>{priceRange[1]}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
                 }
                 <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  p-4 mt-4 md:p-8 md:mt-0 gap-4">
                     {products?.products && products?.products?.map((product, index, arr) => {
-                        return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} w-full h-full flex flex-col  border border-slate-200 cursor-pointer group`}
-                            onClick={() => {
-                                navigate(`/product/${product?._id}`, {
-                                    state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
-                                })
-                            }}>
-                            {loadedImages.includes(product?.image?._id) ? <></> : <div className='w-full aspect-square flex flex-col justify-center items-center'>
-                                <div className='w-12 h-12 bg-transparent rounded-full border-black animate-spin border-8 border-dashed border-t-transparent'></div>
-                            </div>}
-                            <div className='relative'>
-                                <img className='object-cover w-full h-full' src={product?.image?.url} onLoad={() => handleImageLoad(product?.image?._id)} />
-                                {loadedImages.includes(product?.image?._id) ? <div className='absolute top-3 left-3 sm:top-6 sm:left-6 p-[2px] sm:p-1 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400'>
-                                    <p className='text-white text-[10px] sm:text-sm  font-light'>{product?.tag}</p>
-                                </div> : <></>}
-                            </div>
-                            <div className='flex flex-col justify-between w-full h-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
-                                <p className='text-sm font-semibold'>{product?.name}</p>
-                                <div>
-                                    <p className='text-slate-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
-                                    <div className='flex flex-row gap-1 text-xs sm:text-sm'>
-                                        <p className=''>₹{product?.sizeVariants.selling_price}</p>
-                                        <div className='flex flex-row gap-1'>
-                                            <p className=' line-through text-slate-400'>₹{product?.sizeVariants.mrp} </p>
-                                            <p className='text-green-400'>({Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off)</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        return <ProductCard product={product} index={index} arr={arr} />
                     })}
                 </div>
+            </div>
+            <div
+                onClick={() => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }}
+                className='group fixed bottom-4 right-4 w-10 aspect-square rounded-full bg-orange-400 flex justify-center items-center '>
+                <FontAwesomeIcon className='group-hover:text-white cursor-pointer' icon={faArrowUp} />
             </div>
         </div>
     )
