@@ -87,7 +87,7 @@ function Cart({ setToggleCart }) {
     }, [])
 
     return (
-        <div className='flex flex-col justify-center bg-slate-100 p-6'>
+        <div className='flex flex-col justify-center bg-slate-100 p-6 Z-50'>
             <div className="flex flex-col gap-4 w-full h-screen">
                 <div className="font-mono font-bold text-xl">
                     <div className='flex justify-between items-center'>

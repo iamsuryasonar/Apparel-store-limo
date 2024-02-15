@@ -156,7 +156,7 @@ function ShopPage() {
                     <img className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
                 </div>
                 <div className='w-full h-[1px] bg-black'></div>
-                <div className='sticky top-20 w-full h-12 flex bg-slate-50 items-center justify-between gap-6 z-50'>
+                <div className='sticky top-20 w-full h-12 flex bg-slate-50 items-center justify-between gap-6 z-30'>
                     <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8  border-r border-black flex items-center gap-2 py-2 pr-2 cursor-pointer'>
                         <p className='font-thin'>FILTER</p>
                         <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
