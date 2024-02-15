@@ -57,8 +57,6 @@ function ProductsByCategoryPage() {
         })
     };
 
-
-
     const removeFilterCriteria = (type) => {
         //this function removes criteria of filter and sets values to default values.
         // updating removedCriteria triggers useEffect to get updated product values
@@ -235,7 +233,7 @@ function ProductsByCategoryPage() {
                 }
                 <div className="w-full grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3  p-4 mt-4 md:p-8 md:mt-0 gap-4">
                     {products?.products && products?.products?.map((product, index, arr) => {
-                        return <ProductCard product={product} index={index} arr={arr} />
+                        return <ProductCard key={index} product={product} index={index} arr={arr} />
                     })}
                 </div>
             </div>

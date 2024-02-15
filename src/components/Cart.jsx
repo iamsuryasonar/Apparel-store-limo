@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
@@ -6,8 +6,13 @@ import { get_all_cart_items, updateItemQuantity, remove_item_from_cart } from '.
 
 function Cart({ setToggleCart }) {
     const dispatch = useDispatch()
-    const cartItems = useSelector((state) => state.cart.cart?.cartItems);
-    // console.log(cartItems)
+    const cartItems = useSelector((state) => state.cart.cart);
+
+    const totalPrice = useMemo(() => {
+        return cartItems?.reduce((acc, item) => {
+            return acc + item?.sizevariant?.selling_price * item?.quantity;
+        }, 0);
+    }, [cartItems]);
 
     const [countMap, setCountMap] = useState(new Map());
 
@@ -39,7 +44,6 @@ function Cart({ setToggleCart }) {
                 })
             }
         } else {
-            console.log('does not have')
             if (type === 'DECREMENT') {
                 setCountMap(prev => {
                     console.log(prev)
@@ -59,9 +63,7 @@ function Cart({ setToggleCart }) {
         }
     }
 
-    const totalPrice = cartItems?.reduce((acc, item) => {
-        return acc + item?.sizevariant?.selling_price * item?.quantity;
-    }, 0);
+
 
     const removeItemFromCart = (item) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
@@ -78,8 +80,6 @@ function Cart({ setToggleCart }) {
                 return updatedMap;
             });
         })
-
-
     }
 
     useEffect(() => {
