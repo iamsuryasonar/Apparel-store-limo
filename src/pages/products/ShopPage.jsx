@@ -166,7 +166,7 @@ function ShopPage() {
                 <div className='w-full flex sm:flex-row flex-col'>
                     {isFilterContainerVisible &&
                         <div className='z-50 sm:z-10 fixed top-0 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-screen lg:w-1/3 bg-slate-50 '>
-                            <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto  left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-screen bg-slate-50 flex flex-col p-4 gap-6 '>
+                            <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto  left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-slate-50 flex flex-col p-4 gap-6 '>
                                 <div>
                                     <div className='flex justify-between items-center'>
                                         <p className='uppercase font-thin'>By Price</p>

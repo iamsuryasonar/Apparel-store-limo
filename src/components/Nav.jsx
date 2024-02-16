@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faMagnifyingGlass, faCartShopping, faXmark, faBars, faSignOut } from '@fortawesome/free-solid-svg-icons'
 import { Link, useLocation } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Cart from '../components/Cart'
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBar from './LoadingBar';
 import { logout } from '../store/slices/authSlice'
 import SignoutModal from './SignoutModal'
+import { get_all_cart_items } from '../store/slices/cartSlice'
 
 function Nav() {
 
@@ -17,6 +18,7 @@ function Nav() {
     const location = useLocation();
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
+    const cartItems = useSelector((state) => state.cart.cart);
     const currentPageName = location.pathname;
 
     let navItems = [
@@ -72,6 +74,10 @@ function Nav() {
         toggleMenu();
     }
 
+    useEffect(() => {
+        dispatch(get_all_cart_items())
+    }, [])
+
     return (
         <>
             {loading && <LoadingBar />}
@@ -85,14 +91,19 @@ function Nav() {
                             return <Link key={item.id} to={item.path} className={`text-base hover:text-blue-600 hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title}</Link>
                         })
                     }
-
                 </div>
 
                 <Link to={'/'} className='place-self-center text-3xl'>LIMO</Link>
-                <div className='flex items-center gap-1 md:flex'>
-                    <FontAwesomeIcon className="text-xl mr-3 hidden md:flex hover:text-blue-500" icon={faUser} />
-                    <FontAwesomeIcon className='text-xl mr-3 hover:text-blue-500' icon={faMagnifyingGlass} />
-                    <FontAwesomeIcon className='text-xl mr-3 hover:text-blue-500' onClick={() => setToggleCart(!toggleCart)} icon={faCartShopping} />
+                <div className='flex items-center gap-5 md:flex'>
+                    <FontAwesomeIcon className="text-xl hidden md:flex hover:text-blue-500" icon={faUser} />
+                    <FontAwesomeIcon className='text-xl hover:text-blue-500' icon={faMagnifyingGlass} />
+                    <div className='relative '>
+                        {cartItems?.length > 0 &&
+                            <div className=' absolute top-0 -translate-y-1/2 translate-x-2 right-0 bg-orange-400 w-5 h-5 rounded-full flex justify-center items-center '>
+                                <p className=''>{cartItems?.length}</p>
+                            </div>}
+                        <FontAwesomeIcon className='text-xl hover:text-blue-500' onClick={() => setToggleCart(!toggleCart)} icon={faCartShopping} />
+                    </div>
                     {/* signout button */}
                     {user &&
                         <>
@@ -130,7 +141,7 @@ function Nav() {
                         </>
                     }
                 </div>}
-            </div>
+            </div >
         </>
     )
 }

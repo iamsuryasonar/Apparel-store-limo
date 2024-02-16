@@ -160,7 +160,7 @@ function ProductsByCategoryPage() {
             </div>
             <div className='w-full h-[1px] bg-black'></div>
             <div className='sticky top-20 w-full h-8 sm:h-12 flex bg-slate-50 items-center justify-between gap-6 z-10'>
-                <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8 border-r border-black flex items-center gap-2 p-2 cursor-pointer'>
+                <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8 border-r border-black flex items-center gap-2 pr-2 cursor-pointer'>
                     <p className='font-thin'>FILTER</p>
                     <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
                 </div>
@@ -170,7 +170,7 @@ function ProductsByCategoryPage() {
             <div className='w-full flex sm:flex-row flex-col'>
                 {isFilterContainerVisible &&
                     <div className='z-50 sm:z-10 fixed top-0 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-screen lg:w-1/3 bg-slate-50 '>
-                        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto  left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-screen bg-slate-50 flex flex-col p-4 gap-6 '>
+                        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto  left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-slate-50 flex flex-col p-4 gap-6 '>
                             <div>
                                 <div className='flex justify-between items-center'>
                                     <p className='uppercase font-thin'>By Price</p>

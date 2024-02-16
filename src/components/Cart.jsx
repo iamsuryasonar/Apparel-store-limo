@@ -1,8 +1,8 @@
-import { useEffect, useState, useMemo } from 'react'
+import { useState, useMemo } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
-import { get_all_cart_items, updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
+import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
 
 function Cart({ setToggleCart }) {
     const dispatch = useDispatch()
@@ -63,8 +63,6 @@ function Cart({ setToggleCart }) {
         }
     }
 
-
-
     const removeItemFromCart = (item) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
     }
@@ -82,13 +80,10 @@ function Cart({ setToggleCart }) {
         })
     }
 
-    useEffect(() => {
-        dispatch(get_all_cart_items())
-    }, [])
 
     return (
-        <div className='flex flex-col justify-center bg-slate-100 p-6 Z-50'>
-            <div className="flex flex-col gap-4 w-full h-screen">
+        <div className=' bg-slate-100 px-4 py-6 z-50 h-screen'>
+            <div className="flex flex-col gap-4 w-full h-full ">
                 <div className="font-mono font-bold text-xl">
                     <div className='flex justify-between items-center'>
                         <h1 className="">CART</h1>
@@ -96,7 +91,7 @@ function Cart({ setToggleCart }) {
                     </div>
                     <div className='h-[1px] bg-black w-full'></div>
                 </div>
-                <div className='h-full flex flex-col gap-4 overflow-y-scroll overscroll-none'>
+                <div className='h-full flex flex-col gap-4 overflow-auto overscroll-none p-2'>
                     {cartItems?.length === 0 ?
                         (
                             <div className="flex flex-col mt-20 justify-center items-center">
@@ -107,7 +102,7 @@ function Cart({ setToggleCart }) {
                         (
                             cartItems?.map((item) => {
                                 return (
-                                    <div key={item._id} className='relative flex flex-row justify-between border border-black p-2 gap-2'>
+                                    <div key={item._id} className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-xl bg-slate-100 rounded-md '>
                                         <img className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
                                         <div className='flex flex-col gap-2 py-2'>
                                             <p>{item?.product?.name}</p>
@@ -119,7 +114,7 @@ function Cart({ setToggleCart }) {
                                             </div>
                                             {countMap?.has(item?._id) && <div onClick={() => { updateItemQuantityHandler(countMap?.get(item?._id), item?._id) }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
                                         </div>
-                                        <div onClick={() => removeItemFromCart(item)} className='absolute top-0 right-0 w-6 aspect-square bg-slate-200  text-red-600 hover:bg-black hover:text-white  rounded-full flex justify-center items-center' >
+                                        <div onClick={() => removeItemFromCart(item)} className='absolute top-0 right-0 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
                                             <FontAwesomeIcon icon={faXmark} />
                                         </div>
                                     </div>
@@ -128,7 +123,7 @@ function Cart({ setToggleCart }) {
                         )
                     }
                 </div>
-                <div className='w-full h-max relative bottom-0 right-0 mb-16 bg-slate-100'>
+                <div className='w-full h-max relative bottom-0 right-0 bg-slate-100'>
                     <div className='w-full h-[1px] bg-black'></div>
                     <div className='flex flex-col gap-2'>
                         <div className='flex flex-row justify-between'>
