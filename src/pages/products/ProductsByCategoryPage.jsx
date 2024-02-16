@@ -1,20 +1,19 @@
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useRef } from 'react';
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
 import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
-import ProductCard from './components/ProductCard'
+import ProductsComponent from './components/ProductsComponent';
+import FilterContainer from './components/FilterContainer';
+import ScrollToTopButton from '../../components/ScrollToTopButton';
+
 
 function ProductsByCategoryPage() {
     const { id } = useParams();
     let { state } = useLocation();
-    const navigate = useNavigate();
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productsByCategory.productsByCategory)
     const numberOfProducts = (products?.pagination?.per_page * products?.pagination?.page_no) - products?.pagination?.total_products > 0 ? products?.pagination?.total_products : products?.pagination?.per_page * products?.pagination?.page_no;
@@ -60,7 +59,7 @@ function ProductsByCategoryPage() {
     const removeFilterCriteria = (type) => {
         //this function removes criteria of filter and sets values to default values.
         // updating removedCriteria triggers useEffect to get updated product values
-        //todo: this needs to be dynamic
+
         if (type === 'RANGE') {
             setMinMaxValue((prev) => ({
                 ...prev,
@@ -111,7 +110,7 @@ function ProductsByCategoryPage() {
         getProductByCategoryId(sortType)
     }, [sortType, removedCriteria])
 
-    useEffect(() => {
+    const observeScroll = () => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
 
@@ -141,6 +140,11 @@ function ProductsByCategoryPage() {
             // observes the scroll-container className that is attached to the last third product card
             observer.current.observe(scrollContainer);
         }
+    }
+
+    useEffect(() => {
+
+        observeScroll();
 
         return () => {
             if (observer.current) {
@@ -164,95 +168,23 @@ function ProductsByCategoryPage() {
                     <p className='font-thin'>FILTER</p>
                     <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
                 </div>
-
                 {numberOfProducts !== 'NaN' && products?.pagination?.total_products ? <div className='mr-8 flex gap-1 text-lg font-semibold text-slate-500'><span>{numberOfProducts}</span><span>of</span><span> {products?.pagination?.total_products}</span></div> : <div></div>}
             </div>
             <div className='w-full flex sm:flex-row flex-col'>
                 {isFilterContainerVisible &&
-                    <div className='z-50 sm:z-10 fixed top-0 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-screen lg:w-1/3 bg-slate-50 '>
-                        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto  left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-slate-50 flex flex-col p-4 gap-6 '>
-                            <div>
-                                <div className='flex justify-between items-center'>
-                                    <p className='uppercase font-thin'>By Price</p>
-                                    <FontAwesomeIcon onClick={() => setFilterContainerVisible(false)} className='hover:text-green-400 text-xl flex sm:hidden' icon={faXmark} />
-
-                                </div>
-                                <div className='w-full h-[1px] bg-black'></div>
-                            </div>
-                            <div className='flex flex-row justify-between'>
-                                <p>Price low to high</p>
-                                <input className=' h-5 w-5' type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
-                                    onChange={() => {
-                                        sortHandler('ASCENDING')
-                                    }} />
-                            </div>
-                            <div className='flex flex-row justify-between'>
-                                <p>Price high to low</p>
-                                <input className=' h-5 w-5' type="checkbox" checked={sortType === 'DECENDING' ? true : false}
-                                    onChange={() => { sortHandler('DECENDING') }} />
-                            </div>
-                            <div className='flex flex-col gap-2'>
-                                <RangeSlider
-                                    className='h-[4px]'
-                                    value={[minMaxValue.minValue, minMaxValue.maxValue]}
-                                    onInput={handleRangeChange}
-                                    onThumbDragEnd={getProductByCategoryId}
-                                    onRangeDragEnd={getProductByCategoryId}
-                                />
-                                <div className='flex justify-between px-2'>
-                                    <p>{priceRange[0]}</p>
-                                    <p>{priceRange[1]}</p>
-                                </div>
-                            </div>
-                            <div className='grid grid-cols-1 py-2 gap-4'>
-                                {activeFilters?.sortType &&
-                                    <div className='flex justify-between gap-2 bg-slate-100 rounded-2xl px-4 py-1'>
-                                        <p>{activeFilters?.sortType}</p>
-                                        <p className='cursor-pointer hover:text-green-400'
-                                            onClick={() => {
-                                                removeFilterCriteria('SORT_TYPE');
-                                            }}>x</p>
-                                    </div>
-                                }
-                                {activeFilters?.range &&
-                                    <div className='flex justify-between gap-2 bg-slate-100 rounded-2xl px-4 py-1'>
-                                        <p>{activeFilters?.range}</p>
-                                        <p className='cursor-pointer hover:text-green-400'
-                                            onClick={() => {
-                                                removeFilterCriteria('RANGE');
-                                            }}>x</p>
-                                    </div>
-                                }
-                                {activeFilters?.sortType !== '' && activeFilters?.range !== '' &&
-                                    <div className='flex justify-between gap-2 bg-slate-100 rounded-2xl px-4 py-1'>
-                                        <p className='font-thin'>Clear Filter</p>
-                                        <p className='cursor-pointer hover:text-green-400'
-                                            onClick={() => {
-                                                removeFilterCriteria('ALL');
-                                            }}>x</p>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                    </div>
+                    <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProductByCategoryId} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
                 }
                 <div className={`w-full grid grid-cols-2 ${isFilterContainerVisible ? 'sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' : ''} sm:grid-cols-2 md:grid-cols-3  p-4 mt-4 md:p-8 md:mt-0 gap-4`}>
-                    {products?.products && products?.products?.map((product, index, arr) => {
-                        return <ProductCard key={index} product={product} index={index} arr={arr} />
-                    })}
+                    <ProductsComponent products={products} />
                 </div>
             </div>
-            <div
-                onClick={() => {
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }}
-                className='group fixed bottom-4 right-4 w-10 aspect-square rounded-full bg-orange-400 flex justify-center items-center '>
-                <FontAwesomeIcon className='group-hover:text-white cursor-pointer' icon={faArrowUp} />
-            </div>
+            <ScrollToTopButton />
         </div>
     )
 }
+
 export default ProductsByCategoryPage;
+
+
+
+

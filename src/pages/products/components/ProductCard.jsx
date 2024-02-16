@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 function ProductCard({ product, index, arr }) {
     const navigate = useNavigate();
+    
     const [loadedImages, setLoadedImages] = useState([]);
+
     const handleImageLoad = (index) => {
         setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
     };

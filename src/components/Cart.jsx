@@ -80,7 +80,6 @@ function Cart({ setToggleCart }) {
         })
     }
 
-
     return (
         <div className=' bg-slate-100 px-4 py-6 z-50 h-screen'>
             <div className="flex flex-col gap-4 w-full h-full ">
