@@ -59,7 +59,7 @@ export const updateItemQuantity = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
-            let response = await CartServices.UpdateItemQuantity(data);
+            let response = await CartServices.updateItemQuantity(data);
             thunkAPI.dispatch(get_all_cart_items());
             return response;
         } catch (error) {
@@ -86,7 +86,7 @@ export const remove_item_from_cart = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
-            let response = await CartServices.RemoveItemFromCart(data);
+            let response = await CartServices.removeItemFromCart(data);
             thunkAPI.dispatch(get_all_cart_items());
             return response;
         } catch (error) {

@@ -37,11 +37,6 @@ function Nav() {
             title: 'Contact',
             path: '/contact-us'
         },
-        // {
-        //     id: 2,
-        //     title: 'Log In',
-        //     path: '/sign-in'
-        // },
     ]
 
     let authNavItems = [
@@ -70,8 +65,10 @@ function Nav() {
     }
 
     useEffect(() => {
-        dispatch(get_all_cart_items())
-    }, [])
+        if (user) {
+            dispatch(get_all_cart_items())
+        }
+    }, [user])
 
     return (
         <>

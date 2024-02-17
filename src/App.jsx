@@ -11,6 +11,7 @@ import ProductsByCategoryPage from './pages/products/ProductsByCategoryPage'
 import PublicRoute from "./components/auth_guards/public_route";
 import PrivateRoute from "./components/auth_guards/private_route";
 import ProductPage from './pages/ProductPage'
+import AccountPage from "./pages/AccountPage";
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
@@ -28,7 +29,7 @@ function App() {
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route element={<PrivateRoute userData={userData} />}>
-
+          <Route path="/account" element={<AccountPage />}></Route>
         </Route>
       </Route>
       <Route></Route>

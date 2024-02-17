@@ -10,35 +10,35 @@ const getheaders = () => {
     return headers
 }
 
-const getAllCartItems = async () => {
+const getAllAddresses = async () => {
     const response = await axios
-        .get(API_URL + 'cart/', { headers: getheaders() })
+        .get(API_URL + 'address/', { headers: getheaders() })
     return response.data.results
 }
 
-const addToCart = async (data) => {
+const addAddress = async (data) => {
     const response = await axios
-        .post(API_URL + 'cart/', data, { headers: getheaders() })
+        .post(API_URL + 'address/', data, { headers: getheaders() })
     return response.data.results
 }
 
-const updateItemQuantity = async (data) => {
+const updateAddress = async (data) => {
     const response = await axios
-        .put(API_URL + 'cart/' + data.itemId, { quantity: data.quantity }, { headers: getheaders() })
+        .put(API_URL + 'address/' + data.id, data.body, { headers: getheaders() })
     return response.data.results
 }
 
-const removeItemFromCart = async (data) => {
+const removeAddress = async (data) => {
     const response = await axios
-        .delete(API_URL + 'cart/' + data.itemId, { headers: getheaders() })
+        .delete(API_URL + 'address/' + data.id, { headers: getheaders() })
     return response.data.results
 }
 
 const CartServices = {
-    getAllCartItems,
-    addToCart,
-    updateItemQuantity,
-    removeItemFromCart
+    getAllAddresses,
+    addAddress,
+    updateAddress,
+    removeAddress
 }
 
 export default CartServices;
