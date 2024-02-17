@@ -17,7 +17,7 @@ export const get_all_cart_items = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            thunkAPI.dispatch(setMessage(message));
+            // thunkAPI.dispatch(setMessage(message));
             return thunkAPI.rejectWithValue();
         } finally {
             setTimeout(() => {

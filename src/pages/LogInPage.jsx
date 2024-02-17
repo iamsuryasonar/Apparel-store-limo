@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 import { clearMessage } from "../store/slices/messageSlice";
 import { login } from "../store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import React, { useState, useEffect } from "react";
-import { setLoading } from "../store/slices/loadingSlice";
 import BottomAlert from '../components/BottomAlert'
 
 function LogInPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  let { state } = useLocation();
   const { message } = useSelector((state) => state.message);
   const [input, setInput] = useState({});
 
@@ -26,15 +26,17 @@ function LogInPage() {
 
   const logInHandler = (e) => {
     e.preventDefault();
-    setLoading(true);
     dispatch(login(input))
       .unwrap()
       .then(() => {
-        navigate("/");
+        if (state && state?.type === 'ADD_TO_CART' && state?.productId) {
+          navigate(`/product/${state?.productId}`, {
+            state: state,
+          })
+        } else {
+          navigate("/shop");
+        }
       })
-      .catch(() => {
-        setLoading(false);
-      });
   };
 
   return (

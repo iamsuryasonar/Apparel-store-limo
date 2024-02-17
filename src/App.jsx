@@ -22,12 +22,13 @@ function App() {
           <Route path="/sign-in" element={<LogInPage />} />
           <Route path="/sign-up" element={<RegisterPage />} />
         </Route>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/products/:id" element={<ProductsByCategoryPage />} />
+        <Route path="/contact-us" element={<ContactPage />} />
+        <Route path="/shop" element={<ShopPage />} />
+        <Route path="/product/:id" element={<ProductPage />} />
         <Route element={<PrivateRoute userData={userData} />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/products/:id" element={<ProductsByCategoryPage />} />
-          <Route path="/contact-us" element={<ContactPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/product/:id" element={<ProductPage />} />
+
         </Route>
       </Route>
       <Route></Route>

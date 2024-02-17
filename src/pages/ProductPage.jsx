@@ -1,15 +1,16 @@
 import { useState, useEffect } from "react";
 import ProductsService from "../services/products.services";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ImageCarousal from "../components/ImageCarousal";
-import { setLoading } from "../store/slices/loadingSlice";
-import { useDispatch } from "react-redux";
 import { addToCart } from "../store/slices/cartSlice";
+import { useDispatch, useSelector } from 'react-redux';
 
 function ProductPage() {
+    const user = useSelector((state) => state.auth.userData);
 
     const dispatch = useDispatch()
     let { state } = useLocation();
+    const navigate = useNavigate();
 
     const [quantity, setQuantity] = useState(1);
 
@@ -105,7 +106,19 @@ function ProductPage() {
                             })}
                         </select>
                     </div>
-                    <button onClick={addToCartHandler} className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white">ADD TO CART</button>
+                    <button
+                        onClick={() => {
+                            user ?
+                                addToCartHandler()
+                                :
+                                navigate('/sign-in', {//take id of whatever user was viewing and vavigate to that page after log in
+                                    state: { ...state, type: 'ADD_TO_CART' },
+                                })
+
+                        }}
+                        className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white">
+                        ADD TO CART
+                    </button>
                 </div>
                 <div className="p-4 w-full">
                     <p className="p-1  text-md ">{product?.description}</p>
