@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import razorpay from '../assets/logos/razorpay.png'
 import visa from '../assets/logos/visa.png'
 import mastercard from '../assets/logos/mastercard.png'
@@ -7,18 +7,31 @@ import next_page_svg from '../assets/next_page.svg'
 import AddAddressForm from '../components/AddAddressForm'
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from 'react-redux';
-
+import AddressService from '../services/address.services'
 
 function CheckOutPage() {
-    const [addressFormVisible, setAddressFormVisible] = useState(false)
     let { state } = useLocation();
     const user = useSelector((state) => state.auth.userData);
-    console.log(user)
+    const [addressFormVisible, setAddressFormVisible] = useState(false)
+    const [addresses, setAddresses] = useState(null);
+    const [selectedAddress, setSelectedAddress] = useState(0);
+    const [showAllAddresses, setShowAllAddresses] = useState(false);
+
     const totalPrice = useMemo(() => {
         return state?.reduce((acc, item) => {
             return acc + item?.sizevariant?.selling_price * item?.quantity;
         }, 0);
     }, [state]);
+
+    const getAddresses = async () => {
+        const result = await AddressService.getAllAddresses();
+        setAddresses(result);
+    }
+
+    useEffect(() => {
+        getAddresses()
+    }, [])
+
 
     return <div className="max-w-7xl m-4 w-full flex flex-col md:flex-row gap-4">
         <div className='w-full flex flex-col gap-2'>
@@ -31,12 +44,36 @@ function CheckOutPage() {
                 <p>Delivery</p>
                 <p onClick={() => setAddressFormVisible(true)} className="cursor-pointer text-blue-500">Add new address...</p>
             </div>
-            {addressFormVisible && <>
+
+            {addressFormVisible &&
                 <AddAddressForm setAddressFormVisible={setAddressFormVisible} />
-            </>}
-            <div>
-                {/*todo list of addresses... */}
-            </div>
+            }
+
+            {addresses &&
+                <div className='flex flex-col bg-slate-50 p-2 rounded-sm'>
+                    <p>{addresses[selectedAddress]?.name}, {addresses[selectedAddress]?.contact_number}, {addresses[selectedAddress]?.pin}, {addresses[selectedAddress]?.city}, {addresses[selectedAddress]?.state}, {addresses[selectedAddress]?.country}...</p>
+                </div>
+            }
+
+            {addresses &&
+                <p onClick={() => {
+                    setShowAllAddresses(!showAllAddresses);
+                }} className={`text-blue-500 ${showAllAddresses ? 'text-red-400' : ''} underline underline-offset-2 cursor-pointer`}>select from addresses...</p>
+            }
+
+            {showAllAddresses &&
+                <div className='flex flex-col gap-2'>
+                    {addresses?.map((address, index) => {
+                        return <div key={address?._id} onClick={() => {
+                            setSelectedAddress(index)
+                            setShowAllAddresses(false)
+                        }} className='bg-slate-50 p-2 rounded-sm cursor-pointer' > {console.log(address)}
+                            <p> {address?.name}, {address?.contact_number}, {address?.pin}, {address?.city}, {address?.state}, {address?.country}...</p>
+                        </div>
+                    })}
+                </div >
+            }
+
             <div className="w-full h-[1px] bg-black"></div>
             <p>Payment</p>
             <div className=' bg-slate-100'>
@@ -56,12 +93,10 @@ function CheckOutPage() {
                     </p>
                 </div>
             </div>
-            <button className='w-full px-4 py-2 bg-black text-white'>Pay now</button>
         </div>
         <div className='w-full flex flex-col gap-2 bg-slate-50 p-4'>
             <p>Order summary</p>
             <div className='flex flex-col gap-2 '>
-
                 {state?.map((item) => {
                     return (
                         <div key={item._id} className=' flex flex-row justify-between p-2 gap-2 '>
@@ -94,9 +129,9 @@ function CheckOutPage() {
                 <p>Total</p>
                 <p>Rs. {totalPrice}</p>
             </div>
+            <button className='w-full px-4 py-2 bg-black text-white'>Pay now</button>
         </div>
-
-
-    </div>
+    </div >
 }
 export default CheckOutPage;
+

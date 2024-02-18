@@ -29,7 +29,7 @@ function AddAddressForm({ setAddressFormVisible }) {
         AddressServices.addAddress(formData);
     }
 
-    return <div className="z-10 absolute top-0 bottom-0 right-0 left-0 bg-white p-4 flex flex-col items-center">
+    return <div className="z-10 fixed top-20 bottom-0 right-0 left-0 bg-white p-4 flex flex-col items-center overflow-scroll">
         <div className="max-w-xl w-full flex flex-col gap-4">
             <div className="flex justify-between items-center">
                 <p className="my-4 text-3xl font-bold ">ADD A NEW ADDRESS</p>
