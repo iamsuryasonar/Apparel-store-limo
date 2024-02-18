@@ -12,6 +12,7 @@ import PublicRoute from "./components/auth_guards/public_route";
 import PrivateRoute from "./components/auth_guards/private_route";
 import ProductPage from './pages/ProductPage'
 import AccountPage from "./pages/AccountPage";
+import CheckOutPage from './pages/CheckOutPage'
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
@@ -30,6 +31,7 @@ function App() {
         <Route path="/product/:id" element={<ProductPage />} />
         <Route element={<PrivateRoute userData={userData} />}>
           <Route path="/account" element={<AccountPage />}></Route>
+          <Route path='/check-out' element={<CheckOutPage />}></Route>
         </Route>
       </Route>
       <Route></Route>

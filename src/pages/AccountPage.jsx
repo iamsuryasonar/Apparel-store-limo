@@ -1,8 +1,7 @@
 import { faArrowDown, faArrowUp, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { STATES } from "../constants/constant";
-import AddressServices from '../services/address.services'
+import AddAddressForm from '../components/AddAddressForm'
 
 function AccountPage() {
 
@@ -85,143 +84,22 @@ function OrderHistory() {
 }
 
 function Addresses() {
-    const [isFormVisible, setFormVisible] = useState(false);
-
-    const [formData, setFormData] = useState({
-        name: '',
-        contact_number: '',
-        house_number: '',
-        town: '',
-        city: '',
-        landmark: '',
-        pin: '',
-        state: '',
-        country: 'India',
-    });
-
-    const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-        }));
-    };
-
-    const addAddressHandler = () => {
-        AddressServices.addAddress(formData);
-    }
+    const [addressFormVisible, setAddressFormVisible] = useState(false);
 
     return <div className="my-4 flex flex-col md:flex-col">
-        {console.log(formData)}
         <div className="flex flex-col md:flex-row  justify-between md:items-center">
             <p className="text-5xl font-bold">Your Addresses</p>
-            <button onClick={() => setFormVisible(!isFormVisible)} className="bg-black text-white p-2 self-start m-2">Add a new Address</button>
+            <button onClick={() => setAddressFormVisible(!addressFormVisible)} className="bg-black text-white p-2 self-start m-2">Add a new Address</button>
         </div>
-
         <div>
             {/* todo fetch list of addresses */}
         </div>
 
         {
-            isFormVisible &&
-            <div className="absolute top-0 bottom-0 right-0 left-0 bg-white m-4 flex flex-col items-center">
-                <div className="max-w-xl w-full flex flex-col gap-4">
-                    <div className="flex justify-between items-center">
-                        <p className="my-4 text-3xl font-bold ">ADD A NEW ADDRESS</p>
-                        <FontAwesomeIcon onClick={() => setFormVisible(false)} className="text-4xl cursor-pointer hover:text-green-500" icon={faXmark} />
-                    </div>
-                    <form className="w-full flex flex-col gap-4 font-light ">
-                        <input
-                            value={formData.name}
-                            onChange={handleChange}
-                            name="name"
-                            type="text"
-                            placeholder="Full name"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <input
-                            value={formData.contact_number}
-                            onChange={handleChange}
-                            name="contact_number"
-                            type="number"
-                            placeholder="Phone number"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <input
-                            value={formData.house_number}
-                            onChange={handleChange}
-                            name="house_number"
-                            type="number"
-                            placeholder="House Number"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <input
-                            value={formData.town}
-                            onChange={handleChange}
-                            name="town"
-                            type="text"
-                            placeholder="Town"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <input
-                            value={formData.city}
-                            onChange={handleChange}
-                            name="city"
-                            type="text"
-                            placeholder="City"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <input
-                            value={formData.landmark}
-                            onChange={handleChange}
-                            name="landmark"
-                            type="text"
-                            placeholder="Landmark"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <input
-                            value={formData.pin}
-                            onChange={handleChange}
-                            name="pin"
-                            type="number"
-                            placeholder="Pin code"
-                            className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-                        ></input>
-                        <select
-                            value={formData.state}
-                            onChange={handleChange}
-                            name="state"
-                            defaultValue="Select state..."
-                            className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                            <option selected value=''>
-                                Select state...
-                            </option>
+            addressFormVisible && <AddAddressForm setAddressFormVisible={setAddressFormVisible} />
 
-                            {STATES.map((name) => {
-                                return (
-                                    <option key={name} value={name}>
-                                        {name}
-                                    </option>
-                                );
-                            })}
-                        </select>
-                        <select
-                            value={formData.country}
-                            onChange={handleChange}
-                            name="country"
-                            className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                        >
-                            <option value="India">India</option>
-                        </select>
-                    </form>
-                    <button onClick={() => {
-                        addAddressHandler();
-                        setFormVisible(false)
-                    }} className="bg-black text-white py-2 px-6 self-end">Add</button>
-                </div>
-
-            </div>
         }
     </div>
 }
+
+

@@ -3,9 +3,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
+import { useNavigate } from 'react-router-dom';
+
 
 function Cart({ setToggleCart }) {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const cartItems = useSelector((state) => state.cart.cart);
 
     const totalPrice = useMemo(() => {
@@ -105,6 +108,7 @@ function Cart({ setToggleCart }) {
                                         <img className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
                                         <div className='flex flex-col gap-2 py-2'>
                                             <p>{item?.product?.name}</p>
+                                            <p>size: {item?.sizevariant?.name}</p>
                                             <p className='place-self-end'>Rs. {item?.sizevariant?.selling_price}</p>
                                             <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
                                                 <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => countHandler(item._id, item?.quantity, 'DECREMENT')}>-</p>
@@ -131,7 +135,10 @@ function Cart({ setToggleCart }) {
                         </div>
                         {cartItems?.length > 0 && <>
                             <p>Shipping, taxes and discount codes are calculated at check-out</p>
-                            <button className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
+                            <button onClick={() => {
+                                setToggleCart(false)
+                                navigate('/check-out', { state: cartItems })
+                            }} className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
                         </>}
                     </div>
                 </div>
