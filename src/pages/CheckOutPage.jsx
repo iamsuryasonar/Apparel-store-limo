@@ -47,7 +47,7 @@ function CheckOutPage() {
             "currency": "INR",
             "name": "Limo store",
             "description": "Test Transaction",
-            "image": "https://example.com/your_logo",//todo put logo here
+            "image": "https://ipfs.filebase.io/ipfs/Qmb68pa414Jf8N7CPvaUVBo1nvM4zAGC5JGC9GNbwBEMNM",
             "order_id": order?.id,
             "handler": async function (response) {
                 setCreatingOrder(true);

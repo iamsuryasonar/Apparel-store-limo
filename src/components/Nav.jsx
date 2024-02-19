@@ -96,12 +96,12 @@ function Nav() {
                     </Link>
 
                     {user &&
-                        <div className='relative '>
+                        <div className='group relative cursor-pointer' onClick={() => setToggleCart(!toggleCart)}>
                             {cartItems?.length > 0 &&
                                 <div className=' absolute top-0 -translate-y-1/2 translate-x-2 right-0 bg-orange-400 w-5 h-5 rounded-full flex justify-center items-center '>
                                     <p className=''>{cartItems?.length}</p>
                                 </div>}
-                            <FontAwesomeIcon className='text-xl hover:text-blue-500' onClick={() => setToggleCart(!toggleCart)} icon={faCartShopping} />
+                            <FontAwesomeIcon className='text-xl group-hover:text-blue-500' icon={faCartShopping} />
                         </div>
                     }
 

@@ -39,6 +39,13 @@ function RegisterPage() {
             });
     }
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
     return (<>
         <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
             <h1 className="font-extrabold text-5xl font-raleway">Sign Up</h1>

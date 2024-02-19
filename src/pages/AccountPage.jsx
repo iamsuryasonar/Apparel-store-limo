@@ -1,12 +1,20 @@
 import { faArrowDown, faArrowUp, faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddAddressForm from '../components/AddAddressForm'
 
 function AccountPage() {
 
     const [menu, setMenu] = useState(false);
     const [activeMenu, setActiveMenu] = useState(0);
+
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
 
     const options = [
         {

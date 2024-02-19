@@ -1,8 +1,16 @@
 import { useSelector } from 'react-redux'
 import BottomAlert from '../components/BottomAlert'
+import { useEffect } from 'react';
 
 function ContactPage() {
     const message = useSelector((state) => state.message.message);
+    
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
 
     return (
         <>

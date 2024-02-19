@@ -153,6 +153,14 @@ function ProductsByCategoryPage() {
         };
     }, [products]);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
+
     return (
         <div className=" max-w-7xl  w-full flex flex-col items-center">
             <div className="w-full">
@@ -174,7 +182,7 @@ function ProductsByCategoryPage() {
                 {isFilterContainerVisible &&
                     <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProductByCategoryId} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
                 }
-                <div className={`w-full grid grid-cols-2 ${isFilterContainerVisible ? 'sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' : ''} sm:grid-cols-2 md:grid-cols-3  p-4 mt-4 md:p-8 md:mt-0 gap-4`}>
+                <div className={`w-full grid grid-cols-2 md:grid-cols-3 p-4 mt-4 md:p-8 md:mt-0 gap-4`}>
                     <ProductsComponent products={products} />
                 </div>
             </div>

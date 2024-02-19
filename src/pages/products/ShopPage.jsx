@@ -52,7 +52,6 @@ function ShopPage() {
     const removeFilterCriteria = (type) => {
         //this function removes criteria of filter and sets values to default values.
         // updating removedCriteria triggers useEffect to get updated product values
-        //todo: this needs to be dynamic
         if (type === 'RANGE') {
             setMinMaxValue((prev) => ({
                 ...prev,
@@ -144,6 +143,14 @@ function ShopPage() {
         };
     }, [products]);
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
+
     return (
         <>
             <div className=" max-w-7xl  w-full flex flex-col items-center ">
@@ -163,7 +170,7 @@ function ShopPage() {
                     {isFilterContainerVisible &&
                         <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProducts} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
                     }
-                    <div className={`w-full grid grid-cols-2 ${isFilterContainerVisible ? 'sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 xl:grid-cols-3' : ''} sm:grid-cols-2 md:grid-cols-3  p-4 mt-4 md:p-8 md:mt-0 gap-4`}>
+                    <div className={`w-full grid grid-cols-2 md:grid-cols-3 p-4 mt-4 md:p-8 md:mt-0 gap-4`}>
                         <ProductsComponent products={products} />
                     </div>
                 </div>

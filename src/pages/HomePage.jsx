@@ -48,6 +48,13 @@ function HomePage() {
     }, [])
 
 
+    useEffect(() => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }, []);
+
     return (
         <main className="max-w-7xl flex flex-col gap-8 items-center w-full h-full">
             <div ref={bannerRef} id="banner-section" className="w-full h-full">
