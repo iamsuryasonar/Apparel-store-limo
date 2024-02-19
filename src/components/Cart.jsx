@@ -126,7 +126,7 @@ function Cart({ setToggleCart }) {
                         )
                     }
                 </div>
-                <div className='w-full h-max relative bottom-0 right-0 bg-slate-100'>
+                <div className='w-full h-max relative bottom-0 right-0 bg-slate-100 pb-10'>
                     <div className='w-full h-[1px] bg-black'></div>
                     <div className='flex flex-col gap-2'>
                         <div className='flex flex-row justify-between'>
