@@ -47,8 +47,16 @@ function CheckOutPage() {
             "currency": "INR",
             "name": "Limo store",
             "description": "Test Transaction",
-            "image": "https://ipfs.filebase.io/ipfs/Qmb68pa414Jf8N7CPvaUVBo1nvM4zAGC5JGC9GNbwBEMNM",
+            "image": "https://ipfs.filebase.io/ipfs/QmZzZG2hQxTStym74yhoye5CzYY9Z4NJ8FJQapVmNttsdk",
             "order_id": order?.id,
+            "remember_customer": false,
+
+            "modal": {
+                ondismiss: async function () {
+                    setProcessingPayment(false);
+                    setCreatingOrder(false);
+                },
+            },
             "handler": async function (response) {
                 setCreatingOrder(true);
                 const res = await PaymentServices.validatePayment({
@@ -64,16 +72,8 @@ function CheckOutPage() {
                     navigate(`/order-placed?order_id=${response.razorpay_order_id}`)
                 }
             },
-            "prefill": {
-                "name": "Gaurav Kumar",
-                "email": "gaurav.kumar@example.com",
-                "contact": "9000090000"
-            },
-            "notes": {
-                "address": "Razorpay Corporate Office"
-            },
             "theme": {
-                "color": "#3399cc"
+                "color": "#20E8F4"
             }
         };
         var rzp1 = new window.Razorpay(options);
