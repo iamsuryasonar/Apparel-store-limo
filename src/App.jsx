@@ -13,6 +13,7 @@ import PrivateRoute from "./components/auth_guards/private_route";
 import ProductPage from './pages/ProductPage'
 import AccountPage from "./pages/AccountPage";
 import CheckOutPage from './pages/CheckOutPage'
+import OrderPlacedPage from './pages/OrderPlacedPage';
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
@@ -32,10 +33,11 @@ function App() {
         <Route element={<PrivateRoute userData={userData} />}>
           <Route path="/account" element={<AccountPage />}></Route>
           <Route path='/check-out' element={<CheckOutPage />}></Route>
+          <Route path='/order-placed' element={<OrderPlacedPage />}></Route>
         </Route>
       </Route>
       <Route></Route>
-    </Routes>
+    </Routes >
   );
 }
 
