@@ -5,21 +5,23 @@ import { useState, useEffect } from 'react'
 import Cart from '../components/Cart'
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBar from './LoadingBar';
-import { logout } from '../store/slices/authSlice'
 import SignoutModal from './SignoutModal'
 import { get_all_cart_items } from '../store/slices/cartSlice'
+import SearchComponent from './SearchComponent'
+import { Transition } from 'react-transition-group';
+
 
 function Nav() {
-
+    const location = useLocation();
+    const currentPageName = location.pathname;
+    const dispatch = useDispatch();
     const [toggleCart, setToggleCart] = useState(false);
     const [menu, setMenu] = useState(false);
-    const [showLogoutModal, setShowLogoutModal] = useState(false);
-    const dispatch = useDispatch();
-    const location = useLocation();
+    const [isLogoutModal, setIsLogoutModal] = useState(false);
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-    const currentPageName = location.pathname;
+    const [showSearch, setShowSearch] = useState(false);
 
     let navItems = [
         {
@@ -47,23 +49,6 @@ function Nav() {
         setMenu(!menu);
     };
 
-    const logOutHandler = () => {
-        dispatch(logout());
-    }
-
-    const toggleLogoutModal = () => {
-        setShowLogoutModal(!showLogoutModal);
-    }
-    const confirmLogout = () => {
-        toggleLogoutModal();
-        logOutHandler();
-
-    }
-    const handleMobileMenuLogout = () => {
-        confirmLogout();
-        toggleMenu();
-    }
-
     useEffect(() => {
         if (user) {
             dispatch(get_all_cart_items())
@@ -73,7 +58,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <div className="fixed h-20 top-0 right-0 left-0 z-20 bg-slate-100 p-6 justify-between flex ">
+            <div className="fixed h-20 top-0 right-0 left-0 z-20 bg-slate-100 p-4 justify-between flex ">
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {user &&
                         authNavItems.map((item) => {
@@ -88,17 +73,26 @@ function Nav() {
                     }
                 </div>
 
+                {/* Logo */}
                 <Link to={'/'} className='place-self-center text-3xl'>LIMO</Link>
-                <div className='flex items-center gap-5 md:flex'>
-                    <FontAwesomeIcon className='text-xl hover:text-blue-500' icon={faMagnifyingGlass} />
-                    <Link to={`${user ? '/account' : '/sign-in'}`} className={`text-base hover:text-blue-600 hover:underline underline-offset-4 ${currentPageName === user ? '/account' : '/sign-in' ? '' : ''}`}>
-                        <FontAwesomeIcon className={`text-xl md:flex hover:text-blue-600 ${user ? 'text-blue-500' : ''}`} icon={faUser} />
+
+                <div className='flex items-center gap-2 md:gap-4 md:flex'>
+                    {/* search */}
+                    <div onClick={() => { setShowSearch(!showSearch) }} className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                        <FontAwesomeIcon onClick={() => { setShowSearch(!showSearch) }} className='text-xl group-hover:text-blue-500' icon={faMagnifyingGlass} />
+                    </div>
+
+                    {/* acoount */}
+                    <Link to={`${user ? '/account' : '/sign-in'}`} className={`group w-10 h-10 hover:bg-slate-200 grid place-items-center`}>
+                        <FontAwesomeIcon className={`text-xl md:flex group-hover:text-blue-500  ${user ? 'text-green-500' : ''}`} icon={faUser} />
                     </Link>
 
+
+                    {/* cart */}
                     {user &&
-                        <div className='group relative cursor-pointer' onClick={() => setToggleCart(!toggleCart)}>
+                        <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center relative cursor-pointer' onClick={() => setToggleCart(!toggleCart)}>
                             {cartItems?.length > 0 &&
-                                <div className=' absolute top-0 -translate-y-1/2 translate-x-2 right-0 bg-orange-400 w-5 h-5 rounded-full flex justify-center items-center '>
+                                <div className=' absolute top-0 right-0 bg-orange-400 w-5 h-5 rounded-full flex justify-center items-center '>
                                     <p className=''>{cartItems?.length}</p>
                                 </div>}
                             <FontAwesomeIcon className='text-xl group-hover:text-blue-500' icon={faCartShopping} />
@@ -107,44 +101,51 @@ function Nav() {
 
                     {/* signout button */}
                     {user &&
-                        <>
-                            <FontAwesomeIcon className="text-2xl mr-3 hidden md:flex  hover:text-red-700 " onClick={toggleLogoutModal} icon={faSignOut} />
-                            {toggleLogoutModal &&
-                                <SignoutModal isOpen={showLogoutModal} confirmLogout={confirmLogout} onClose={toggleLogoutModal} />
+                        <div className='hidden md:grid group w-10 h-10 hover:bg-slate-200  place-items-center '>
+                            <FontAwesomeIcon className="text-2xl  group-hover:text-red-700 " onClick={() => setIsLogoutModal(true)} icon={faSignOut} />
+                            {isLogoutModal &&
+                                <SignoutModal isLogoutModal={isLogoutModal} setIsLogoutModal={setIsLogoutModal} />
                             }
-                        </>
+                        </div>
                     }
+
                     {/* mobile menu toggle */}
-                    <FontAwesomeIcon className="text-2xl hover:text-blue-500 md:hidden transition-all duration-300 ease-in-out place-self-center" icon={faBars} onClick={() => toggleMenu()} />
+                    <div className='md:hidden group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                        <FontAwesomeIcon className="text-2xl group-hover:text-blue-500 place-self-center" icon={faBars} onClick={() => toggleMenu()} />
+                    </div>
                 </div>
 
-                {toggleCart && (
-                    <div className='w-full md:w-1/2 max-w-xl fixed top-0 right-0 bottom-0'>
-                        <Cart setToggleCart={setToggleCart} />
-                    </div>
-                )}
-                {menu && <div className='bg-white flex flex-col justify-center items-center gap-6 fixed top-0 bottom-0 right-0 left-1/4 md:hidden z-50'>
-                    <FontAwesomeIcon className="text-3xl fixed top-7 right-10 hover:scale-150  hover:text-red-500 transition-all duration-300 ease-in-out " icon={faXmark} onClick={() => toggleMenu()} />
-                    {user &&
-                        authNavItems.map((item) => {
-                            return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
-                        })
-                    }
-                    {
-                        navItems.map((item) => {
-                            return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out  ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
-                        })
-                    }
-                    {user &&
-                        <>
-                            <FontAwesomeIcon className="text-xl mr-3  hover:text-blue-500" onClick={toggleLogoutModal} icon={faSignOut} />
-                            {toggleLogoutModal &&
-                                <SignoutModal isOpen={showLogoutModal} confirmLogout={handleMobileMenuLogout} onClose={toggleLogoutModal} />
+                <Cart show={toggleCart} setToggleCart={setToggleCart} />
+
+                <Transition in={menu} timeout={100}>
+                    {(state) => (
+                        <div className={` z-50  bg-white flex flex-col justify-center items-center gap-6 fixed md:hidden transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 top-0 bottom-0 right-0 left-1/4' : 'translate-x-full top-0 bottom-0 right-0 left-1/4'}`}>
+                            <div className='fixed top-6 right-6 group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                                <FontAwesomeIcon className="text-3xl" icon={faXmark} onClick={() => toggleMenu()} />
+                            </div>
+                            {user &&
+                                authNavItems.map((item) => {
+                                    return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
+                                })
                             }
-                        </>
-                    }
-                </div>}
+                            {
+                                navItems.map((item) => {
+                                    return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out  ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
+                                })
+                            }
+                            {user &&
+                                <div className='grid group w-10 h-10 hover:bg-slate-200  place-items-center '>
+                                    <FontAwesomeIcon className="text-xl group-hover:text-red-700" onClick={() => setIsLogoutModal(true)} icon={faSignOut} />
+                                    {isLogoutModal &&
+                                        <SignoutModal isLogoutModal={isLogoutModal} setIsLogoutModal={setIsLogoutModal} />
+                                    }
+                                </div>
+                            }
+                        </div>
+                    )}
+                </Transition >
             </div >
+            <SearchComponent show={showSearch} setShowSearch={setShowSearch} />
         </>
     )
 }

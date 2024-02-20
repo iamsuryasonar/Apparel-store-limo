@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { get_products, get_more_products } from '../../store/slices/productsSlice'
-import ProductsComponent from './components/ProductsComponent';
+import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
 

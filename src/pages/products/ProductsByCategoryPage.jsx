@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { useState, useRef } from 'react';
 import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
-import ProductsComponent from './components/ProductsComponent';
+import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
 
@@ -162,7 +162,7 @@ function ProductsByCategoryPage() {
 
 
     return (
-        <div className=" max-w-7xl  w-full flex flex-col items-center">
+        <div className=" max-w-7xl  w-full flex flex-col items-center h-full overflow-auto">
             <div className="w-full">
                 {/* {state?.bannerImage?.url} */}
                 <img className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
