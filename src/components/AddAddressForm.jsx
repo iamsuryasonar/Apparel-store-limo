@@ -1,10 +1,10 @@
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { STATES } from "../constants/constant";
 import AddressServices from '../services/address.services'
 
-function AddAddressForm({ setAddressFormVisible }) {
+function AddAddressForm({ setAddressFormVisible, editMode, editFormData }) {
     const [formData, setFormData] = useState({
         name: '',
         contact_number: '',
@@ -17,6 +17,12 @@ function AddAddressForm({ setAddressFormVisible }) {
         country: 'India',
     });
 
+    useEffect(() => {
+        if(editMode && editFormData) {
+            setFormData(editFormData);
+        }
+    },[editMode, editFormData])
+
     const handleChange = (event) => {
         const { name, value } = event.target;
         setFormData((prevFormData) => ({
@@ -25,14 +31,20 @@ function AddAddressForm({ setAddressFormVisible }) {
         }));
     };
 
-    const addAddressHandler = () => {
-        AddressServices.addAddress(formData);
+    const handleAddresSubmit = async () => {
+        if(editMode && editFormData){
+            await AddressServices.updateAddress(formData);
+        }else {
+
+            await AddressServices.addAddress(formData);
+        }
+        setAddressFormVisible(false);   
     }
 
     return <div className="z-10 fixed top-20 bottom-0 right-0 left-0 bg-white p-4 flex flex-col items-center overflow-scroll">
         <div className="max-w-xl w-full flex flex-col gap-4">
             <div className="flex justify-between items-center">
-                <p className="my-4 text-3xl font-bold ">ADD A NEW ADDRESS</p>
+                <p className="my-4 text-3xl font-bold ">{editMode ? 'UPDATE ADDRESS' : 'ADD A NEW ADDRESS'}</p>
                 <FontAwesomeIcon onClick={() => setAddressFormVisible(false)} className="text-4xl cursor-pointer hover:text-green-500" icon={faXmark} />
             </div>
             <form className="w-full flex flex-col gap-4 font-light ">
@@ -120,11 +132,9 @@ function AddAddressForm({ setAddressFormVisible }) {
                     <option value="India">India</option>
                 </select>
             </form>
-            <button onClick={() => {
-                addAddressHandler();
-                setAddressFormVisible(false)
-            }} className="bg-black text-white py-2 px-6 self-end">Add</button>
+            <button onClick={handleAddresSubmit} className="bg-black text-white py-2 px-6 self-end">{editMode ? 'Save' : 'Add'}</button>
         </div>
+
     </div>
 }
 
