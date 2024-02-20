@@ -9,7 +9,7 @@ import SignoutModal from './SignoutModal'
 import { get_all_cart_items } from '../store/slices/cartSlice'
 import SearchComponent from './SearchComponent'
 import { Transition } from 'react-transition-group';
-
+import { setShowSearch } from '../store/slices/searchSlice';
 
 function Nav() {
     const location = useLocation();
@@ -21,7 +21,7 @@ function Nav() {
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-    const [showSearch, setShowSearch] = useState(false);
+    // const [showSearch, setShowSearch] = useState(false);
 
     let navItems = [
         {
@@ -78,8 +78,8 @@ function Nav() {
 
                 <div className='flex items-center gap-2 md:gap-4 md:flex'>
                     {/* search */}
-                    <div onClick={() => { setShowSearch(!showSearch) }} className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
-                        <FontAwesomeIcon onClick={() => { setShowSearch(!showSearch) }} className='text-xl group-hover:text-blue-500' icon={faMagnifyingGlass} />
+                    <div onClick={() => { dispatch(setShowSearch(true)) }} className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                        <FontAwesomeIcon className='text-xl group-hover:text-blue-500' icon={faMagnifyingGlass} />
                     </div>
 
                     {/* acoount */}
@@ -145,7 +145,7 @@ function Nav() {
                     )}
                 </Transition >
             </div >
-            <SearchComponent show={showSearch} setShowSearch={setShowSearch} />
+            <SearchComponent />
         </>
     )
 }

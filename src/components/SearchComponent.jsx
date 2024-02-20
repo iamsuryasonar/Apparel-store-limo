@@ -6,11 +6,15 @@ import { API_URL } from '../constants/constant';
 import axios from "axios";
 import ProductsComponent from '../components/ProductsComponent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { setShowSearch } from '../store/slices/searchSlice';
 
-
-const SearchComponent = ({ show, setShowSearch }) => {
+const SearchComponent = () => {
     const [searchKeyword, setSearchKeyword] = useState('');
     const [debounced, setDebounced] = useState();
+    const dispatch = useDispatch();
+    const show = useSelector((state) => state.search.show);
+
 
     const [result, setResult] = useState({
         products: [],
@@ -135,16 +139,6 @@ const SearchComponent = ({ show, setShowSearch }) => {
 
     const scrollToElement = useRef(null);
 
-    // const scrollToTop = () => {
-    //     console.log(scrollToElement.current)
-    //     if (scrollToElement.current) {
-    //         scrollToElement.current.scrollTo({
-    //             top: 0,
-    //             behavior: 'smooth'
-    //         });
-    //     }
-    // };
-
     return (
         <Transition in={show} timeout={100}>
             {(state) => (
@@ -170,15 +164,12 @@ const SearchComponent = ({ show, setShowSearch }) => {
                                     <p>clear</p> <FontAwesomeIcon className="text-xl" icon={faXmark} />
                                 </button>}
                             </div>
-                            <FontAwesomeIcon className="text-3xl hover:scale-150 hover:text-red-500 transition-all duration-300 ease-in-out " icon={faXmark}
-                                onClick={() => {
-                                    setResult({
-                                        products: [],
-                                        pagination: [],
-                                    });
-                                    setSearchKeyword('');
-                                    setShowSearch(false);
-                                }} />
+                            <div className='group w-10 h-10 hover:bg-slate-300 grid place-items-center'>
+                                <FontAwesomeIcon className="text-3xl group-hover:text-red-500" icon={faXmark}
+                                    onClick={() => {
+                                        dispatch(setShowSearch(false));
+                                    }} />
+                            </div>
                         </div>
                         <div ref={scrollToElement} className='overflow-auto'>
                             <div className={`w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
@@ -186,7 +177,11 @@ const SearchComponent = ({ show, setShowSearch }) => {
                             </div>
                         </div>
                     </div>
-                    <ScrollToTopButton scrollToElement={scrollToElement} />
+                    {result?.products.length <= 4 ?
+                        <></>
+                        :
+                        <ScrollToTopButton scrollToElement={scrollToElement} />
+                    }
                 </div>
             )}
         </Transition>

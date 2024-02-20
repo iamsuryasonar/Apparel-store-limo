@@ -27,7 +27,7 @@ function ProductPage() {
 
     useEffect(() => {
         getAProduct();
-    }, []);
+    }, [state]);
 
     useEffect(() => {
         const currentColorVariantIndex = product?.colorvariants?.reduce((acc, curr, index) => {
@@ -66,9 +66,9 @@ function ProductPage() {
         <div className="max-w-7xl w-full flex ">
             {product && <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 my-4'>
                 <div className="p-4 w-full h-min relative">
-                    <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
+                    {product?.tag && <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                         <p className='text-white text-sm font-light'>{product?.tag}</p>
-                    </div>
+                    </div>}
                     {product?.colorvariants[selectedColorVariantIndex]?.images && <ImageCarousal images={product?.colorvariants[selectedColorVariantIndex]?.images} />}
                 </div>
                 <div className="p-4 flex flex-col gap-4">
@@ -77,9 +77,10 @@ function ProductPage() {
                         <p className='text-slate-400 font-light text-sm'>{product?.category?.name}</p>
                     </div>
                     <div className='flex flex-col text-lg font-bold' >
-                        <div className='flex flex-row '>
+                        <div className='flex flex-row gap-1'>
                             <p className='line-through'>₹{product?.colorvariants[selectedColorVariantIndex]?.sizevariants[selectedSizeVariantIndex]?.mrp}</p>
                             <p>₹{product?.colorvariants[selectedColorVariantIndex]?.sizevariants[selectedSizeVariantIndex]?.selling_price}</p>
+                            <p className='text-green-500 text-sm'>{Math.round(100 * (product?.colorvariants[selectedColorVariantIndex]?.sizevariants[selectedSizeVariantIndex]?.mrp - product?.colorvariants[selectedColorVariantIndex]?.sizevariants[selectedSizeVariantIndex]?.selling_price) / product?.colorvariants[selectedColorVariantIndex]?.sizevariants[selectedSizeVariantIndex]?.mrp)}% Off</p>
                         </div>
                         <p className='text-slate-500 font-light text-sm'>Inclusive of All Taxes + Free Shipping</p>
                     </div>

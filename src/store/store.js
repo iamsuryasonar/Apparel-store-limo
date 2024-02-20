@@ -7,6 +7,7 @@ import categoriesReducer from "./slices/categorySlice";
 import productsByCategoryReducer from "./slices/productsByCategorySlice";
 import productsReducer from "./slices/productsSlice";
 import cartReducer from './slices/cartSlice';
+import searchReducer from "./slices/searchSlice";
 
 const reducer = {
     auth: authReducer,
@@ -16,6 +17,7 @@ const reducer = {
     products: productsReducer,
     productsByCategory: productsByCategoryReducer,
     cart: cartReducer,
+    search: searchReducer,
 }
 
 export const store = configureStore({
