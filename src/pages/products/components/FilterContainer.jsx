@@ -1,7 +1,7 @@
+import 'react-range-slider-input/dist/style.css';
+import RangeSlider from 'react-range-slider-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import RangeSlider from 'react-range-slider-input';
-import 'react-range-slider-input/dist/style.css';
 
 function FilterContainer({ setFilterContainerVisible, sortType, priceRange, activeFilters, minMaxValue, sortHandler, handleRangeChange, onDragEndHandler, removeFilterCriteria }) {
     return <div className='z-50 sm:z-0 fixed top-0 bottom-0 left-0 right-0 sm:sticky sm:top-32  sm:bottom-auto  sm:left-auto  sm:right-auto h-screen w-full sm:w-64 bg-slate-50'>

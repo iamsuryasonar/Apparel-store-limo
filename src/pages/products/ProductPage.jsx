@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import ProductsService from "../services/products.services";
-import { useLocation, useNavigate } from "react-router-dom";
-import ImageCarousal from "../components/ImageCarousal";
-import { addToCart } from "../store/slices/cartSlice";
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, useNavigate } from "react-router-dom";
+import ImageCarousal from "../../components/ImageCarousal";
+import { addToCart } from "../../store/slices/cartSlice";
+import ProductsService from "../../services/products.services";
+
 function ProductPage() {
     const user = useSelector((state) => state.auth.userData);
 

@@ -1,10 +1,10 @@
 import { useState, useMemo, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
-import { useNavigate } from 'react-router-dom';
 import { Transition } from 'react-transition-group';
+import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
 
 function Cart({ show, setToggleCart }) {
 

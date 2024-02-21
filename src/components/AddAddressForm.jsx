@@ -1,8 +1,8 @@
-import { faXmark } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
-import { STATES } from "../constants/constant";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import AddressServices from '../services/address.services'
+import { STATES } from "../constants/constant";
 
 function AddAddressForm({ setAddressFormVisible, editMode, editFormData }) {
     const [formData, setFormData] = useState({

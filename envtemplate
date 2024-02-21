@@ -1,0 +1,2 @@
+VITE_BASE_URL="base url of api"
+VITE_KEY="razorpay key"

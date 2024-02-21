@@ -1,6 +1,6 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux'
 import BottomAlert from '../components/BottomAlert'
-import { useEffect } from 'react';
 
 function ContactPage() {
     const message = useSelector((state) => state.message.message);

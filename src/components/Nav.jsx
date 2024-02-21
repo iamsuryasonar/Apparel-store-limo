@@ -1,14 +1,14 @@
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser, faMagnifyingGlass, faCartShopping, faXmark, faBars } from '@fortawesome/free-solid-svg-icons'
-import { Link, useLocation } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import Cart from '../components/Cart'
-import { useDispatch, useSelector } from 'react-redux';
-import LoadingBar from './LoadingBar';
-import { get_all_cart_items } from '../store/slices/cartSlice'
-import SearchComponent from './SearchComponent'
 import { Transition } from 'react-transition-group';
+import Cart from '../components/Cart'
+import LoadingBar from './LoadingBar';
+import SearchComponent from './SearchComponent'
 import { setShowSearch } from '../store/slices/searchSlice';
+import { get_all_cart_items } from '../store/slices/cartSlice'
 
 function Nav() {
     const location = useLocation();

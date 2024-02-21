@@ -1,19 +1,16 @@
-import CategoryCard from "../components/CategoryCard";
-import Subscribe from "../components/Subscribe";
-import InstagramWrapper from "../components/InstagramWrapper";
-import { useEffect, useRef } from 'react';
 import './HomePage.css'
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import BottomAlert from '../components/BottomAlert'
-import { get_categories } from '../store/slices/categorySlice'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faCreditCard, faRankingStar, faTruckFast } from "@fortawesome/free-solid-svg-icons";
-// import { faLinkedinIn, faInstagram, faYoutube } from '@fortawesome/free-solid-svg-icons'
-
+import CategoryCard from "../../components/CategoryCard";
+import Subscribe from "./components/Subscribe";
+import InstagramWrapper from "./components/InstagramWrapper";
+import BottomAlert from '../../components/BottomAlert'
+import { get_categories } from '../../store/slices/categorySlice'
 
 function HomePage() {
-
     const dispatch = useDispatch();
     const bannerRef = useRef(null);
     const productRef = useRef(null);

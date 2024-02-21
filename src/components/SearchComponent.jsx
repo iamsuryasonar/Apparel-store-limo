@@ -1,13 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Transition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { API_URL } from '../constants/constant';
 import axios from "axios";
 import ProductsComponent from '../components/ProductsComponent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
-import { useDispatch, useSelector } from 'react-redux';
 import { setShowSearch } from '../store/slices/searchSlice';
+import { API_URL } from '../constants/constant';
 
 const SearchComponent = () => {
     const [searchKeyword, setSearchKeyword] = useState('');

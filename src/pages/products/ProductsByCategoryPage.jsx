@@ -1,14 +1,12 @@
-import { useParams } from 'react-router-dom'
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { useState, useRef } from 'react';
-import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
 import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
+import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
 
 
 function ProductsByCategoryPage() {

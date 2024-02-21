@@ -1,10 +1,10 @@
-import { Link } from "react-router-dom";
-import { clearMessage } from "../store/slices/messageSlice";
-import { login } from "../store/slices/authSlice";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
-import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import BottomAlert from '../components/BottomAlert'
+import { login } from "../store/slices/authSlice";
+import { clearMessage } from "../store/slices/messageSlice";
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ function LogInPage() {
         }
       })
   };
-  
+
   useEffect(() => {
     window.scrollTo({
       top: 0,

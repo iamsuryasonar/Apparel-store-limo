@@ -1,11 +1,11 @@
-import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, useState, useRef } from 'react'
+import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { get_products, get_more_products } from '../../store/slices/productsSlice'
 import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
+import { get_products, get_more_products } from '../../store/slices/productsSlice'
 
 function ShopPage() {
     const dispatch = useDispatch();

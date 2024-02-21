@@ -1,7 +1,7 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
 import { useSelector } from "react-redux";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/home/HomePage";
 import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
 import ContactPage from "./pages/ContactPage";
@@ -10,8 +10,8 @@ import ShopPage from "./pages/products/ShopPage";
 import ProductsByCategoryPage from './pages/products/ProductsByCategoryPage'
 import PublicRoute from "./components/auth_guards/public_route";
 import PrivateRoute from "./components/auth_guards/private_route";
-import ProductPage from './pages/ProductPage'
-import AccountPage from "./pages/AccountPage";
+import ProductPage from './pages/products/ProductPage';
+import AccountPage from "./pages/account/AccountPage";
 import CheckOutPage from './pages/CheckOutPage'
 import OrderPlacedPage from './pages/OrderPlacedPage';
 

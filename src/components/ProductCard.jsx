@@ -13,7 +13,7 @@ function ProductCard({ product, index, arr }) {
         setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
     };
 
-    return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} w-full h-fit flex flex-col  border border-slate-200 cursor-pointer group`}
+    return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} w-full  flex flex-col  border border-slate-200 cursor-pointer group`}
         onClick={() => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
