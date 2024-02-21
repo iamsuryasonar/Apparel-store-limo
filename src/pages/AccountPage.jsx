@@ -101,7 +101,7 @@ function OrderHistory() {
 
   const navigate = useNavigate();
 
-  const [orders, setOrders] = useState([]);
+  const [orders, setOrders] = useState(null);
 
   const getOrders = async () => {
     const results = await OrderServices.getAllOrders();
@@ -113,14 +113,13 @@ function OrderHistory() {
   }, [])
 
   return (
-    <div className="my-4">
+    <div className="my-4 flex flex-col gap-4">
       <p className="text-5xl font-bold">Order History</p>
-      {orders?.length < 1 && <p>You haven't placed any orders yet.</p>}
-
       <div className="flex flex-col gap-4">
+        {orders && orders?.length < 1 && <p>You haven't placed any orders yet.</p>}
         {orders?.map((order) => {
           return (
-            <div key={order._id} className="flex items-start bg-slate-50 p-4 shadow-lg gap-4 cursor-pointer"
+            <div key={order._id} className="flex items-start rounded-md bg-slate-50 p-4 shadow-lg gap-4 cursor-pointer"
               onClick={() => {
                 navigate(`/product/${order?.item.product._id}`, {
                   state: { colorVariantId: order?.item?.colorvariant?._id, sizeVariantId: order?.item?.sizevariant?._id, productId: order?.item.product._id }
@@ -133,10 +132,11 @@ function OrderHistory() {
               <div className="">
                 <p className="text-xl font-medium">{order.item.product.name}</p>
                 <div className="flex flex-row justify-between">
+                  <p>₹ {order.lockedprice}</p>
                   <p>size: {order.item.sizevariant.name}</p>
                   <p>QTY: {order.item.quantity}</p>
                 </div>
-                <p>₹ {order.lockedprice}</p>
+                <p> Total: ₹ {order.totalamount}</p>
                 <p>Address Info</p>
                 <span>{order.name}, </span>
                 <span>{order.contact_number}, </span>
@@ -157,17 +157,11 @@ function OrderHistory() {
 function Addresses() {
   const [addressFormVisible, setAddressFormVisible] = useState(false);
   const [editMode, setEditMode] = useState(false);
-  const [addresses, setAddresses] = useState([]);
+  const [addresses, setAddresses] = useState(null);
   const [editFormData, setEditFormData] = useState(null);
 
   const getAddresses = async () => {
     const response = await AddressServices.getAllAddresses();
-    // console.log("Address log" + response);
-    // response.forEach((address) => {
-    //   console.log("Address:", address);
-    //   console.log("ID:", address._id);
-    //   console.log("Name:", address.name);
-    // });
     setAddresses(response);
   };
 
@@ -208,7 +202,7 @@ function Addresses() {
         </button>
       </div>
       <div className="flex flex-col gap-4">
-        {addresses?.length === 0 ? (
+        {addresses && addresses?.length === 0 ? (
           <div className="flex flex-col mt-20 justify-center items-center">
             <p>No Address Found</p>
           </div>
@@ -217,7 +211,7 @@ function Addresses() {
             return (
               <div
                 key={address._id}
-                className="relative flex flex-row justify-between p-2  shadow-lg bg-slate-100 rounded-md"
+                className="flex flex-row justify-between rounded-md bg-slate-50 p-4 shadow-lg gap-4 cursor-pointer"
               >
                 <div className="flex flex-col">
                   <p>
