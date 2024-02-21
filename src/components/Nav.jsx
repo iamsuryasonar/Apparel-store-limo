@@ -1,11 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faMagnifyingGlass, faCartShopping, faXmark, faBars, faSignOut } from '@fortawesome/free-solid-svg-icons'
+import { faUser, faMagnifyingGlass, faCartShopping, faXmark, faBars } from '@fortawesome/free-solid-svg-icons'
 import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import Cart from '../components/Cart'
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingBar from './LoadingBar';
-import SignoutModal from './SignoutModal'
 import { get_all_cart_items } from '../store/slices/cartSlice'
 import SearchComponent from './SearchComponent'
 import { Transition } from 'react-transition-group';
@@ -17,11 +16,9 @@ function Nav() {
     const dispatch = useDispatch();
     const [toggleCart, setToggleCart] = useState(false);
     const [menu, setMenu] = useState(false);
-    const [isLogoutModal, setIsLogoutModal] = useState(false);
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-    // const [showSearch, setShowSearch] = useState(false);
 
     let navItems = [
         {
@@ -99,16 +96,6 @@ function Nav() {
                         </div>
                     }
 
-                    {/* signout button */}
-                    {user &&
-                        <div className='hidden md:grid group w-10 h-10 hover:bg-slate-200  place-items-center '>
-                            <FontAwesomeIcon className="text-2xl  group-hover:text-red-700 " onClick={() => setIsLogoutModal(true)} icon={faSignOut} />
-                            {isLogoutModal &&
-                                <SignoutModal isLogoutModal={isLogoutModal} setIsLogoutModal={setIsLogoutModal} />
-                            }
-                        </div>
-                    }
-
                     {/* mobile menu toggle */}
                     <div className='md:hidden group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
                         <FontAwesomeIcon className="text-2xl group-hover:text-blue-500 place-self-center" icon={faBars} onClick={() => toggleMenu()} />
@@ -132,14 +119,6 @@ function Nav() {
                                 navItems.map((item) => {
                                     return <Link key={item.id} to={item.path} onClick={() => toggleMenu()} className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out  ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
                                 })
-                            }
-                            {user &&
-                                <div className='grid group w-10 h-10 hover:bg-slate-200  place-items-center '>
-                                    <FontAwesomeIcon className="text-xl group-hover:text-red-700" onClick={() => setIsLogoutModal(true)} icon={faSignOut} />
-                                    {isLogoutModal &&
-                                        <SignoutModal isLogoutModal={isLogoutModal} setIsLogoutModal={setIsLogoutModal} />
-                                    }
-                                </div>
                             }
                         </div>
                     )}

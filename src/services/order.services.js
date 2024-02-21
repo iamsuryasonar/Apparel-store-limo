@@ -10,21 +10,14 @@ const getheaders = () => {
     return headers
 }
 
-const orderPayment = async () => {
+const getAllOrders = async () => {
     const response = await axios
-        .post(API_URL + 'payment/', {}, { headers: getheaders() })
+        .get(API_URL + 'order/orders/ordered', { headers: getheaders() })
     return response.data.results
 }
 
-const validatePayment = async (data) => {
-    const response = await axios
-        .post(API_URL + 'payment/validate_payment/', data, { headers: getheaders() })
-    return response.data
+const OrderServices = {
+    getAllOrders,
 }
 
-const PaymentServices = {
-    orderPayment,
-    validatePayment
-}
-
-export default PaymentServices;
+export default OrderServices;

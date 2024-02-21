@@ -7,10 +7,14 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState, useEffect } from "react";
 import AddAddressForm from "../components/AddAddressForm";
 import AddressServices from "../services/address.services";
+import OrderServices from "../services/order.services";
+import { useNavigate } from "react-router-dom";
+import SignoutModal from '../components/SignoutModal';
 
 function AccountPage() {
   const [menu, setMenu] = useState(false);
   const [activeMenu, setActiveMenu] = useState(0);
+  const [isLogoutModal, setIsLogoutModal] = useState(false);
 
   useEffect(() => {
     window.scrollTo({
@@ -33,6 +37,8 @@ function AccountPage() {
   ];
 
   const Component = options[activeMenu].component;
+
+
 
   return (
     <>
@@ -73,11 +79,14 @@ function AccountPage() {
               );
             })}
             <p
-              onClick={() => {}}
+              onClick={() => setIsLogoutModal(true)}
               className="w-full py-2 p-4 bg-slate-50 hover:bg-slate-300 border cursor-pointer"
             >
               Log out
             </p>
+            {isLogoutModal &&
+              <SignoutModal isLogoutModal={isLogoutModal} setIsLogoutModal={setIsLogoutModal} />
+            }
           </>
         )}
         {<Component />}
@@ -89,32 +98,58 @@ function AccountPage() {
 export default AccountPage;
 
 function OrderHistory() {
-  const orderHistory = [
-    // {
-    //     id: 1,
-    //     name: 'Product name',
-    //     price: 1200,
-    //     image: '',
-    // }
-  ];
+
+  const navigate = useNavigate();
+
+  const [orders, setOrders] = useState([]);
+
+  const getOrders = async () => {
+    const results = await OrderServices.getAllOrders();
+    setOrders(results);
+  }
+
+  useEffect(() => {
+    getOrders();
+  }, [])
+
   return (
     <div className="my-4">
       <p className="text-5xl font-bold">Order History</p>
-      <p>You haven't placed any orders yet.</p>
+      {orders?.length < 1 && <p>You haven't placed any orders yet.</p>}
 
-      {orderHistory.map((order) => {
-        return (
-          <div className="flex justify-between items-center bg-slate-50 p-2 shadow-xl">
-            <div className="w-32 aspect-square bg-white">
-              <img src={order.image}></img>
+      <div className="flex flex-col gap-4">
+        {orders?.map((order) => {
+          return (
+            <div key={order._id} className="flex items-start bg-slate-50 p-4 shadow-lg gap-4 cursor-pointer"
+              onClick={() => {
+                navigate(`/product/${order?.item.product._id}`, {
+                  state: { colorVariantId: order?.item?.colorvariant?._id, sizeVariantId: order?.item?.sizevariant?._id, productId: order?.item.product._id }
+                })
+              }}
+            >
+              <div className="w-52  bg-white">
+                <img className='aspect-square object-cover' src={order.item.colorvariant.images[0].url}></img>
+              </div>
+              <div className="">
+                <p className="text-xl font-medium">{order.item.product.name}</p>
+                <div className="flex flex-row justify-between">
+                  <p>size: {order.item.sizevariant.name}</p>
+                  <p>QTY: {order.item.quantity}</p>
+                </div>
+                <p>₹ {order.lockedprice}</p>
+                <p>Address Info</p>
+                <span>{order.name}, </span>
+                <span>{order.contact_number}, </span>
+                <span>{order.house_number}, </span>
+                <span>{order.city}, </span>
+                <span>{order.pin}, </span>
+                <span>{order.state} ...</span>
+                <p className="bg-green-500 px-2 py-1 text-white">{order.status}</p>
+              </div>
             </div>
-            <div>
-              <p>{order.name}</p>
-              <p>{order.price}</p>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -162,18 +197,17 @@ function Addresses() {
   }
 
   return (
-    <div className="my-4 flex flex-col md:flex-col">
-      <div className="flex flex-col md:flex-row  justify-between md:items-center">
+    <div className="my-4 flex flex-col md:flex-col  gap-4">
+      <div className="flex flex-col md:flex-row  justify-between md:items-center gap-2">
         <p className="text-5xl font-bold">Your Addresses</p>
         <button
           onClick={handleAddressAdd}
-          className="bg-black text-white p-2 self-start m-2"
+          className="bg-black text-white p-2 self-start"
         >
           Add a new Address
         </button>
       </div>
-      <div>
-        {/* todo fetch list of addresses */}
+      <div className="flex flex-col gap-4">
         {addresses?.length === 0 ? (
           <div className="flex flex-col mt-20 justify-center items-center">
             <p>No Address Found</p>
@@ -183,7 +217,7 @@ function Addresses() {
             return (
               <div
                 key={address._id}
-                className="relative flex flex-row justify-between m-1 p-2 gap-2 shadow-xl bg-slate-100 rounded-md "
+                className="relative flex flex-row justify-between p-2  shadow-lg bg-slate-100 rounded-md"
               >
                 <div className="flex flex-col">
                   <p>
@@ -196,23 +230,23 @@ function Addresses() {
                   <p>{address.landmark}</p>
                   <p>{address.town}, {address.pin}</p>
                   <p>{address.city}, {address.state}, {address.country}</p>
-                 <div className="flex gap-2 mt-2 mb-1"> 
-                 <button
-                    onClick={() => {
-                      handleAddressDelete(address);
-                    }}
-                    className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-red-700 hover:text-white "
-                  >
-                    Remove
-                  </button>
-            
-                 <button
-                    onClick={() => handleAddressEdit(address)}
-                    className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-amber-600 hover:text-white "
-                  >
-                    Edit
-                  </button>
-                 </div>
+                  <div className="flex gap-2 mt-2 mb-1">
+                    <button
+                      onClick={() => {
+                        handleAddressDelete(address);
+                      }}
+                      className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-red-700 hover:text-white "
+                    >
+                      Remove
+                    </button>
+
+                    <button
+                      onClick={() => handleAddressEdit(address)}
+                      className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-amber-600 hover:text-white "
+                    >
+                      Edit
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -221,7 +255,7 @@ function Addresses() {
       </div>
 
       {addressFormVisible && (
-        <AddAddressForm setAddressFormVisible={setAddressFormVisible} editMode={editMode} editFormData={editFormData}/>
+        <AddAddressForm setAddressFormVisible={setAddressFormVisible} editMode={editMode} editFormData={editFormData} />
       )}
     </div>
   );
