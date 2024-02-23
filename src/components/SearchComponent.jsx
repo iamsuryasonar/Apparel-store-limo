@@ -171,7 +171,7 @@ const SearchComponent = () => {
                                     }} />
                             </div>
                         </div>
-                        <div ref={scrollToElement} className='overflow-auto'>
+                        <div ref={scrollToElement} className='overflow-auto scrollbar'>
                             <div className={`w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
                                 <ProductsComponent products={result} />
                             </div>

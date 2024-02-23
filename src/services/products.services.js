@@ -15,8 +15,6 @@ const getProduct = async (id) => {
     return response.data.results
 }
 
-
-
 const getProducts = async (data) => {
     const response = await axios
         .get(API_URL + 'product/public/products', {
@@ -31,9 +29,18 @@ const getProducts = async (data) => {
     return response.data.results
 }
 
+const getProductsByTag = async (tag) => {
+    const response = await axios
+        .get(API_URL + 'product/tag/' + tag, {
+            headers: getheaders()
+        })
+    return response.data.results
+}
+
 const ProductsService = {
     getProduct,
     getProducts,
+    getProductsByTag
 }
 
 export default ProductsService;

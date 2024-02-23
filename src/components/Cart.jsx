@@ -114,7 +114,7 @@ function Cart({ show, setToggleCart }) {
                             </div>
                             <div className='h-[1px] bg-black w-full'></div>
                         </div>
-                        <div className='h-full flex flex-col gap-4 overflow-auto overscroll-none p-2'>
+                        <div className='h-full flex flex-col gap-4 overflow-auto scrollbar overscroll-none p-2'>
                             {cartItems?.length === 0 ?
                                 (
                                     <div className="flex flex-col mt-20 justify-center items-center">

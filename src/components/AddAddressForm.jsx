@@ -41,7 +41,7 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData }) {
         setAddressFormVisible(false);   
     }
 
-    return <div className="z-10 fixed top-20 bottom-0 right-0 left-0 bg-white p-4 flex flex-col items-center overflow-scroll">
+    return <div className="z-10 fixed top-20 bottom-0 right-0 left-0 bg-white p-4 flex flex-col items-center overflow-scroll scrollbar">
         <div className="max-w-xl w-full flex flex-col gap-4">
             <div className="flex justify-between items-center">
                 <p className="my-4 text-3xl font-bold ">{editMode ? 'UPDATE ADDRESS' : 'ADD A NEW ADDRESS'}</p>

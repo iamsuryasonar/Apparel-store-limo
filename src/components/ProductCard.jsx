@@ -13,7 +13,8 @@ function ProductCard({ product, index, arr }) {
         setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
     };
 
-    return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} w-full  flex flex-col  border border-slate-200 cursor-pointer group`}
+    // scroll-container class is just to observe the last 3rd project and load more projects(for pagination)
+    return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} w-full h-full flex flex-col   cursor-pointer group`}
         onClick={() => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
