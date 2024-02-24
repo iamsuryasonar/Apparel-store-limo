@@ -5,7 +5,6 @@ import ProductCard from './ProductCard';
 
 function ProductCarousel({ products }) {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
-
     const containerRef = useRef(null);
     const [startX, setStartX] = useState(null);
     const [swipeType, setSwipeType] = useState('');
@@ -59,7 +58,7 @@ function ProductCarousel({ products }) {
             onTouchEnd={handleTouchEnd}
         >
             {products?.map((product, index) => {
-                return <div style={{ translate: `${-100 * currentProductIndex}%`, transition: 'translate 300ms ease-in-out' }} className={`w-full h-full shrink-0 grow-0 flex items-center justify-center`}>
+                return <div key={index} style={{ translate: `${-100 * currentProductIndex}%`, transition: 'translate 700ms ease-in-out' }} className={`w-full h-full shrink-0 grow-0 flex items-center justify-center`}>
                     <ProductCard key={index} product={product} index={index} arr={products} />
                 </div>
             })}

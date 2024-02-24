@@ -15,12 +15,16 @@ function ImageCarousal({ images }) {
     const nextImageHandler = () => {
         if (currentImage < images.length - 1) {
             setCurrentImage(currentImage + 1);
+        } else {
+            setCurrentImage(0)
         }
     }
 
     const prevImageHandler = () => {
         if (currentImage > 0) {
             setCurrentImage(currentImage - 1);
+        } else {
+            setCurrentImage(images.length - 1)
         }
     }
     const handleImageLoad = (index) => {
@@ -56,9 +60,12 @@ function ImageCarousal({ images }) {
 
     return <>
         {
-            <span className='w-full h-full flex relative overflow-hidden'>
+            <div ref={containerRef}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd} className='w-full h-full flex relative overflow-hidden'>
                 {images?.map((image, index) => {
-                    return <img src={image?.url} style={{ translate: `${-100 * currentImage}%`, transition: 'translate 300ms ease-in-out' }} className={`shrink-0 grow-0  object-cover w-full h-full`} onLoad={() => handleImageLoad(index)} />
+                    return <img key={image?.url} src={image?.url} style={{ translate: `${-100 * currentImage}%`, transition: 'translate 700ms ease-in-out' }} className={`shrink-0 grow-0  object-cover w-full h-full`} onLoad={() => handleImageLoad(index)} />
                 })}
                 <div className='absolute top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2'>
                     {!loadedImages.includes(currentImage) ? <div className={`w-12 h-12 rounded-full animate-spin border-8 border-dashed border-t-transparent`}></div> : <></>}
@@ -73,7 +80,7 @@ function ImageCarousal({ images }) {
                 >
                     <FontAwesomeIcon icon={faCircleChevronRight} />
                 </button>
-            </span>
+            </div>
 
         }
         <div className='w-full flex flex-row gap-2 mt-4 justify-end'>

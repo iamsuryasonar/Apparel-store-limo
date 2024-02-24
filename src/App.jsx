@@ -14,6 +14,7 @@ import ProductPage from './pages/products/ProductPage';
 import AccountPage from "./pages/account/AccountPage";
 import CheckOutPage from './pages/CheckOutPage'
 import OrderPlacedPage from './pages/OrderPlacedPage';
+import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
@@ -29,6 +30,7 @@ function App() {
         <Route path="/products/:id" element={<ProductsByCategoryPage />} />
         <Route path="/contact-us" element={<ContactPage />} />
         <Route path="/shop" element={<ShopPage />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
         <Route element={<PrivateRoute userData={userData} />}>
           <Route path="/account" element={<AccountPage />}></Route>
