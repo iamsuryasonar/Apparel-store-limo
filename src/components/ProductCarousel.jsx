@@ -7,21 +7,41 @@ function ProductCarousel({ products }) {
     const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const containerRef = useRef(null);
     const [startX, setStartX] = useState(null);
-    const [swipeType, setSwipeType] = useState('');
-
+    const [swipeType, setSwipeType] = useState("");
+    const [direction, setDirection] = useState(null);
 
     // carousal handlers
     const nextProductHandler = () => {
-        if (currentProductIndex < products.length - 1) {
-            setCurrentProductIndex(currentProductIndex + 1);
-        }
-    }
+
+        setDirection(-1); // setting direction of item transition, in this case it is ascending order
+
+        containerRef.current.style.justifyContent = 'flex-start';
+        containerRef.current.style.transform = `translate(-100%)`;
+        setCurrentProductIndex((Math.abs(currentProductIndex + 1) % products.length));
+    };
 
     const prevProductHandler = () => {
-        if (currentProductIndex > 0) {
-            setCurrentProductIndex(currentProductIndex - 1);
+        if (direction === -1) {
+
+            // while direction is changed justifyContent is set to flex-end 
+            // which takes the whole array of divs as it is and places the end of it to the visible viewport (ie. the carousel div)
+            // But below you can see just after setting flex-end we are setting translate to 100%
+            // this causes the visible viewport to shift one more time unnecessarily.
+            // which could be solved by just reversing the translate operation we did, 
+            // that is by appending child to end of the containerDiv
+
+            const firstElement = containerRef.current.firstElementChild;
+            containerRef.current.appendChild(firstElement);
         }
-    }
+
+        setDirection(1);// setting direction of item transition, in this case it is decending order
+
+        containerRef.current.style.justifyContent = 'flex-end';
+        containerRef.current.style.transform = `translate(100%)`;
+        setCurrentProductIndex(Math.abs((currentProductIndex - 1) % products.length));
+    };
+
+
 
     //swipe handlers
     const handleTouchStart = (e) => {
@@ -34,55 +54,206 @@ function ProductCarousel({ products }) {
         const diffX = currentX - startX;
 
         if (diffX > 0) {
-            setSwipeType('RIGHT')
+            setSwipeType("RIGHT");
         } else if (diffX < 0) {
-            setSwipeType('LEFT')
+            setSwipeType("LEFT");
         }
     };
 
     const handleTouchEnd = (e) => {
         setStartX(null);
-        if (swipeType === 'RIGHT') {
-            prevProductHandler()
-        } else if (swipeType === 'LEFT') {
-            nextProductHandler()
+        if (swipeType === "RIGHT") {
+            prevProductHandler();
+        } else if (swipeType === "LEFT") {
+            nextProductHandler();
         }
-        setSwipeType('');
+        setSwipeType("");
     };
 
-    return <>
-        <div className='w-full h-full flex relative overflow-hidden'
-            ref={containerRef}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
+
+    const handleTransitionEnd = () => {
+        if (containerRef.current) {
+
+            const firstElement = containerRef.current.firstElementChild;// getting the first element
+            const lastElement = containerRef.current.lastElementChild;// getting the last element
+
+            if (direction === -1 && firstElement) {
+                containerRef.current.appendChild(firstElement);
+            }
+
+            if (direction === 1 && lastElement) {
+                containerRef.current.prepend(lastElement);
+            }
+
+            // translate needs reset after transition but without another transition
+            //  which is why transition is set to none
+            containerRef.current.style.transition = 'none';
+            containerRef.current.style.transform = `translate(0)`;
+
+            setTimeout(() => {
+                // javascript tends to execute this transition too fast, so iykiyk
+                containerRef.current.style.transition = 'all 700ms ease-in-out'
+            });
+        }
+    };
+
+    const jumpToHandler = (index) => {
+        if (index < currentProductIndex) {
+            prevProductHandler()
+        }
+
+        if (index > currentProductIndex) {
+            nextProductHandler()
+        }
+    }
+
+    useEffect(() => {
+        const intervalId = setInterval(() => {
+            nextProductHandler()
+        }, 5000)
+        return () => clearInterval(intervalId);
+    }, [])
+
+    return (
+        <div
+            className="container"
+            style={{
+                width: "100%",
+                height: "100%",
+            }}
         >
-            {products?.map((product, index) => {
-                return <div key={index} style={{ translate: `${-100 * currentProductIndex}%`, transition: 'translate 700ms ease-in-out' }} className={`w-full h-full shrink-0 grow-0 flex items-center justify-center`}>
-                    <ProductCard key={index} product={product} index={index} arr={products} />
-                </div>
-            })}
-            <button className=' active:text-teal-500 text-white text-3xl w-8 h-8 absolute top-1/2 bottom-1/2 left-1 -translate-y-1/2 flex items-center justify-center'
-                onClick={prevProductHandler}
+            <div
+                className="carousel"
+                style={{
+                    width: "100%",
+                    height: "100%",
+                    borderRadius: '3px',
+                    display: 'flex',
+                    position: 'relative',
+                    overflow: 'hidden',
+                }}
             >
-                <FontAwesomeIcon icon={faCircleChevronLeft} />
-            </button>
-            <button className=' active:text-teal-500 text-white text-3xl w-8 h-8 absolute top-1/2 bottom-1/2 right-1 -translate-y-1/2 flex items-center justify-center'
-                onClick={nextProductHandler}
-            >
-                <FontAwesomeIcon icon={faCircleChevronRight} />
-            </button>
-        </div>
-        <div className='w-full flex flex-row gap-2 mt-2 justify-end'>
-            {products?.map((product, index) => {
-                return <div key={index} className={`w-3 h-3  border-2 border-black rounded-full ${currentProductIndex === index ? 'bg-black' : 'bg-white'}`}
-                    onClick={() => {
-                        setCurrentProductIndex(index)
+                <div
+                    className="slider"
+                    ref={containerRef}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                    style={{
+                        width: "100%",
+                        height: "100%",
+                        display: "flex",
+                        position: "relative",
+                        transition: "all 700ms",
                     }}
-                />
-            })}
+                    onTransitionEnd={handleTransitionEnd}
+                >
+                    {
+                        products?.map((product, index) => {
+                            return (
+                                <div
+                                    key={index}
+                                    style={{
+                                        flexShrink: 0,
+                                        flexGrow: 0,
+                                        width: "100%",
+                                    }}
+                                >
+                                    <ProductCard key={index} product={product} index={index} arr={products} />
+                                </div>
+                            )
+                        })
+                    }
+                </div>
+                <div className="controls">
+                    <FontAwesomeIcon
+                        className='text-white active:text-teal-500 hover:text-teal-500 cursor-pointer'
+                        style={{
+                            textDecoration: "none",
+                            backgroundColor: "transparent",
+                            fontSize: "1.875rem",
+                            width: "2rem",
+                            height: "2rem",
+                            position: "absolute",
+                            top: "50%",
+                            bottom: "50%",
+                            left: "5px",
+                            transform: "translateY(-50%)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                        onClick={prevProductHandler}
+                        icon={faCircleChevronLeft}
+                    />
+
+                    <FontAwesomeIcon
+                        className='text-white active:text-teal-500 hover:text-teal-500 cursor-pointer'
+                        style={{
+                            backgroundColor: "transparent",
+                            fontSize: "1.875rem",
+                            width: "2rem",
+                            height: "2rem",
+                            position: "absolute",
+                            top: "50%",
+                            bottom: "50%",
+                            right: "5px",
+                            transform: "translateY(-50%)",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                        }}
+                        onClick={nextProductHandler}
+                        icon={faCircleChevronRight}
+                    />
+                </div>
+                {/* <div style={{
+                    position: 'absolute',
+                    bottom: '10px',
+                    right: 0,
+                    left: 0,
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: '10px'
+                }}>
+                    {products.map((_, index) => {
+                        return (
+                            <div
+                                key={index}
+                                style={{
+                                    width: "10px",
+                                    height: "10px",
+                                    boxShadow: "1px 1px 2px rgba(0,0,0,.9)",
+                                    borderRadius: "50%",
+                                    cursor: "pointer",
+                                    objectFit: "cover",
+                                    ...(currentProductIndex === index
+                                        ? {
+                                            border: "3px solid white",
+                                            backgroundColor: "#ffffff",
+                                        }
+                                        : {
+                                            border: "3px solid gray",
+                                        }),
+                                }}
+                                onClick={() => {
+                                    jumpToHandler(index);
+                                }}
+                            ></div>
+                        );
+                    })} 
+                </div>*/}
+            </div>
         </div>
-    </>
+    );
 }
 
 export default ProductCarousel;
+
+// {
+//     products?.map((product, index) => {
+//         return <div key={index} style={{ translate: `${-100 * currentProductIndex}%`, transition: 'translate 700ms ease-in-out' }} className={`w-full h-full shrink-0 grow-0 flex items-center justify-center`}>
+//             <ProductCard key={index} product={product} index={index} arr={products} />
+//         </div>
+//     })
+// }

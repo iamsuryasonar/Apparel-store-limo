@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCartShopping, faCreditCard, faRankingStar, faTruckFast, faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faCartShopping, faCreditCard, faRankingStar, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 import CategoryCard from "../../components/CategoryCard";
 import Subscribe from "./components/Subscribe";
 import InstagramWrapper from "./components/InstagramWrapper";
@@ -22,10 +22,6 @@ function HomePage() {
     const categories = useSelector((state) => state.categories.categories);
     const [newArrivedProducts, setNewArrivedproducts] = useState(null)
     const [bannerImageLoaded, setBannerImageLoaded] = useState(false);
-
-    const handleBannerImage = () => {
-        setBannerImageLoaded(true);
-    };
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -71,37 +67,36 @@ function HomePage() {
 
     return (
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
-            <div ref={bannerRef} id="banner-section" className="w-full h-full aspect-[700/320]">
+            <div ref={bannerRef} id="banner-section" className="w-full h-[320px]">
                 {
                     !bannerImageLoaded && <div className='absolute w-full h-full aspect-[700/320] bg-slate-300 animate-pulse'>
                     </div>
                 }
-                <img onLoad={() => handleBannerImage()} className='h-[20rem] w-full object-cover' src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
+                <img onLoad={() => setBannerImageLoaded(true)} className='h-[20rem] w-full object-cover' src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
             </div>
 
-            <div ref={productRef} id="product-section" className="w-11/12   gap-8 grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid md:grid-cols-3  lg:grid lg:grid-cols-4 justify-center">
+            <div ref={productRef} id="product-section" className="w-11/12 gap-8 grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid md:grid-cols-3  lg:grid lg:grid-cols-4 justify-center">
                 {categories && categories?.map((category) => {
                     return <CategoryCard key={category._id} category={category} />
                 })}
             </div>
-
-            <p className='px-6 self-start text-3xl font-sans underline underline-offset-8 '>New Arrivals</p>
-            <div className='self-end w-9/12 h-full p-6 flex flex-col md:hidden'>
-                {newArrivedProducts &&
-                    <ProductCarousel products={newArrivedProducts} />
-                }
-            </div>
-
-            <div className='hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-4'>
-                {newArrivedProducts && newArrivedProducts?.map((product, index) => {
-                    return <ProductCard key={index} product={product} index={index} arr={newArrivedProducts} />
-                })}
-            </div>
-
-            <div className="w-full">
-                <img className="w-full h-[28rem] object-cover" src='https://plus.unsplash.com/premium_photo-1674748732558-ec38737e30ee?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
-                <img className="w-full h-[22rem] object-cover" src='https://plus.unsplash.com/premium_photo-1674921631244-66e47b989131?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
-            </div>
+            {bannerImageLoaded &&
+                <>
+                    <div className='bg-slate-100 w-full min-h-[400px] p-10 flex flex-col items-center justify-center gap-4'>
+                        <p className="self-start text-3xl font-bold ">New Arrivals</p>
+                        <div className='w-9/12 h-full p-2 flex flex-col md:hidden'>
+                            {newArrivedProducts &&
+                                <ProductCarousel products={newArrivedProducts} />
+                            }
+                        </div>
+                        <div className='hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-4'>
+                            {newArrivedProducts && newArrivedProducts?.map((product, index) => {
+                                return <ProductCard key={index} product={product} index={index} arr={newArrivedProducts} />
+                            })}
+                        </div>
+                    </div>
+                </>
+            }
 
             <InstagramWrapper instagramWrapperRef={instagramWrapperRef} />
 

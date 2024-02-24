@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
-import ImageCarousal from "../../components/ImageCarousal";
+import ImageCarousel from "../../components/ImageCarousel";
 import { addToCart } from "../../store/slices/cartSlice";
 import ProductsService from "../../services/products.services";
 
@@ -69,7 +69,7 @@ function ProductPage() {
                     {product?.tag && <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                         <p className='text-white text-sm font-light'>{product?.tag}</p>
                     </div>}
-                    {product?.colorvariants[selectedColorVariantIndex]?.images && <ImageCarousal images={product?.colorvariants[selectedColorVariantIndex]?.images} />}
+                    {product?.colorvariants[selectedColorVariantIndex]?.images && <ImageCarousel images={product?.colorvariants[selectedColorVariantIndex]?.images} />}
                 </div>
                 <div className="p-4 flex flex-col gap-4">
                     <div className='flex flex-col'>

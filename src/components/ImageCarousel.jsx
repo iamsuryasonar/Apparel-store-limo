@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
 
 
-function ImageCarousal({ images }) {
+function ImageCarousel({ images }) {
     const [currentImage, setCurrentImage] = useState(0);
     const [loadedImages, setLoadedImages] = useState([]);
 
@@ -95,4 +95,4 @@ function ImageCarousal({ images }) {
     </>
 }
 
-export default ImageCarousal;
+export default ImageCarousel;
