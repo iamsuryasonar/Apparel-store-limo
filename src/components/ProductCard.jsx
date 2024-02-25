@@ -24,7 +24,7 @@ function ProductCard({ product, index, arr }) {
         }}>
         {
             loadedImages.includes(product?.image?._id) ? <></> : <div className='absolute top-[50%]  right-[50%] -translate-y-1/2 translate-x-1/2 aspect-square flex flex-col justify-center items-center'>
-                <div className='w-12 h-12 bg-transparent rounded-full border-black animate-spin border-8 border-dashed border-t-transparent'></div>
+                <div className='w-8 h-8 bg-transparent rounded-full border-black animate-spin border-2 border-dashed border-t-transparent'></div>
             </div>
         }
         <img className=' object-cover w-full h-full' src={product?.image?.url} onLoad={() => handleImageLoad(product?.image?._id)} />

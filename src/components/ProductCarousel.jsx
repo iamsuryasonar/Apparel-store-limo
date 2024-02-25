@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from './ProductCard';
 
 function ProductCarousel({ products }) {
@@ -97,20 +97,10 @@ function ProductCarousel({ products }) {
         }
     };
 
-    const jumpToHandler = (index) => {
-        if (index < currentProductIndex) {
-            prevProductHandler()
-        }
-
-        if (index > currentProductIndex) {
-            nextProductHandler()
-        }
-    }
-
     useEffect(() => {
         const intervalId = setInterval(() => {
             nextProductHandler()
-        }, 5000)
+        }, 2000)
         return () => clearInterval(intervalId);
     }, [])
 
@@ -184,7 +174,7 @@ function ProductCarousel({ products }) {
                             justifyContent: "center",
                         }}
                         onClick={prevProductHandler}
-                        icon={faCircleChevronLeft}
+                        icon={faCaretLeft}
                     />
 
                     <FontAwesomeIcon
@@ -204,7 +194,7 @@ function ProductCarousel({ products }) {
                             justifyContent: "center",
                         }}
                         onClick={nextProductHandler}
-                        icon={faCircleChevronRight}
+                        icon={faCaretRight}
                     />
                 </div>
                 {/* <div style={{

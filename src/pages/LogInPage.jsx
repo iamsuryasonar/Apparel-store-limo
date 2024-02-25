@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import BottomAlert from '../components/BottomAlert'
 import { login } from "../store/slices/authSlice";
-import { clearMessage } from "../store/slices/messageSlice";
+import { clearMessage, setMessage } from "../store/slices/messageSlice";
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -26,6 +26,23 @@ function LogInPage() {
 
   const logInHandler = (e) => {
     e.preventDefault();
+
+    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (!regex.test(input?.email)) {
+      dispatch(setMessage('Please enter a valid email address'))
+      setTimeout(() => {
+        dispatch(clearMessage());
+      }, 1000);
+      return;
+    }
+    if (input?.password === '' || input.password === undefined || input?.password?.length < 6) {
+      dispatch(setMessage('Password must be at least 6 characters long'));
+      setTimeout(() => {
+        dispatch(clearMessage());
+      }, 1000);
+      return;
+    }
+
     dispatch(login(input))
       .unwrap()
       .then(() => {

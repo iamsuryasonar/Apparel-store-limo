@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleChevronLeft, faCircleChevronRight } from "@fortawesome/free-solid-svg-icons";
+import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 
 function ImageCarousel({ images }) {
@@ -73,12 +73,12 @@ function ImageCarousel({ images }) {
                 <button className=' active:text-teal-500 text-black text-3xl w-8 h-8 absolute top-1/2 bottom-1/2 left-1 -translate-y-1/2 flex items-center justify-center'
                     onClick={prevImageHandler}
                 >
-                    <FontAwesomeIcon icon={faCircleChevronLeft} />
+                    <FontAwesomeIcon icon={faCaretLeft} />
                 </button>
                 <button className=' active:text-teal-500 text-black text-3xl w-8 h-8 absolute top-1/2 bottom-1/2 right-1 -translate-y-1/2 flex items-center justify-center'
                     onClick={nextImageHandler}
                 >
-                    <FontAwesomeIcon icon={faCircleChevronRight} />
+                    <FontAwesomeIcon icon={faCaretRight} />
                 </button>
             </div>
 
