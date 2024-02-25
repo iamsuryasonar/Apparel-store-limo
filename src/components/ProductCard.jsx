@@ -33,7 +33,7 @@ function ProductCard({ product, index, arr }) {
                 <p className='text-white text-xs'>{Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off</p>
             </div> : <></>
         }
-        <div className='flex flex-col justify-between w-full h-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
+        <div className='flex flex-col justify-between w-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
             <p className='text-sm font-semibold'>{product?.name}</p>
             <div>
                 <p className='text-slate-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
