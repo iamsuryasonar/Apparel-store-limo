@@ -3,15 +3,17 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import BottomAlert from '../components/BottomAlert'
 import { register } from '../store/slices/authSlice'
-import { clearMessage } from '../store/slices/messageSlice'
+import { clearMessage, setMessage } from '../store/slices/messageSlice'
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function RegisterPage() {
 
     const dispatch = useDispatch();
 
     const [input, setInput] = useState({});
-    const [successful, setSuccessful] = useState(false);
     const { message } = useSelector((state) => state.message);
+    const [showPassword, setShowPassword] = useState(false);
 
 
     useEffect(() => {
@@ -27,16 +29,40 @@ function RegisterPage() {
 
     const registerHandler = (e) => {
         e.preventDefault();
-        setSuccessful(false);
-        console.log(input);
+
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+
+        if (!input?.firstName) {
+            dispatch(setMessage('First name is required'));
+            setTimeout(() => {
+                dispatch(clearMessage());
+            }, 1000);
+            return;
+        }
+        if (!input?.lastName) {
+            dispatch(setMessage('Last name is required'));
+            setTimeout(() => {
+                dispatch(clearMessage());
+            }, 1000);
+            return;
+        }
+        if (!emailRegex.test(input?.email)) {
+            dispatch(setMessage('Please enter a valid email address'))
+            setTimeout(() => {
+                dispatch(clearMessage());
+            }, 1000);
+            return;
+        }
+        if (input?.password === '' || input.password === undefined || input?.password?.length < 6) {
+            dispatch(setMessage('Password must be at least 6 characters long'));
+            setTimeout(() => {
+                dispatch(clearMessage());
+            }, 1000);
+            return;
+        }
+
         dispatch(register(input))
             .unwrap()
-            .then(() => {
-                setSuccessful(true);
-            })
-            .catch(() => {
-                setSuccessful(false);
-            });
     }
 
     useEffect(() => {
@@ -49,13 +75,16 @@ function RegisterPage() {
     return (<>
         <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
             <h1 className="font-extrabold text-5xl font-raleway">Sign Up</h1>
-            <p className="font-light text-md">Have an account? <Link to='/' className="underline">Sign in here</Link></p>
+            <p className="font-light text-md">Have an account? <Link to='/sign-in' className="underline">Sign in here</Link></p>
             <div className="w-full flex flex-col justify-center items-center">
                 <form className="w-full flex flex-col gap-4 font-light ">
                     <input onChange={onChangeHandler} name='firstName' type="text" placeholder='First Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
                     <input onChange={onChangeHandler} name='lastName' type="text" placeholder='Last Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
                     <input onChange={onChangeHandler} name='email' type="email" placeholder='Email' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
-                    <input onChange={onChangeHandler} name='password' type="password" placeholder='Pasword' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
+                    <div className='relative flex  flex-col justify-center'>
+                        <input onChange={onChangeHandler} autoComplete="off" name='password' type={showPassword ? 'text' : 'password'} placeholder='Pasword' className=" w-full p-1 pr-8 border-[1px] rounded-sm border-black placeholder:p-2 "></input>
+                        <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
+                    </div>
                 </form>
             </div>
             <div className="flex self-start items-center gap-4">

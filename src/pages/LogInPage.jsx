@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import BottomAlert from '../components/BottomAlert'
 import { login } from "../store/slices/authSlice";
 import { clearMessage, setMessage } from "../store/slices/messageSlice";
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function LogInPage() {
   const dispatch = useDispatch();
@@ -12,6 +14,7 @@ function LogInPage() {
   let { state } = useLocation();
   const { message } = useSelector((state) => state.message);
   const [input, setInput] = useState({});
+  const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     dispatch(clearMessage());
@@ -27,8 +30,8 @@ function LogInPage() {
   const logInHandler = (e) => {
     e.preventDefault();
 
-    const regex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (!regex.test(input?.email)) {
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+    if (!emailRegex.test(input?.email)) {
       dispatch(setMessage('Please enter a valid email address'))
       setTimeout(() => {
         dispatch(clearMessage());
@@ -82,13 +85,17 @@ function LogInPage() {
               placeholder="Email"
               className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
             ></input>
-            <input
-              onChange={onChangeHandler}
-              name="password"
-              type="password"
-              placeholder="Pasword"
-              className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-            ></input>
+            <div className='relative flex  flex-col justify-center'>
+              <input
+                onChange={onChangeHandler}
+                name="password"
+                autoComplete="off"
+                type={showPassword ? 'text' : 'password'}
+                placeholder="Password"
+                className="p-1 pr-8 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
+              ></input>
+              <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
+            </div>
           </form>
           <div className="w-full mt-2 flex flex-col gap-6 font-light ">
             <a href="" className="underline font-light text-sm md:self-end">
