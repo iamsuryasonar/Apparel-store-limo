@@ -1,5 +1,5 @@
-function InstagramWrapper({ instagramWrapperRef }) {
-    return <div ref={instagramWrapperRef} id="instagram-section" className="flex flex-col justify-center items-center p-6">
+function InstagramWrapper() {
+    return <div className=" flex flex-col justify-center items-center p-6">
         <p className="text-3xl font-bold ">FOLLOW US ON INSTAGRAM</p>
         <div className="w-full md:w-11/12 lg:w-8/12 mt-10  grid grid-cols-1 sm:flex justify-center items-center gap-8">
             <div className="aspect-square">

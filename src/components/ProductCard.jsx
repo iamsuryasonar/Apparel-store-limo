@@ -33,19 +33,21 @@ function ProductCard({ product, index, arr }) {
                 <p className='text-white text-xs'>{Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off</p>
             </div> : <></>
         }
-        <div className='flex flex-col justify-between w-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
-            <p className='text-sm font-semibold'>{product?.name}</p>
-            <div>
-                <p className='text-slate-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
-                <div className='flex flex-row gap-1 text-xs sm:text-sm'>
-                    <p className=''>₹{product?.sizeVariants.selling_price}</p>
-                    <div className='flex flex-row gap-1'>
-                        <p className=' line-through text-slate-400'>₹{product?.sizeVariants.mrp} </p>
-                        <p className='text-green-600 '>{product?.tag}</p>
+        {
+            loadedImages.includes(product?.image?._id) && <div className='flex flex-col justify-between w-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
+                <p className='text-sm font-semibold'>{product?.name}</p>
+                <div>
+                    <p className='text-slate-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
+                    <div className='flex flex-row gap-1 text-xs sm:text-sm'>
+                        <p className=''>₹{product?.sizeVariants.selling_price}</p>
+                        <div className='flex flex-row gap-1'>
+                            <p className=' line-through text-slate-400'>₹{product?.sizeVariants.mrp} </p>
+                            <p className='text-green-600 '>{product?.tag}</p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        }
     </div >
 
 }

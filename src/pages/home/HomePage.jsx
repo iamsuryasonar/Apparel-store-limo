@@ -12,12 +12,12 @@ import { get_categories } from '../../store/slices/categorySlice'
 import ProductsService from '../../services/products.services';
 import ProductCard from '../../components/ProductCard';
 import ProductCarousel from '../../components/ProductCarousel';
+import CategoryShimmer from '../../components/shimmers/CategoryShimmer'
 
 function HomePage() {
     const dispatch = useDispatch();
     const bannerRef = useRef(null);
     const productRef = useRef(null);
-    const instagramWrapperRef = useRef(null);
     const message = useSelector((state) => state.message.message);
     const categories = useSelector((state) => state.categories.categories);
     const [newArrivedProducts, setNewArrivedproducts] = useState(null)
@@ -28,25 +28,21 @@ function HomePage() {
             (entries) => {
                 entries.forEach(entry => {
                     if (entry?.target?.id === 'banner-section' && entry.isIntersecting === true) {
-                        bannerRef.current.classList.add('slide-in')
+                        bannerRef?.current.classList.add('slide-in')
                     }
                     if (entry?.target?.id === 'product-section' && entry.isIntersecting === true) {
                         setTimeout(() => {
-                            productRef.current.classList.add('slide-in')
+                            productRef?.current.classList.add('slide-in')
                         }, 500)
-                    }
-                    if (entry?.target?.id === 'instagram-section' && entry.isIntersecting === true) {
-                        instagramWrapperRef.current.classList.add('slide-in')
                     }
                 })
             },
             { rootMargin: "-10px", }
         );
-        observer.observe(bannerRef.current);
-        observer.observe(productRef.current);
-        observer.observe(instagramWrapperRef.current);
+        observer.observe(bannerRef?.current);
+        observer.observe(productRef?.current);
         return () => observer.disconnect();
-    }, []);
+    }, [categories, bannerRef, productRef]);
 
     const getNewlyArrivedProducts = async () => {
         const res = await ProductsService.getProductsByTag('New arrival')
@@ -65,6 +61,7 @@ function HomePage() {
         });
     }, []);
 
+
     return (
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
             <div ref={bannerRef} id="banner-section" className="w-full h-[320px]">
@@ -75,14 +72,18 @@ function HomePage() {
                 <img onLoad={() => setBannerImageLoaded(true)} className='h-[20rem] w-full object-cover' src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
             </div>
 
-            <div ref={productRef} id="product-section" className="w-11/12 gap-8 grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid md:grid-cols-3  lg:grid lg:grid-cols-4 justify-center">
-                {categories && categories?.map((category) => {
-                    return <CategoryCard key={category._id} category={category} />
-                })}
+            <div ref={productRef} id="product-section" className="w-11/12 h-full ">
+                {categories && <div className="w-full h-full gap-8 grid grid-cols-1 sm:grid sm:grid-cols-2 md:grid md:grid-cols-3 lg:grid lg:grid-cols-4 justify-center">
+                    {categories?.map((category) => {
+                        return <CategoryCard key={category._id} category={category} />
+                    })}
+                    {!categories && <CategoryShimmer />}
+                </div>}
             </div>
-            {bannerImageLoaded &&
+
+            {categories &&
                 <>
-                    <div className='bg-slate-100 w-full min-h-[400px] p-10 flex flex-col items-center justify-center gap-4'>
+                    <div className='bg-slate-50 w-full min-h-[400px] p-10 flex flex-col items-center justify-center gap-4'>
                         <p className="self-start text-3xl font-bold ">New Arrivals</p>
                         <div className='w-9/12 h-full p-2 flex flex-col md:hidden'>
                             {newArrivedProducts &&
@@ -98,15 +99,20 @@ function HomePage() {
                 </>
             }
 
-            <InstagramWrapper instagramWrapperRef={instagramWrapperRef} />
+            {
+                categories && <>
+                    <InstagramWrapper />
 
-            <Subscribe />
+                    <Subscribe />
 
-            <ServicesSection />
+                    <ServicesSection />
 
-            <HelpAndInformationSection />
+                    <HelpAndInformationSection />
 
-            <FollowUsSection />
+                    <FollowUsSection />
+                </>
+            }
+
 
             {message && <BottomAlert message={message} />}
         </main>
