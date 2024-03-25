@@ -113,7 +113,6 @@ function HomePage() {
                 </>
             }
 
-
             {message && <BottomAlert message={message} />}
         </main>
     )

@@ -23,9 +23,8 @@ const addAddress = async (data) => {
 }
 
 const updateAddress = async (data) => {
-    console.log("inside updateaddr " + data._id)
     const response = await axios
-        .put(API_URL + 'address/' + data._id, data.body, { headers: getheaders() })
+        .put(API_URL + 'address/' + data._id, data, { headers: getheaders() })
     return response.data.results
 }
 

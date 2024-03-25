@@ -99,7 +99,7 @@ function AddressComponent() {
             </div>
 
             {addressFormVisible && (
-                <AddAddressForm setAddressFormVisible={setAddressFormVisible} editMode={editMode} editFormData={editFormData} />
+                <AddAddressForm setAddressFormVisible={setAddressFormVisible} editMode={editMode} editFormData={editFormData} getAddresses={getAddresses} />
             )}
         </div>
     );

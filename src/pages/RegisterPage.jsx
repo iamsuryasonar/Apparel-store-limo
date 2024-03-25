@@ -14,7 +14,7 @@ function RegisterPage() {
     const [input, setInput] = useState({});
     const { message } = useSelector((state) => state.message);
     const [showPassword, setShowPassword] = useState(false);
-
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         dispatch(clearMessage());
@@ -24,46 +24,41 @@ function RegisterPage() {
         setInput({
             ...input,
             [e.target.name]: e.target.value,
-        })
-    }
+        });
+        setErrors({ ...errors, [e.target.name]: '' });
+    };
+
+    const validateForm = () => {
+        const newErrors = {};
+
+        if (!input?.firstName) {
+            newErrors.firstName = 'First name is required';
+        }
+        if (!input?.lastName) {
+            newErrors.lastName = 'Last name is required';
+        }
+        if (!input?.email) {
+            newErrors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(input?.email)) {
+            newErrors.email = 'Please enter a valid email address';
+        }
+        if (!input?.password) {
+            newErrors.password = 'Password is required';
+        } else if (input?.password.length < 6) {
+            newErrors.password = 'Password must be at least 6 characters long';
+        }
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const registerHandler = (e) => {
         e.preventDefault();
 
-        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-
-        if (!input?.firstName) {
-            dispatch(setMessage('First name is required'));
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 1000);
-            return;
+        if (validateForm()) {
+            dispatch(register(input)).unwrap();
         }
-        if (!input?.lastName) {
-            dispatch(setMessage('Last name is required'));
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 1000);
-            return;
-        }
-        if (!emailRegex.test(input?.email)) {
-            dispatch(setMessage('Please enter a valid email address'))
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 1000);
-            return;
-        }
-        if (input?.password === '' || input.password === undefined || input?.password?.length < 6) {
-            dispatch(setMessage('Password must be at least 6 characters long'));
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 1000);
-            return;
-        }
-
-        dispatch(register(input))
-            .unwrap()
-    }
+    };
 
     useEffect(() => {
         window.scrollTo({
@@ -78,13 +73,42 @@ function RegisterPage() {
             <p className="font-light text-md">Have an account? <Link to='/sign-in' className="underline">Sign in here</Link></p>
             <div className="w-full flex flex-col justify-center items-center">
                 <form className="w-full flex flex-col gap-4 font-light ">
-                    <input onChange={onChangeHandler} name='firstName' type="text" placeholder='First Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
-                    <input onChange={onChangeHandler} name='lastName' type="text" placeholder='Last Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
-                    <input onChange={onChangeHandler} name='email' type="email" placeholder='Email' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
+                    <input
+                        onChange={onChangeHandler}
+                        name='firstName'
+                        type="text"
+                        placeholder='First Name'
+                        className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.firstName && 'border-red-500'}`}
+                    />
+                    {errors.firstName && <p className="text-red-500">{errors.firstName}</p>}
+                    <input
+                        onChange={onChangeHandler}
+                        name='lastName'
+                        type="text"
+                        placeholder='Last Name'
+                        className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.lastName && 'border-red-500'}`}
+                    />
+                    {errors.lastName && <p className="text-red-500">{errors.lastName}</p>}
+                    <input
+                        onChange={onChangeHandler}
+                        name='email'
+                        type="email"
+                        placeholder='Email'
+                        className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
+                    />
+                    {errors.email && <p className="text-red-500">{errors.email}</p>}
                     <div className='relative flex  flex-col justify-center'>
-                        <input onChange={onChangeHandler} autoComplete="off" name='password' type={showPassword ? 'text' : 'password'} placeholder='Pasword' className=" w-full p-1 pr-8 border-[1px] rounded-sm border-black placeholder:p-2 "></input>
+                        <input
+                            onChange={onChangeHandler}
+                            autoComplete="off"
+                            name='password'
+                            type={showPassword ? 'text' : 'password'}
+                            placeholder='Password'
+                            className={`w-full p-1 pr-8 border-[1px] rounded-sm border-black placeholder:p-2 ${errors.password && 'border-red-500'}`}
+                        />
                         <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
                     </div>
+                    {errors.password && <p className="text-red-500">{errors.password}</p>}
                 </form>
             </div>
             <div className="flex self-start items-center gap-4">

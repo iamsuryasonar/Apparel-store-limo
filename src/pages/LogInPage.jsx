@@ -4,7 +4,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import BottomAlert from '../components/BottomAlert'
 import { login } from "../store/slices/authSlice";
-import { clearMessage, setMessage } from "../store/slices/messageSlice";
+import { clearMessage } from "../store/slices/messageSlice";
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -15,49 +15,58 @@ function LogInPage() {
   const { message } = useSelector((state) => state.message);
   const [input, setInput] = useState({});
   const [showPassword, setShowPassword] = useState(false);
+  const [errors, setErrors] = useState({
+    email: '',
+    password: '',
+  });
 
   useEffect(() => {
     dispatch(clearMessage());
   }, [dispatch]);
 
   const onChangeHandler = (e) => {
+    const { name, value } = e.target;
     setInput({
       ...input,
-      [e.target.name]: e.target.value,
+      [name]: value,
     });
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!input.email || !input.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/\S+@\S+\.\S+/.test(input.email)) {
+      newErrors.email = 'Invalid email address';
+    }
+
+    if (!input.password || !input.password.trim()) {
+      newErrors.password = 'Password is required';
+    } else if (input.password.trim().length < 6) {
+      newErrors.password = 'Password must be at least 6 characters long';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const logInHandler = (e) => {
     e.preventDefault();
-
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
-    if (!emailRegex.test(input?.email)) {
-      dispatch(setMessage('Please enter a valid email address'))
-      setTimeout(() => {
-        dispatch(clearMessage());
-      }, 1000);
-      return;
-    }
-    if (input?.password === '' || input.password === undefined || input?.password?.length < 6) {
-      dispatch(setMessage('Password must be at least 6 characters long'));
-      setTimeout(() => {
-        dispatch(clearMessage());
-      }, 1000);
-      return;
-    }
-
-    dispatch(login(input))
-      .unwrap()
-      .then(() => {
-        if (state && state?.type === 'ADD_TO_CART' && state?.productId) {
-          navigate(`/product/${state?.productId}`, {
-            state: state,
-          })
-        } else {
-          navigate("/shop");
-        }
-      })
-  };
+    if (validateForm()) {
+      dispatch(login(input))
+        .unwrap()
+        .then(() => {
+          if (state && state?.type === 'ADD_TO_CART' && state?.productId) {
+            navigate(`/product/${state?.productId}`, {
+              state: state,
+            })
+          } else {
+            navigate("/shop");
+          }
+        })
+    };
+  }
 
   useEffect(() => {
     window.scrollTo({
@@ -77,31 +86,30 @@ function LogInPage() {
           </Link>
         </p>
         <div className="w-full flex flex-col justify-center items-center">
-          <form className="w-full flex flex-col gap-4 font-light ">
+          <form className="w-full flex flex-col gap-4 font-light">
             <input
               onChange={onChangeHandler}
               name="email"
               type="email"
               placeholder="Email"
-              className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-            ></input>
-            <div className='relative flex  flex-col justify-center'>
+              className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
+            />
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
+            <div className='relative flex flex-col justify-center'>
               <input
                 onChange={onChangeHandler}
                 name="password"
                 autoComplete="off"
                 type={showPassword ? 'text' : 'password'}
                 placeholder="Password"
-                className="p-1 pr-8 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
-              ></input>
+                className={`p-1 pr-8 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.password && 'border-red-500'}`}
+              />
               <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
             </div>
+            {errors.password && <p className="text-red-500">{errors.password}</p>}
+
           </form>
-          <div className="w-full mt-2 flex flex-col gap-6 font-light ">
-            <a href="" className="underline font-light text-sm md:self-end">
-              Forgot Password
-            </a>
-          </div>
+
         </div>
         <div className="flex flex-col w-full md:flex-row justify-between">
           <button
@@ -110,9 +118,16 @@ function LogInPage() {
           >
             Sign In
           </button>
-          <a href="" className="underline font-light self-start text-sm md:self-end">
-            Return to store
-          </a>
+          <div className=" flex flex-row justify-between items-center">
+            <a href="" className=" mt-2  underline font-light self-start text-sm md:self-end">
+              Return to store
+            </a>
+            <div className=" mt-2 flex flex-col gap-6 font-light ">
+              <a href="" className="underline font-light text-sm md:self-end">
+                Forgot Password
+              </a>
+            </div>
+          </div>
         </div>
       </div>
       {message && <BottomAlert message={message} />}

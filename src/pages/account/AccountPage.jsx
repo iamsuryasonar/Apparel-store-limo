@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from 'react-router-dom';
 import {
   faArrowDown,
   faArrowUp,
@@ -10,8 +11,9 @@ import OrderHistoryComponent from './components/OrderHistoryComponent';
 
 function AccountPage() {
   const [menu, setMenu] = useState(false);
-  const [activeMenu, setActiveMenu] = useState(0);
+  const [activeTab, setActiveTab] = useState(0);
   const [isLogoutModal, setIsLogoutModal] = useState(false);
+  let navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo({
@@ -22,18 +24,31 @@ function AccountPage() {
 
   const options = [
     {
-      id: 1,
+      id: 'order-history',
       title: "Order History",
       component: OrderHistoryComponent,
     },
     {
-      id: 2,
+      id: 'view-addresses',
       title: "View Addresses",
       component: AddressComponent,
     },
   ];
 
-  const Component = options[activeMenu].component;
+  const Component = options[activeTab].component;
+
+  const location = useLocation();
+
+  useEffect(() => {
+    const queryParams = new URLSearchParams(location.search);
+    const tab = queryParams.get('tab');
+
+    if (tab === 'order-history') {
+      setActiveTab(0);
+    } else if (tab === 'view-addresses') {
+      setActiveTab(1);
+    }
+  }, [location]);
 
   return (
     <>
@@ -63,7 +78,9 @@ function AccountPage() {
               return (
                 <p
                   onClick={() => {
-                    setActiveMenu(index);
+                    index === 0 ? navigate('/account?tab=order-history') : ''
+                    index === 1 ? navigate('/account?tab=view-addresses') : ''
+                    setActiveTab(index);
                     setMenu(false);
                   }}
                   key={item.id}

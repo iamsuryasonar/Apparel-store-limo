@@ -1,10 +1,58 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux'
+import { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import BottomAlert from '../components/BottomAlert'
+import ContactUsServices from '../services/contactUs.services'
+import { setMessage, clearMessage } from '../store/slices/messageSlice'
 
 function ContactPage() {
     const message = useSelector((state) => state.message.message);
-    
+    const dispatch = useDispatch();
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        message: '',
+        query: 'Business Inquiry',
+    });
+
+    const [errors, setErrors] = useState({});
+
+    const onChangeHandler = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        const errors = {};
+        if (!formData.name.trim()) {
+            errors.name = 'Name is required';
+        }
+        if (!formData.email.trim()) {
+            errors.email = 'Email is required';
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            errors.email = 'Email is invalid';
+        }
+        if (!formData.message.trim()) {
+            errors.message = 'Message is required';
+        }
+
+        if (Object.keys(errors).length === 0) {
+            await ContactUsServices.sendEmail(formData);
+            dispatch(setMessage('Email sent...'))
+            setTimeout(() => {
+                dispatch(clearMessage());
+            }, 1000);
+            setFormData({
+                name: '',
+                email: '',
+                message: '',
+                query: 'Business Inquiry',
+            });
+        } else {
+            setErrors(errors);
+        }
+    };
+
     useEffect(() => {
         window.scrollTo({
             top: 0,
@@ -36,26 +84,54 @@ function ContactPage() {
                 </div>
                 <div className="w-5/6 my-10 flex flex-col items-center gap-6">
                     <form className="w-11/12 md:w-4/6 flex flex-col gap-6 font-light ">
-                        <input type="text" placeholder='Full Name' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
-                        <input type="text" placeholder='Email' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></input>
-                        <textarea type="text" placeholder='Message' className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "></textarea>
+                        <input
+                            onChange={onChangeHandler}
+                            name="name"
+                            type="text"
+                            placeholder="Full Name"
+                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.name && 'border-red-500'}`}
+                            value={formData.name}
+                        />
+                        {errors.name && <p className="text-red-500">{errors.name}</p>}
+                        <input
+                            onChange={onChangeHandler}
+                            type="text"
+                            name="email"
+                            placeholder="Email"
+                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
+                            value={formData.email}
+                        />
+                        {errors.email && <p className="text-red-500">{errors.email}</p>}
+                        <textarea
+                            onChange={onChangeHandler}
+                            type="text"
+                            name="message"
+                            placeholder="Message"
+                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.message && 'border-red-500'}`}
+                            value={formData.message}
+                        />
+                        {errors.message && <p className="text-red-500">{errors.message}</p>}
                         <div className="flex flex-col justify-start">
                             <p className="py-2">Optional</p>
-                            <label>Select an option</label>
-                            <select className="border-[1px] rounded-sm border-black font-light p-1 bg-white">
-                                <option className="font-light">Business Inquiry</option>
-                                <option className="font-light">General Inquiry</option>
-                                <option className="font-light">Bulk Orders</option>
-                                <option className="font-light">Order Tracking</option>
-                                <option className="font-light">Returns and Refunds</option>
-                                <option className="font-light">Feedback</option>
+                            <label>Select Query type</label>
+                            <select onChange={onChangeHandler} name="query" className="border-[1px] rounded-sm border-black font-light p-1 bg-white">
+                                <option className="font-light" value='Business Inquiry'>Business Inquiry</option>
+                                <option className="font-light" value='General Inquiry'>General Inquiry</option>
+                                <option className="font-light" value='Bulk Orders'>Bulk Orders</option>
+                                <option className="font-light" value='Order Tracking'>Order Tracking</option>
+                                <option className="font-light" value='Returns and Refunds'>Returns and Refunds</option>
+                                <option className="font-light" value='Feedback'>Feedback</option>
                             </select>
                         </div>
-                        <button className="py-2 bg-black text-white font-bold">SEND</button>
+                        <button onClick={handleFormSubmit} className="py-2 bg-black text-white font-bold">
+                            SEND
+                        </button>
                     </form>
-                </div>
-            </div>
-            {message && <BottomAlert message={message} />}
+
+                </div >
+            </div >
+            {message && <BottomAlert message={message} />
+            }
         </>
 
     )
