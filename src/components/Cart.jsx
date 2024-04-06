@@ -126,7 +126,7 @@ function Cart({ show, setToggleCart }) {
                                     cartItems?.map((item) => {
                                         return (
                                             <div key={item._id} className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-xl bg-slate-100 rounded-md '>
-                                                <img className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
+                                                <img alt='product' className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
                                                 <div className='flex flex-col gap-2 py-2'>
                                                     <p>{item?.product?.name}</p>
                                                     <p>size: {item?.sizevariant?.name}</p>

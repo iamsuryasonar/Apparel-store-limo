@@ -146,7 +146,7 @@ function CheckOutPage() {
                             </div>
                         </div>
                         <div className='border p-2 flex flex-col items-center justify-center'>
-                            <img src={next_page_svg} className='w-1/3' />
+                            <img alt='payment icon' src={next_page_svg} className='w-1/3' />
                             <p className='text-xs text-center'>
                                 After clicking “Pay now”, you will be redirected to Cards, UPI, NB, Wallets, BNPL by PayU India to complete your purchase securely.
                             </p>
@@ -160,7 +160,7 @@ function CheckOutPage() {
                             return (
                                 <div key={item._id} className=' flex flex-row justify-between p-2 gap-2 '>
                                     <div className='relative w-32'>
-                                        <img className=' aspect-square' src={item?.colorvariant.images[0].url}></img>
+                                        <img alt='product' className=' aspect-square' src={item?.colorvariant.images[0].url}></img>
                                         <p className='absolute w-6 text-center top-0 right-0 rounded-full bg-black text-white'>{item?.quantity}</p>
                                     </div>
                                     <div className='flex flex-col gap-2 py-2'>

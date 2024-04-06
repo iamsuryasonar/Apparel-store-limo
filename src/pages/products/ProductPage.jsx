@@ -88,7 +88,7 @@ function ProductPage() {
                         <p > COLOR: <span className='text-slate-500'>{product?.colorvariants[selectedColorVariantIndex]?.name}</span> </p>
                         <div className='flex flex-row gap-4'>
                             {product?.colorvariants?.map((item, index, arr) => {
-                                return <img key={item._id} onClick={() => { setSelectedColorVariantIndex(index); }} className={`w-10 h-10 rounded-full ${selectedColorVariantIndex === index ? ` border-2 border-green-500` : `border-2 border-slate-300`}`} src={arr[index]?.thumbnail.url}></img>
+                                return <img alt='color thumbnail' key={item._id} onClick={() => { setSelectedColorVariantIndex(index); }} className={`w-10 h-10 rounded-full ${selectedColorVariantIndex === index ? ` border-2 border-green-500` : `border-2 border-slate-300`}`} src={arr[index]?.thumbnail.url}></img>
                             })}
                         </div>
                     </div>
