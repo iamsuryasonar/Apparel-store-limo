@@ -1,5 +1,9 @@
+import useOnScreen from '../../../hooks/useOnScreen'
+
 function InstagramWrapper() {
-    return <div className=" flex flex-col justify-center items-center p-6">
+    const [ref, isVisible] = useOnScreen({ threshold: 0 });
+
+    return <div ref={ref} className={`flex flex-col justify-center items-center p-6 transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}>
         <p className="text-3xl font-bold ">FOLLOW US ON INSTAGRAM</p>
         <div className="w-full md:w-11/12 lg:w-8/12 mt-10  grid grid-cols-1 sm:flex justify-center items-center gap-8">
             <div className="aspect-square">
