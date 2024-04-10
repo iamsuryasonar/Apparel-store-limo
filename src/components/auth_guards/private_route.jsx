@@ -2,7 +2,7 @@ import { useEffect, useMemo } from 'react'
 import { useDispatch } from 'react-redux';
 import { Outlet, Navigate } from 'react-router-dom';
 import { initialiseUser } from '../../store/slices/authSlice';
-import { LOCAL_STORAGE_NAME } from '../../constants/constant'
+import { LOCAL_STORAGE_NAME } from '../../utilities/constants'
 
 const PrivateRoute = ({ userData }) => {
 

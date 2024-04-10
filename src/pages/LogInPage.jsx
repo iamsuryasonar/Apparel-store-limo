@@ -9,10 +9,12 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function LogInPage() {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
   let { state } = useLocation();
+
+  const dispatch = useDispatch();
   const { message } = useSelector((state) => state.message);
+
   const [input, setInput] = useState({});
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
@@ -53,6 +55,7 @@ function LogInPage() {
 
   const logInHandler = (e) => {
     e.preventDefault();
+
     if (validateForm()) {
       dispatch(login(input))
         .unwrap()

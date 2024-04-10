@@ -6,9 +6,15 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Transition } from 'react-transition-group';
 import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
 
-function Cart({ show, setToggleCart }) {
+function Cart(props) {
+    const { show, setToggleCart } = props;
 
-    // to prevent body from scrolling while cart is active
+    const navigate = useNavigate();
+
+    const dispatch = useDispatch();
+    const cartItems = useSelector((state) => state.cart.cart);
+
+    /* prevents body from scrolling while cart is active */
     useEffect(() => {
         if (show) {
             document.body.style.overflow = 'hidden';
@@ -20,10 +26,6 @@ function Cart({ show, setToggleCart }) {
             document.body.style.overflow = 'auto';
         };
     }, [show]);
-
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const cartItems = useSelector((state) => state.cart.cart);
 
     const totalPrice = useMemo(() => {
         return cartItems?.reduce((acc, item) => {
@@ -97,19 +99,18 @@ function Cart({ show, setToggleCart }) {
         })
     }
 
-
-
     return (
         <Transition in={show} timeout={100}>
             {(state) => (
-                < div className={`z-50 fixed inset-0 md:left-1/2 xl:left-2/3 bg-slate-100 px-4 py-6 transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 ' : 'translate-x-full '
-                    }`}>
+                <div className={`z-50 fixed inset-0 md:left-1/2 xl:left-2/3 bg-slate-100 px-4 py-6 transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 ' : 'translate-x-full '}`}>
                     <div className="flex flex-col gap-4 w-full h-full">
                         <div className="font-mono font-bold text-xl">
                             <div className='flex justify-between items-center'>
                                 <h1 className="">CART</h1>
                                 <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
-                                    <FontAwesomeIcon onClick={() => setToggleCart(false)} className='text-4xl group-hover:text-blue-500' icon={faXmark} />
+                                    <FontAwesomeIcon onClick={() =>
+                                        setToggleCart(false)
+                                    } className='text-4xl group-hover:text-blue-500' icon={faXmark} />
                                 </div>
                             </div>
                             <div className='h-[1px] bg-black w-full'></div>
@@ -136,9 +137,13 @@ function Cart({ show, setToggleCart }) {
                                                         <p className='px-1 cursor-pointer'>{countMap?.has(item?._id) ? countMap?.get(item?._id) : item?.quantity}</p>
                                                         <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => countHandler(item._id, item?.quantity, 'INCREMENT')}>+</p>
                                                     </div>
-                                                    {countMap?.has(item?._id) && <div onClick={() => { updateItemQuantityHandler(countMap?.get(item?._id), item?._id) }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
+                                                    {countMap?.has(item?._id) && <div onClick={() => {
+                                                        updateItemQuantityHandler(countMap?.get(item?._id), item?._id)
+                                                    }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
                                                 </div>
-                                                <div onClick={() => removeItemFromCart(item)} className='absolute top-0 right-0 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
+                                                <div onClick={() =>
+                                                    removeItemFromCart(item)
+                                                } className='absolute top-0 right-0 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
                                                     <FontAwesomeIcon icon={faXmark} />
                                                 </div>
                                             </div>

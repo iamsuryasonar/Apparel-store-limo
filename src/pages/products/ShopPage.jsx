@@ -1,11 +1,11 @@
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowUp, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { get_products, get_more_products } from '../../store/slices/productsSlice'
 import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
-import { get_products, get_more_products } from '../../store/slices/productsSlice'
 
 function ShopPage() {
     const dispatch = useDispatch();
@@ -21,8 +21,8 @@ function ShopPage() {
         maxValue: 100,
     });
 
-    // priceRange is multiple of 60 because RangeSlider does not allow range more than 100
-    // maximum price is assumed to be 6000 for now hence 60 multiplied by 100.
+    /* priceRange is multiple of 60 because RangeSlider does not allow range more than 100
+    maximum price is assumed to be 6000 for now hence 60 multiplied by 100. */
     const priceRange = [minMaxValue.minValue * 60, minMaxValue.maxValue * 60];
 
     const [activeFilters, setActiveFilters] = useState({
@@ -50,8 +50,8 @@ function ShopPage() {
     };
 
     const removeFilterCriteria = (type) => {
-        //this function removes criteria of filter and sets values to default values.
-        // updating removedCriteria triggers useEffect to get updated product values
+        /* this function removes criteria of filter and sets values to default values.
+        updating removedCriteria triggers useEffect to get updated product values */
         if (type === 'RANGE') {
             setMinMaxValue((prev) => ({
                 ...prev,
@@ -107,12 +107,12 @@ function ShopPage() {
             if (entries[0].isIntersecting) {
 
                 if (products?.pagination?.page_no === products?.pagination?.total_pages) {
-                    // if total pages retrieved, disconnect the obeserver and return
+                    /* if total pages retrieved, disconnect the obeserver and return */
                     observer.current.disconnect();
                     return;
                 }
-                // another slice to get one more page and append it to the
-                // previously fetched products list also replacing pagination information
+                /* another slice to get one more page and append it to the
+                previously fetched products list also replacing pagination information */
                 dispatch(get_more_products({
                     pageNo: products?.pagination?.page_no + 1,
                     sortType,
@@ -127,7 +127,7 @@ function ShopPage() {
         const scrollContainer = document.querySelector('.scroll-container');
 
         if (scrollContainer) {
-            // observes the scroll-container className that is attached to the last third product card
+            /* observes the scroll-container className that is attached to the last third product card */
             observer.current.observe(scrollContainer);
         }
     }

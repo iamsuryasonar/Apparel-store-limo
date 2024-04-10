@@ -1,17 +1,17 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { isValidToken, getAccessToken, getUserData } from '../../utilities/utility'
+import { LOCAL_STORAGE_NAME } from '../../utilities/constants'
 import { setMessage, clearMessage } from "./messageSlice";
-import { LOCAL_STORAGE_NAME } from "../../constants/constant";
 import AuthService from "../../services/auth.services";
 import { setLoading } from "./loadingSlice";
-import isValidToken from '../../constants/authUtil'
 
 export const initialiseUser = createAsyncThunk(
   'auth/initialise',
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      const accessToken = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.accessToken;
-      const userData = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.userData;
+      const accessToken = getAccessToken();
+      const userData = getUserData();
 
       if (!accessToken) {
         return thunkAPI.rejectWithValue("Access token not available");
@@ -41,10 +41,10 @@ export const initialiseUser = createAsyncThunk(
 
 export const register = createAsyncThunk(
   "auth/register",
-  async (creds, thunkAPI) => {
+  async (credentials, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      const response = await AuthService.register(creds);
+      const response = await AuthService.register(credentials);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
     } catch (error) {
@@ -67,10 +67,10 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "auth/login",
-  async (creds, thunkAPI) => {
+  async (credentials, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      const res = await AuthService.login(creds);
+      const res = await AuthService.login(credentials);
       const data = {
         userData: {
           email: res.email,

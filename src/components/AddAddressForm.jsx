@@ -2,9 +2,11 @@ import { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import AddressServices from '../services/address.services'
-import { STATES } from "../constants/constant";
+import { STATES } from "../utilities/constants";
 
-function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddresses }) {
+function AddAddressForm(props) {
+    const { setAddressFormVisible, editMode, editFormData, getAddresses } = props;
+
     const [formData, setFormData] = useState({
         name: '',
         contact_number: '',
@@ -93,8 +95,8 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="name"
                     type="text"
                     placeholder="Full name"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.name && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.name && 'border-red-500'}`}>
+                </input>
                 {errors.name && <p className="text-red-500">{errors.name}</p>}
                 <input
                     value={formData.contact_number}
@@ -102,8 +104,8 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="contact_number"
                     type="number"
                     placeholder="Phone number"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.contact_number && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.contact_number && 'border-red-500'}`}>
+                </input>
                 {errors.contact_number && <p className="text-red-500">{errors.contact_number}</p>}
                 <input
                     value={formData.house_number}
@@ -111,8 +113,8 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="house_number"
                     type="number"
                     placeholder="House Number"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.house_number && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.house_number && 'border-red-500'}`}>
+                </input>
                 {errors.house_number && <p className="text-red-500">{errors.house_number}</p>}
                 <input
                     value={formData.town}
@@ -120,8 +122,8 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="town"
                     type="text"
                     placeholder="Town"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.town && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.town && 'border-red-500'}`}>
+                </input>
                 {errors.town && <p className="text-red-500">{errors.town}</p>}
                 <input
                     value={formData.city}
@@ -129,8 +131,8 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="city"
                     type="text"
                     placeholder="City"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.city && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.city && 'border-red-500'}`}>
+                </input>
                 {errors.city && <p className="text-red-500">{errors.city}</p>}
                 <input
                     value={formData.landmark}
@@ -138,8 +140,8 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="landmark"
                     type="text"
                     placeholder="Landmark"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.landmark && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.landmark && 'border-red-500'}`}>
+                </input>
                 {errors.landmark && <p className="text-red-500">{errors.landmark}</p>}
                 <input
                     value={formData.pin}
@@ -147,16 +149,15 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     name="pin"
                     type="number"
                     placeholder="Pin code"
-                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.pin && 'border-red-500'}`}
-                ></input>
+                    className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.pin && 'border-red-500'}`}>
+                </input>
                 {errors.pin && <p className="text-red-500">{errors.pin}</p>}
                 <select
                     value={formData.state}
                     onChange={handleChange}
                     name="state"
                     defaultValue="Select state..."
-                    className={`block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ${errors.state && 'border-red-500'}`}
-                >
+                    className={`block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 ${errors.state && 'border-red-500'}`}>
                     <option disabled value="">
                         Select state...
                     </option>
@@ -174,8 +175,7 @@ function AddAddressForm({ setAddressFormVisible, editMode, editFormData, getAddr
                     value={formData.country}
                     onChange={handleChange}
                     name="country"
-                    className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500"
-                >
+                    className="block w-full px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500">
                     <option value="India">India</option>
                 </select>
             </form>

@@ -3,7 +3,9 @@ import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { setShowSearch } from '../store/slices/searchSlice';
 
-function ProductCard({ product, index, arr }) {
+function ProductCard(props) {
+    const { product, index, arr } = props;
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
@@ -13,13 +15,13 @@ function ProductCard({ product, index, arr }) {
         setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
     };
 
-    // scroll-container class is just to observe the last 3rd product and load more products(for pagination)
+    /* scroll-container class is just to observe the last 3rd product and load more products(for pagination) */
     return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} relative min-h-[300px] min-w-[150px] w-full h-full flex flex-col cursor-pointer group`}
         onClick={() => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
             })
-            //if search modal is enabled this will disable that
+            /* if search modal is enabled this will disable that */
             dispatch(setShowSearch(false));
         }}>
         {
@@ -27,11 +29,15 @@ function ProductCard({ product, index, arr }) {
                 <div className='w-8 h-8 bg-transparent rounded-full border-black animate-spin border-2 border-dashed border-t-transparent'></div>
             </div>
         }
-        <img alt='product'  className=' object-cover w-full h-full' src={product?.image?.url} onLoad={() => handleImageLoad(product?.image?._id)} />
+        <img alt='product' className=' object-cover w-full h-full' src={product?.image?.url} onLoad={() =>
+            handleImageLoad(product?.image?._id)
+        } />
         {
-            loadedImages.includes(product?.image?._id) ? <div className='absolute top-2 left-0 sm:top-2 sm:left-0 bg-teal-400 px-[4px] py-[1px] rounded-e-sm'>
-                <p className='text-white text-xs'>{Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off</p>
-            </div> : <></>
+            loadedImages.includes(product?.image?._id)
+                ? <div className='absolute top-2 left-0 sm:top-2 sm:left-0 bg-teal-400 px-[4px] py-[1px] rounded-e-sm'>
+                    <p className='text-white text-xs'>{Math.round(100 * (product?.sizeVariants.mrp - product?.sizeVariants.selling_price) / product?.sizeVariants.mrp)}% Off</p>
+                </div>
+                : <></>
         }
         {
             loadedImages.includes(product?.image?._id) && <div className='flex flex-col justify-between w-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
@@ -49,7 +55,6 @@ function ProductCard({ product, index, arr }) {
             </div>
         }
     </div >
-
 }
 
 export default ProductCard;

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import AddressServices from "../../../services/address.services";
-import AddAddressForm from "../../../components/AddAddressForm";
 import AddressShimmer from '../../../components/shimmers/AddressShimmer';
+import AddAddressForm from "../../../components/AddAddressForm";
 
 function AddressComponent() {
     const [addressFormVisible, setAddressFormVisible] = useState(false);
@@ -75,19 +75,15 @@ function AddressComponent() {
                                     <p>{address.town}, {address.pin}</p>
                                     <p>{address.city}, {address.state}, {address.country}</p>
                                     <div className="flex gap-2 mt-2 mb-1">
-                                        <button
-                                            onClick={() => {
-                                                handleAddressDelete(address);
-                                            }}
-                                            className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-red-700 hover:text-white "
-                                        >
+                                        <button onClick={() => {
+                                            handleAddressDelete(address);
+                                        }} className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-red-700 hover:text-white ">
                                             Remove
                                         </button>
 
-                                        <button
-                                            onClick={() => handleAddressEdit(address)}
-                                            className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-amber-600 hover:text-white "
-                                        >
+                                        <button onClick={() =>
+                                            handleAddressEdit(address)
+                                        } className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-amber-600 hover:text-white ">
                                             Edit
                                         </button>
                                     </div>

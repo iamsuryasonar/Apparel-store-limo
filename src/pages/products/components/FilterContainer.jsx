@@ -3,13 +3,27 @@ import RangeSlider from 'react-range-slider-input';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 
-function FilterContainer({ setFilterContainerVisible, sortType, priceRange, activeFilters, minMaxValue, sortHandler, handleRangeChange, onDragEndHandler, removeFilterCriteria }) {
-    return <div className='z-50 sm:z-0 fixed top-0 bottom-0 left-0 right-0 sm:sticky sm:top-32  sm:bottom-auto  sm:left-auto  sm:right-auto h-screen w-full sm:w-64 bg-slate-50'>
-        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto  left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-slate-50 flex flex-col p-4 gap-6 '>
+function FilterContainer(props) {
+    const {
+        setFilterContainerVisible,
+        sortType,
+        priceRange,
+        activeFilters,
+        minMaxValue,
+        sortHandler,
+        handleRangeChange,
+        onDragEndHandler,
+        removeFilterCriteria
+    } = props;
+
+    return <div className='z-50 sm:z-0 fixed sm:sticky top-0 sm:top-32 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm:right-auto min-h-screen w-full sm:w-64 bg-slate-50'>
+        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-slate-50 flex flex-col p-4 gap-6 '>
             <div>
                 <div className='flex justify-between items-center'>
                     <p className='uppercase font-thin'>By Price</p>
-                    <FontAwesomeIcon onClick={() => setFilterContainerVisible(false)} className='hover:text-green-400 text-xl flex sm:hidden' icon={faXmark} />
+                    <FontAwesomeIcon onClick={
+                        () => setFilterContainerVisible(false)
+                    } className='hover:text-green-400 text-xl flex sm:hidden' icon={faXmark} />
                 </div>
                 <div className='w-full h-[1px] bg-black'></div>
             </div>
@@ -23,7 +37,9 @@ function FilterContainer({ setFilterContainerVisible, sortType, priceRange, acti
             <div className='flex flex-row justify-between'>
                 <p>Price high to low</p>
                 <input className=' h-5 w-5' type="checkbox" checked={sortType === 'DECENDING' ? true : false}
-                    onChange={() => { sortHandler('DECENDING') }} />
+                    onChange={() => {
+                        sortHandler('DECENDING')
+                    }} />
             </div>
             <div className='flex flex-col gap-2'>
                 <RangeSlider

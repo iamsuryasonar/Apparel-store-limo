@@ -1,19 +1,18 @@
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from 'react-router-dom';
-import {
-  faArrowDown,
-  faArrowUp,
-} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import SignoutModal from '../../components/SignoutModal';
+import { faArrowDown, faArrowUp, } from "@fortawesome/free-solid-svg-icons";
 import AddressComponent from './components/AddressComponent';
 import OrderHistoryComponent from './components/OrderHistoryComponent';
+import SignoutModal from '../../components/SignoutModal';
 
 function AccountPage() {
+  let navigate = useNavigate();
+  const location = useLocation();
+
   const [menu, setMenu] = useState(false);
   const [activeTab, setActiveTab] = useState(0);
   const [isLogoutModal, setIsLogoutModal] = useState(false);
-  let navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo({
@@ -36,8 +35,6 @@ function AccountPage() {
   ];
 
   const Component = options[activeTab].component;
-
-  const location = useLocation();
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);

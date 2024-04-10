@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
+import ProductsService from '../../../services/products.services'
 import ProductCarousel from '../../../components/ProductCarousel'
 import ProductCard from '.././../../components/ProductCard'
-import ProductsService from '../../../services/products.services'
 
 function NewArrivedProducts({ categories }) {
     const [newArrivedProducts, setNewArrivedproducts] = useState(null)
+
     const getNewlyArrivedProducts = async () => {
         const res = await ProductsService.getProductsByTag('New arrival')
         setNewArrivedproducts(res);

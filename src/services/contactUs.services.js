@@ -1,17 +1,10 @@
 import axios from "axios";
-import { API_URL } from '../constants/constant'
-
-const getheaders = () => {
-    const headers = {
-        "Accept": "*/*",
-        'Content-Type': 'application/json',
-    }
-    return headers
-}
+import { API_URL } from '../utilities/constants'
+import { getNonAuthHeaders } from '../utilities/utility'
 
 const sendEmail = async (data) => {
     const response = await axios
-        .post(API_URL + 'contact-us/', data, { headers: getheaders() })
+        .post(API_URL + 'contact-us/', data, { headers: getNonAuthHeaders() })
     return response.data.results
 }
 

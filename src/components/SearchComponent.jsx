@@ -4,26 +4,26 @@ import { Transition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
+import { setShowSearch } from '../store/slices/searchSlice';
+import { API_URL } from '../utilities/constants';
 import ProductsComponent from '../components/ProductsComponent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
-import { setShowSearch } from '../store/slices/searchSlice';
-import { API_URL } from '../constants/constant';
 
 const SearchComponent = () => {
-    const [searchKeyword, setSearchKeyword] = useState('');
-    const [debounced, setDebounced] = useState();
+    const observer = useRef();
+    const scrollToElement = useRef(null);
+
     const dispatch = useDispatch();
     const show = useSelector((state) => state.search.show);
 
-
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [debounced, setDebounced] = useState();
     const [result, setResult] = useState({
         products: [],
         pagination: [],
     });
 
-    const observer = useRef();
-
-    // to prevent body from scrolling while search component is active
+    /* to prevent body from scrolling while search component is active */
     useEffect(() => {
         if (show) {
             document.body.style.overflow = 'hidden';
@@ -67,7 +67,7 @@ const SearchComponent = () => {
         }
     }
 
-    function debounce(func, delay) { //debouces a given function by a given delay
+    function debounce(func, delay) { // debouces a given function by a given delay
         let timer;
         return function (...args) {
             if (timer) clearTimeout(timer);
@@ -78,13 +78,13 @@ const SearchComponent = () => {
     }
 
     useEffect(() => {
-        setDebounced(() => debounce(handleSearch, 300)) //debounced function is stored
+        setDebounced(() => debounce(handleSearch, 300)) // debounced function is stored
     }, [])
 
     const onInputChangeHandler = (e) => {
         setSearchKeyword(e.target.value);
         if (e.target.value !== '') {
-            debounced(e.target.value, 1); //when input value changes debounced function is called
+            debounced(e.target.value, 1); // when input value changes debounced function is called
         } else {
             setResult({
                 products: [],
@@ -101,13 +101,12 @@ const SearchComponent = () => {
         });
     };
 
-
     const observeScroll = () => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
 
                 if (result?.pagination?.page_no === result?.pagination?.total_pages) {
-                    // if total pages retrieved, disconnect the obeserver and return
+                    /* if total pages retrieved, disconnect the obeserver and return */
                     observer.current.disconnect();
                     return;
                 }
@@ -121,7 +120,7 @@ const SearchComponent = () => {
         const scrollContainer = document.querySelector('.scroll-container');
 
         if (scrollContainer) {
-            // observes the scroll-container className that is attached to the last third product card
+            /* observes the scroll-container className that is attached to the last third product card */
             observer.current.observe(scrollContainer);
         }
     }
@@ -137,15 +136,10 @@ const SearchComponent = () => {
         };
     }, [result]);
 
-    const scrollToElement = useRef(null);
-
     return (
         <Transition in={show} timeout={100}>
             {(state) => (
-                <div
-                    className={`z-40 fixed bg-slate-200 rounded-lg transition-transform transform ease-in-out duration-700 overflow-hidden ${state === 'entered' ? 'translate-x-0  top-2 bottom-2 left-2 right-2' : 'translate-x-full top-2 bottom-2 left-2 right-0'
-                        }`}
-                >
+                <div className={`z-40 fixed bg-slate-200 rounded-lg transition-transform transform ease-in-out duration-700 overflow-hidden ${state === 'entered' ? 'translate-x-0  top-2 bottom-2 left-2 right-2' : 'translate-x-full top-2 bottom-2 left-2 right-0'}`}>
                     <div className='max-w-7xl mx-auto w-full h-full flex flex-col gap-2 p-4 bg-slate-200 rounded-md'>
                         <div className='h-auto z-50 bg-slate-200 relative top-0 w-full py-6 flex flex-row justify-between items-center gap-4' >
                             <div className="w-full relative">
@@ -177,10 +171,9 @@ const SearchComponent = () => {
                             </div>
                         </div>
                     </div>
-                    {result?.products.length <= 4 ?
-                        <></>
-                        :
-                        <ScrollToTopButton scrollToElement={scrollToElement} />
+                    {result?.products.length <= 4
+                        ? <></>
+                        : <ScrollToTopButton scrollToElement={scrollToElement} />
                     }
                 </div>
             )}

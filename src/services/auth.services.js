@@ -1,19 +1,13 @@
 import axios from "axios";
-import { LOCAL_STORAGE_NAME, API_URL } from '../constants/constant'
+import { LOCAL_STORAGE_NAME, API_URL } from '../utilities/constants'
 
-let headersList = {
-    "Accept": "*/*",
-    "Content-Type": "application/json"
+const register = (credentials) => {
+    return axios.post(API_URL + 'auth/customer_register', credentials)
 }
 
-const register = (creds) => {
-    return axios.post(API_URL + 'auth/customer_register', creds)
-}
-
-
-const login = async (creds) => {
+const login = async (credentials) => {
     return axios
-        .post(API_URL + "auth/customer_login", creds)
+        .post(API_URL + "auth/customer_login", credentials)
         .then((response) => {
             return response.data.results;
         });

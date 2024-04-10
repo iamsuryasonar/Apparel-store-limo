@@ -5,16 +5,17 @@ import ContactUsServices from '../services/contactUs.services'
 import { setMessage, clearMessage } from '../store/slices/messageSlice'
 
 function ContactPage() {
-    const message = useSelector((state) => state.message.message);
     const dispatch = useDispatch();
+    const message = useSelector((state) => state.message.message);
+
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: '',
         query: 'Business Inquiry',
     });
-
     const [errors, setErrors] = useState({});
+
 
     const onChangeHandler = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -39,9 +40,11 @@ function ContactPage() {
         if (Object.keys(errors).length === 0) {
             await ContactUsServices.sendEmail(formData);
             dispatch(setMessage('Email sent...'))
+
             setTimeout(() => {
                 dispatch(clearMessage());
             }, 1000);
+
             setFormData({
                 name: '',
                 email: '',
@@ -133,7 +136,6 @@ function ContactPage() {
             {message && <BottomAlert message={message} />
             }
         </>
-
     )
 }
 

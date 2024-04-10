@@ -80,7 +80,6 @@ export const updateItemQuantity = createAsyncThunk(
     }
 )
 
-
 export const remove_item_from_cart = createAsyncThunk(
     'cart/remove_item_from_cart',
     async (data, thunkAPI) => {

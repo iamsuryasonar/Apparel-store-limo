@@ -4,16 +4,17 @@ import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from './ProductCard';
 
 function ProductCarousel({ products }) {
-    const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const containerRef = useRef(null);
+
+    const [currentProductIndex, setCurrentProductIndex] = useState(0);
     const [startX, setStartX] = useState(null);
     const [swipeType, setSwipeType] = useState("");
     const [direction, setDirection] = useState(null);
 
-    // carousal handlers
+    /* carousal handlers */
     const nextProductHandler = () => {
 
-        setDirection(-1); // setting direction of item transition, in this case it is ascending order
+        setDirection(-1); /* setting direction of item transition, in this case it is ascending order */
 
         containerRef.current.style.justifyContent = 'flex-start';
         containerRef.current.style.transform = `translate(-100%)`;
@@ -23,27 +24,25 @@ function ProductCarousel({ products }) {
     const prevProductHandler = () => {
         if (direction === -1) {
 
-            // while direction is changed justifyContent is set to flex-end 
-            // which takes the whole array of divs as it is and places the end of it to the visible viewport (ie. the carousel div)
-            // But below you can see just after setting flex-end we are setting translate to 100%
-            // this causes the visible viewport to shift one more time unnecessarily.
-            // which could be solved by just reversing the translate operation we did, 
-            // that is by appending child to end of the containerDiv
+            /* while direction is changed justifyContent is set to flex-end 
+            which takes the whole array of divs as it is and places the end of it to the visible viewport (ie. the carousel div)
+            But below you can see just after setting flex-end we are setting translate to 100%
+            this causes the visible viewport to shift one more time unnecessarily.
+            which could be solved by just reversing the translate operation we did, 
+            that is by appending child to end of the containerDiv */
 
             const firstElement = containerRef.current.firstElementChild;
             containerRef.current.appendChild(firstElement);
         }
 
-        setDirection(1);// setting direction of item transition, in this case it is decending order
+        setDirection(1); /* setting direction of item transition, in this case it is decending order */
 
         containerRef.current.style.justifyContent = 'flex-end';
         containerRef.current.style.transform = `translate(100%)`;
         setCurrentProductIndex(Math.abs((currentProductIndex - 1) % products.length));
     };
 
-
-
-    //swipe handlers
+    /* swipe handlers */
     const handleTouchStart = (e) => {
         setStartX(e.touches[0].clientX);
     };
@@ -70,12 +69,11 @@ function ProductCarousel({ products }) {
         setSwipeType("");
     };
 
-
     const handleTransitionEnd = () => {
         if (containerRef.current) {
 
-            const firstElement = containerRef.current.firstElementChild;// getting the first element
-            const lastElement = containerRef.current.lastElementChild;// getting the last element
+            const firstElement = containerRef.current.firstElementChild; // getting the first element
+            const lastElement = containerRef.current.lastElementChild; // getting the last element
 
             if (direction === -1 && firstElement) {
                 containerRef.current.appendChild(firstElement);
@@ -85,13 +83,13 @@ function ProductCarousel({ products }) {
                 containerRef.current.prepend(lastElement);
             }
 
-            // translate needs reset after transition but without another transition
-            //  which is why transition is set to none
+            /* translate needs reset after transition but without another transition
+            which is why transition is set to none */
             containerRef.current.style.transition = 'none';
             containerRef.current.style.transform = `translate(0)`;
 
             setTimeout(() => {
-                // javascript tends to execute this transition too fast, so iykiyk
+                /* javascript tends to execute this transition too fast*/
                 containerRef.current.style.transition = 'all 700ms ease-in-out'
             });
         }
@@ -197,53 +195,9 @@ function ProductCarousel({ products }) {
                         icon={faCaretRight}
                     />
                 </div>
-                {/* <div style={{
-                    position: 'absolute',
-                    bottom: '10px',
-                    right: 0,
-                    left: 0,
-                    display: 'flex',
-                    justifyContent: 'center',
-                    gap: '10px'
-                }}>
-                    {products.map((_, index) => {
-                        return (
-                            <div
-                                key={index}
-                                style={{
-                                    width: "10px",
-                                    height: "10px",
-                                    boxShadow: "1px 1px 2px rgba(0,0,0,.9)",
-                                    borderRadius: "50%",
-                                    cursor: "pointer",
-                                    objectFit: "cover",
-                                    ...(currentProductIndex === index
-                                        ? {
-                                            border: "3px solid white",
-                                            backgroundColor: "#ffffff",
-                                        }
-                                        : {
-                                            border: "3px solid gray",
-                                        }),
-                                }}
-                                onClick={() => {
-                                    jumpToHandler(index);
-                                }}
-                            ></div>
-                        );
-                    })} 
-                </div>*/}
             </div>
         </div>
     );
 }
 
 export default ProductCarousel;
-
-// {
-//     products?.map((product, index) => {
-//         return <div key={index} style={{ translate: `${-100 * currentProductIndex}%`, transition: 'translate 700ms ease-in-out' }} className={`w-full h-full shrink-0 grow-0 flex items-center justify-center`}>
-//             <ProductCard key={index} product={product} index={index} arr={products} />
-//         </div>
-//     })
-// }

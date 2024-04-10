@@ -1,21 +1,23 @@
 import { useState, useMemo, useEffect } from 'react';
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
-import AddAddressForm from '../components/AddAddressForm'
+import AddressService from '../services/address.services'
+import PaymentServices from '../services/payment.services'
+import { get_all_cart_items } from '../store/slices/cartSlice';
 import razorpay from '../assets/logos/razorpay.png'
 import visa from '../assets/logos/visa.png'
 import mastercard from '../assets/logos/mastercard.png'
 import upi from '../assets/logos/upi.png'
 import next_page_svg from '../assets/next_page.svg'
-import AddressService from '../services/address.services'
-import PaymentServices from '../services/payment.services'
-import { get_all_cart_items } from '../store/slices/cartSlice';
+import AddAddressForm from '../components/AddAddressForm'
 
 function CheckOutPage() {
     let { state } = useLocation();
     const navigate = useNavigate()
+
     const dispatch = useDispatch();
     const user = useSelector((state) => state.auth.userData);
+
     const [addressFormVisible, setAddressFormVisible] = useState(false)
     const [addresses, setAddresses] = useState(null);
     const [selectedAddress, setSelectedAddress] = useState(0);
@@ -43,7 +45,7 @@ function CheckOutPage() {
         let order = await PaymentServices.orderPayment();
         let options = {
             "key": import.meta.env.VITE_KEY,
-            "amount": order?.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            "amount": order?.amount, /* Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise */
             "currency": "INR",
             "name": "Limo store",
             "description": "Test Transaction",
@@ -79,12 +81,12 @@ function CheckOutPage() {
         var rzp1 = new window.Razorpay(options);
         rzp1.on('payment.failed', function (response) {
             alert(response.error.reason);
-            // alert(response.error.code);
-            // alert(response.error.description);
-            // alert(response.error.source);
-            // alert(response.error.step);
-            // alert(response.error.metadata.order_id);
-            // alert(response.error.metadata.payment_id);
+            /* alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id); */
         });
         rzp1.open();
         e.preventDefault();
@@ -158,7 +160,7 @@ function CheckOutPage() {
                     <div className='flex flex-col gap-2 '>
                         {state?.map((item) => {
                             return (
-                                <div key={item._id} className=' flex flex-row justify-between p-2 gap-2 '>
+                                <div key={item?._id} className=' flex flex-row justify-between p-2 gap-2 '>
                                     <div className='relative w-32'>
                                         <img alt='product' className=' aspect-square' src={item?.colorvariant.images[0].url}></img>
                                         <p className='absolute w-6 text-center top-0 right-0 rounded-full bg-black text-white'>{item?.quantity}</p>

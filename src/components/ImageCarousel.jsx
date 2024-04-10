@@ -4,14 +4,14 @@ import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 
 
 function ImageCarousel({ images }) {
+    const containerRef = useRef(null);
+
     const [currentImage, setCurrentImage] = useState(0);
     const [loadedImages, setLoadedImages] = useState([]);
-
-    const containerRef = useRef(null);
     const [startX, setStartX] = useState(null);
     const [swipeType, setSwipeType] = useState('');
 
-    // carousal handlers
+    /* carousal handlers */
     const nextImageHandler = () => {
         if (currentImage < images.length - 1) {
             setCurrentImage(currentImage + 1);
@@ -31,7 +31,7 @@ function ImageCarousel({ images }) {
         setLoadedImages((prevLoadedImages) => [...prevLoadedImages, index]);
     };
 
-    //swipe handlers
+    /* swipe handlers */
     const handleTouchStart = (e) => {
         setStartX(e.touches[0].clientX);
     };

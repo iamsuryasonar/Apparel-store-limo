@@ -8,7 +8,7 @@ import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
 import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
 
-
+/* displays list of products by category */
 function ProductsByCategoryPage() {
     const { id } = useParams();
     let { state } = useLocation();
@@ -26,8 +26,10 @@ function ProductsByCategoryPage() {
         maxValue: 100,
     });
 
-    // priceRange is multiple of 60 because RangeSlider does not allow range more than 100
-    // maximum price is assumed to be 6000 for now hence 60 multiplied by 100.
+    /*  
+        priceRange is multiple of 60 because RangeSlider does not allow range more than 100
+        maximum price is assumed to be 6000 for now hence 60 multiplied by 100. 
+    */
     const priceRange = [minMaxValue.minValue * 60, minMaxValue.maxValue * 60];
 
     const [activeFilters, setActiveFilters] = useState({
@@ -55,8 +57,10 @@ function ProductsByCategoryPage() {
     };
 
     const removeFilterCriteria = (type) => {
-        //this function removes criteria of filter and sets values to default values.
-        // updating removedCriteria triggers useEffect to get updated product values
+        /*   
+            this function removes criteria of filter and sets values to default values.
+            updating removedCriteria triggers useEffect to get updated product values 
+        */
 
         if (type === 'RANGE') {
             setMinMaxValue((prev) => ({
@@ -113,13 +117,13 @@ function ProductsByCategoryPage() {
             if (entries[0].isIntersecting) {
 
                 if (products?.pagination?.page_no === products?.pagination?.total_pages) {
-                    // if total pages retrieved, disconnect the obeserver and return
+                    /* if total pages retrieved, disconnect the obeserver and return */
                     observer.current.disconnect();
                     return;
                 }
 
-                // another slice to get one more page and append it to the
-                // previously fetched products list also replacing pagination information
+                /* another slice to get one more page and append it to the
+                previously fetched products list also replacing pagination information */
                 dispatch(get_more_products_by_category_id({
                     id,
                     pageNo: products?.pagination?.page_no + 1,
@@ -135,7 +139,7 @@ function ProductsByCategoryPage() {
         const scrollContainer = document.querySelector('.scroll-container');
 
         if (scrollContainer) {
-            // observes the scroll-container className that is attached to the last third product card
+            /* observes the scroll-container className that is attached to the last third product card */
             observer.current.observe(scrollContainer);
         }
     }

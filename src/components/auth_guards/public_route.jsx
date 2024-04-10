@@ -1,10 +1,8 @@
 import { useMemo } from 'react'
 import { Outlet, Navigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { LOCAL_STORAGE_NAME } from '../../constants/constant';
+import { LOCAL_STORAGE_NAME } from '../../utilities/constants';
 
-const PublicRoute = ({ userData, children }) => {
-    const dispatch = useDispatch()
+const PublicRoute = ({ userData }) => {
     const accessToken = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.accessToken;
 
     const isAuthenticated = useMemo(() => {

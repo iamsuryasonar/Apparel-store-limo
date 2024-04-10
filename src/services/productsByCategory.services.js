@@ -1,23 +1,16 @@
 import axios from "axios";
-import { API_URL } from '../constants/constant'
-
-const getheaders = () => {
-    const headers = {
-        "Accept": "*/*",
-        'Content-Type': 'application/json',
-    }
-    return headers
-}
+import { API_URL } from '../utilities/constants'
+import { getNonAuthHeaders } from '../utilities/utility'
 
 const getProduct = async (id) => {
     const response = await axios
-        .get(API_URL + 'product/public/' + id, { headers: getheaders() })
+        .get(API_URL + 'product/public/' + id, { headers: getNonAuthHeaders() })
     return response.data.results
 }
 
 const getProducts = async () => {
     const response = await axios
-        .get(API_URL + 'product/public/products', { headers: getheaders() })
+        .get(API_URL + 'product/public/products', { headers: getNonAuthHeaders() })
     return response.data.results
 }
 
@@ -30,7 +23,7 @@ const getProductsByCategoryId = async (data) => {
                 from: data?.from,
                 to: data?.to,
             },
-            headers: getheaders()
+            headers: getNonAuthHeaders()
         })
     return response.data.results
 }

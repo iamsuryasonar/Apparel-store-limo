@@ -31,9 +31,9 @@ function HomePage() {
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
             <BannerSection />
             <ProductSection categories={categories} />
-            <NewArrivedProducts categories={categories} />
             {
                 categories && <>
+                    <NewArrivedProducts categories={categories} />
                     <InstagramWrapper />
                     <Subscribe />
                     <ServicesSection />
