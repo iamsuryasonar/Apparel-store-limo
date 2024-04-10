@@ -1,6 +1,5 @@
 import "./App.css";
 import { Routes, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
 import HomePage from "./pages/home/HomePage";
 import LogInPage from "./pages/LogInPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -18,26 +17,20 @@ import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 import NoPage from "./pages/NoPage";
 
 function App() {
-  const userData = useSelector((state) => state.auth?.userData);
-
   return (
     <Routes>
       <Route element={<NavAndOutlet />}>
-        <Route element={<PublicRoute userData={userData} />}>
-          <Route path="/sign-in" element={<LogInPage />} />
-          <Route path="/sign-up" element={<RegisterPage />} />
-        </Route>
+        <Route path="/sign-in" element={<PublicRoute><LogInPage /></PublicRoute>} />
+        <Route path="/sign-up" element={<PublicRoute><RegisterPage /></PublicRoute>} />
         <Route path="/" element={<HomePage />} />
         <Route path="/products/:id" element={<ProductsByCategoryPage />} />
         <Route path="/contact-us" element={<ContactPage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />
         <Route path="/product/:id" element={<ProductPage />} />
-        <Route element={<PrivateRoute userData={userData} />}>
-          <Route path="/account" element={<AccountPage />}></Route>
-          <Route path='/check-out' element={<CheckOutPage />}></Route>
-          <Route path='/order-placed' element={<OrderPlacedPage />}></Route>
-        </Route>
+        <Route path="/account" element={<PrivateRoute><AccountPage /></PrivateRoute>}></Route>
+        <Route path='/check-out' element={<PrivateRoute><CheckOutPage /> </PrivateRoute>}></Route>
+        <Route path='/order-placed' element={<PrivateRoute><OrderPlacedPage /> </PrivateRoute>}></Route>
       </Route>
       <Route path='*' element={<NoPage />}></Route>
     </Routes >

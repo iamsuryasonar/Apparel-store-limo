@@ -99,7 +99,7 @@ export const logout = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      await AuthService.logout();
+      AuthService.logout();
       return;
     } catch (error) {
       const message =
@@ -116,44 +116,62 @@ export const logout = createAsyncThunk(
     }
   });
 
-const initialState = {
-  userData: null,
-  accessToken: null,
-};
+const user = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME));
+
+const initialState = user?.accessToken
+  ? {
+    isLoggedIn: true,
+    userData: user.userData,
+    accessToken: user.accessToken,
+  }
+  : {
+    isLoggedIn: false,
+    userData: null,
+    accessToken: null,
+  }
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   extraReducers: (builder) => {
     builder
       .addCase(initialiseUser.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
         state.userData = action.payload.userData;
         state.accessToken = action.payload.accessToken;
       })
       .addCase(initialiseUser.rejected, (state, action) => {
+        state.isLoggedIn = false;
         state.userData = null;
         state.accessToken = null;
       })
       .addCase(register.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
         state.userData = action.payload.userData;
         state.accessToken = action.payload.accessToken;
       })
       .addCase(register.rejected, (state, action) => {
+        state.isLoggedIn = false;
         state.userData = null;
         state.accessToken = null;
       })
       .addCase(login.fulfilled, (state, action) => {
+        state.isLoggedIn = true;
         state.userData = action.payload.userData;
         state.accessToken = action.payload.accessToken;
       })
       .addCase(login.rejected, (state, action) => {
+        state.isLoggedIn = false;
         state.userData = null;
         state.accessToken = null;
       })
       .addCase(logout.fulfilled, (state, action) => {
+        state.isLoggedIn = false;
         state.userData = null;
         state.accessToken = null;
       })
       .addCase(logout.rejected, (state, action) => {
+        state.isLoggedIn = false;
         state.userData = null;
         state.accessToken = null;
       });

@@ -1,22 +1,10 @@
-import { useMemo } from 'react'
-import { Outlet, Navigate } from 'react-router-dom';
-import { LOCAL_STORAGE_NAME } from '../../utilities/constants';
+import { Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-const PublicRoute = ({ userData }) => {
-    const accessToken = JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.accessToken;
+const PublicRoute = ({ children }) => {
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
 
-    const isAuthenticated = useMemo(() => {
-        return (userData, accessToken) => {
-            return userData && accessToken;
-        };
-    }, []);
-
-    return isAuthenticated(userData, accessToken) ? (
-        <Navigate to="/" />
-    ) : (
-        <Outlet />
-    )
-
-}
+    return isLoggedIn ? <Navigate to="/" /> : <>{children}</>;
+};
 
 export default PublicRoute;
