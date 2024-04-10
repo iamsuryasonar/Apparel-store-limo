@@ -19,8 +19,10 @@ function Nav() {
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
+    const showSearchContainer = useSelector((state) => state.search.show);
+
     const [menu, setMenu] = useState(false);
-    const [toggleCart, setToggleCart] = useState(false);
+    const [isCartActive, setIsCartActive] = useState(false);
 
     let navItems = [
         {
@@ -43,6 +45,10 @@ function Nav() {
     const toggleMenu = () => {
         setMenu(!menu);
     };
+
+    const toggleCart = () => {
+        setIsCartActive(!isCartActive)
+    }
 
     useEffect(() => {
         if (user) {
@@ -80,7 +86,7 @@ function Nav() {
 
                     {/* cart */}
                     {user &&
-                        <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center relative cursor-pointer' onClick={() => setToggleCart(!toggleCart)}>
+                        <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center relative cursor-pointer' onClick={() => setIsCartActive(!isCartActive)}>
                             {cartItems?.length > 0 &&
                                 <div className=' absolute top-0 right-0 bg-orange-400 w-5 h-5 rounded-full flex justify-center items-center '>
                                     <p className=''>{cartItems?.length}</p>
@@ -95,7 +101,7 @@ function Nav() {
                     </div>
                 </div>
 
-                {user && <Cart show={toggleCart} setToggleCart={setToggleCart} />}
+                {user && isCartActive && <Cart show={isCartActive} toggleCart={toggleCart} />}
 
                 <Transition in={menu} timeout={100}>
                     {(state) => (
@@ -116,7 +122,7 @@ function Nav() {
                     )}
                 </Transition >
             </div >
-            <SearchComponent />
+            {showSearchContainer && <SearchComponent />}
         </>
     )
 }

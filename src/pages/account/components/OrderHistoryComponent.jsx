@@ -4,7 +4,6 @@ import OrderShimmer from '../../../components/shimmers/OrderShimmer';
 import OrderServices from "../../../services/order.services";
 
 function OrderHistoryComponent() {
-
     const navigate = useNavigate();
 
     const [orders, setOrders] = useState(null);
@@ -34,7 +33,7 @@ function OrderHistoryComponent() {
                             }}
                         >
                             <div className="w-52  bg-white">
-                                <img alt='product'  className='aspect-square object-cover' src={order.item.colorvariant.images[0].url}></img>
+                                <img alt='product' className='aspect-square object-cover' src={order.item.colorvariant.images[0].url}></img>
                             </div>
                             <div className="">
                                 <p className="text-xl font-medium">{order.item.product.name}</p>

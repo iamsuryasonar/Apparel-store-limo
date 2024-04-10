@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Transition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -172,7 +172,7 @@ const SearchComponent = () => {
                         </div>
                         <div ref={scrollToElement} className='overflow-auto scrollbar'>
                             <div className={`w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
-                                <ProductsComponent products={result} />
+                                {result?.products?.length > 0 && <ProductsComponent products={result} />}
                             </div>
                         </div>
                     </div>

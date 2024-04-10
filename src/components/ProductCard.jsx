@@ -19,7 +19,7 @@ function ProductCard(props) {
 
     /* scroll-container class is just to observe the last 3rd product and load more products(for pagination) */
     return <div ref={ref} key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} relative min-h-[300px] min-w-[150px] w-full h-full flex flex-col cursor-pointer group transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
-        onClick={() => {
+        onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
             })

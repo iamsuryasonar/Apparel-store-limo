@@ -9,7 +9,7 @@ import FollowUsSection from './components/FollowUsSection'
 import HelpAndInformationSection from './components/HelpAndInformationSection'
 import ServicesSection from './components/ServicesSection'
 import NewArrivedProducts from './components/NewArrivedProducts'
-import ProductSection from './components/ProductSection'
+import CategorySection from './components/CategorySection'
 
 function HomePage() {
     const dispatch = useDispatch();
@@ -30,7 +30,7 @@ function HomePage() {
     return (
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
             <BannerSection />
-            <ProductSection categories={categories} />
+            <CategorySection categories={categories} />
             {
                 categories && <>
                     <NewArrivedProducts categories={categories} />

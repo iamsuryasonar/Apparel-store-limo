@@ -3,39 +3,40 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
 import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
-import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
 
 /* displays list of products by category */
 function ProductsByCategoryPage() {
     const { id } = useParams();
     let { state } = useLocation();
+
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productsByCategory.productsByCategory)
-    const numberOfProducts = (products?.pagination?.per_page * products?.pagination?.page_no) - products?.pagination?.total_products > 0 ? products?.pagination?.total_products : products?.pagination?.per_page * products?.pagination?.page_no;
-    const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
 
-    const [sortType, setSortType] = useState(null);
-    const [removedCriteria, setRemovedCriteria] = useState(null);
+
     const observer = useRef();
 
+    const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
+    const [sortType, setSortType] = useState(null);
+    const [removedCriteria, setRemovedCriteria] = useState(null);
     const [minMaxValue, setMinMaxValue] = useState({
         minValue: 0,
         maxValue: 100,
     });
-
-    /*  
-        priceRange is multiple of 60 because RangeSlider does not allow range more than 100
-        maximum price is assumed to be 6000 for now hence 60 multiplied by 100. 
-    */
-    const priceRange = [minMaxValue.minValue * 60, minMaxValue.maxValue * 60];
-
     const [activeFilters, setActiveFilters] = useState({
         sortType: '',
         range: ''
     })
+
+    /*  
+    priceRange is multiple of 60 because RangeSlider does not allow range more than 100
+    maximum price is assumed to be 6000 for now hence 60 multiplied by 100. 
+    */
+    const priceRange = [minMaxValue.minValue * 60, minMaxValue.maxValue * 60];
+    const numberOfProducts = (products?.pagination?.per_page * products?.pagination?.page_no) - products?.pagination?.total_products > 0 ? products?.pagination?.total_products : products?.pagination?.per_page * products?.pagination?.page_no;
 
     const sortHandler = (type) => {
         setSortType(type);

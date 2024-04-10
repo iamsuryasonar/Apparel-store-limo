@@ -54,17 +54,17 @@ function AccountPage() {
           onClick={() => {
             setMenu(!menu);
           }}
-          className="w-full py-2 p-4 bg-slate-200 flex flex-row justify-between cursor-pointer"
+          className="w-full py-2 p-4 bg-slate-100 shadow-lg flex flex-row justify-between cursor-pointer border-[1px] border-black group"
         >
           <p className="">My Account</p>
           {menu ? (
             <FontAwesomeIcon
-              className="place-self-center hover:text-green-500"
+              className="place-self-center group-hover:text-green-500"
               icon={faArrowUp}
             />
           ) : (
             <FontAwesomeIcon
-              className="place-self-center hover:text-green-500"
+              className="place-self-center group-hover:text-green-500"
               icon={faArrowDown}
             />
           )}
@@ -81,7 +81,7 @@ function AccountPage() {
                     setMenu(false);
                   }}
                   key={item.id}
-                  className="w-full py-2 p-4 hover:bg-slate-300 bg-slate-50 border cursor-pointer"
+                  className="w-full py-2 p-4  hover:bg-white bg-slate-100 cursor-pointer"
                 >
                   {item.title}
                 </p>
@@ -89,7 +89,7 @@ function AccountPage() {
             })}
             <p
               onClick={() => setIsLogoutModal(true)}
-              className="w-full py-2 p-4 bg-slate-50 hover:bg-slate-300 border cursor-pointer"
+              className="w-full py-2 p-4 bg-slate-100 shadow-lg hover:bg-white cursor-pointer "
             >
               Log out
             </p>

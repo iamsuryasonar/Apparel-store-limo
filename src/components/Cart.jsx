@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -7,24 +7,11 @@ import { Transition } from 'react-transition-group';
 import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
 
 function Cart(props) {
-    const { show, setToggleCart } = props;
+    const { show, toggleCart } = props;
 
     const navigate = useNavigate();
 
     const cartItems = useSelector((state) => state.cart.cart);
-
-    /* prevents body from scrolling while cart is active */
-    /* useEffect(() => {
-        if (show) {
-            document.body.style.overflow = 'hidden';
-        } else {
-            document.body.style.overflow = 'auto';
-        }
-
-        return () => {
-            document.body.style.overflow = 'auto';
-        };
-    }, [show]); */
 
     const totalPrice = useMemo(() => {
         return cartItems?.reduce((acc, item) => {
@@ -42,7 +29,7 @@ function Cart(props) {
                                 <h1 className="">CART</h1>
                                 <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
                                     <FontAwesomeIcon onClick={() =>
-                                        setToggleCart(false)
+                                        toggleCart()
                                     } className='text-4xl group-hover:text-blue-500' icon={faXmark} />
                                 </div>
                             </div>
@@ -58,7 +45,7 @@ function Cart(props) {
                                 :
                                 (
                                     cartItems?.map((item) => {
-                                        return <CartItem key={item._id} product={item} setToggleCart={setToggleCart} />
+                                        return <CartItem key={item._id} product={item} toggleCart={toggleCart} />
                                     })
                                 )
                             }
@@ -73,7 +60,7 @@ function Cart(props) {
                                 {cartItems?.length > 0 && <>
                                     <p>Shipping, taxes and discount codes are calculated at check-out</p>
                                     <button onClick={() => {
-                                        setToggleCart(false)
+                                        toggleCart()
                                         navigate('/check-out', { state: cartItems })
                                     }} className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
                                 </>}
@@ -87,10 +74,10 @@ function Cart(props) {
     )
 }
 
-export default Cart;
+export default React.memo(Cart);
 
-function CartItem(props) {
-    const { product, setToggleCart } = props
+const CartItem = (props) => {
+    const { product, toggleCart } = props
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -160,15 +147,16 @@ function CartItem(props) {
         })
     }
 
-    return <div className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-xl bg-slate-100 rounded-md'
-        onClick={() => {
-            navigate(`/product/${product?.product?._id}`, {
-                state: { colorVariantId: product?.colorvariant?.id, sizeVariantId: product?.sizevariant?._id, productId: product?.product?._id }
-            })
-            setToggleCart(false)
-        }}>
+    return <div className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-md bg-white rounded-md'
+        onClick={
+            () => {
+                navigate(`/product/${product?.product?._id}`, {
+                    state: { colorVariantId: product?.colorvariant?.id, sizeVariantId: product?.sizevariant?._id, productId: product?.product?._id }
+                })
+                toggleCart()
+            }}>
         <img alt='product' className='w-40 aspect-square' src={product?.colorvariant.images[0].url}></img>
-        <div className='flex flex-col gap-2 py-2'>
+        <div className='flex flex-col gap-2 pb-2 pt-4 pr-4'>
             <p>{product?.product?.name}</p>
             <p>size: {product?.sizevariant?.name}</p>
             <p className='place-self-end'>Rs. {product?.sizevariant?.selling_price}</p>
@@ -193,7 +181,7 @@ function CartItem(props) {
         <div onClick={(e) => {
             e.stopPropagation()
             removeItemFromCart(product)
-        }} className='absolute top-0 right-0 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
+        }} className='absolute top-1 right-1 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
             <FontAwesomeIcon icon={faXmark} />
         </div>
     </div>

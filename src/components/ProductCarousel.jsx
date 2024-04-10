@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCaretLeft, faCaretRight } from "@fortawesome/free-solid-svg-icons";
 import ProductCard from './ProductCard';
@@ -89,7 +89,6 @@ function ProductCarousel({ products }) {
             containerRef.current.style.transform = `translate(0)`;
 
             setTimeout(() => {
-                /* javascript tends to execute this transition too fast*/
                 containerRef.current.style.transition = 'all 700ms ease-in-out'
             });
         }
@@ -200,4 +199,4 @@ function ProductCarousel({ products }) {
     );
 }
 
-export default ProductCarousel;
+export default React.memo(ProductCarousel);

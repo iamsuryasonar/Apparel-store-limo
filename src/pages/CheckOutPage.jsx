@@ -128,7 +128,7 @@ function CheckOutPage() {
                                 return <div key={address?._id} onClick={() => {
                                     setSelectedAddress(index)
                                     setShowAllAddresses(false)
-                                }} className='bg-slate-50 p-2 rounded-sm cursor-pointer' > {console.log(address)}
+                                }} className='bg-slate-50 p-2 rounded-sm cursor-pointer' >
                                     <p> {address?.name}, {address?.contact_number}, {address?.pin}, {address?.city}, {address?.state}, {address?.country}...</p>
                                 </div>
                             })}

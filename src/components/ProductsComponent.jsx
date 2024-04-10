@@ -1,3 +1,4 @@
+import React from 'react'
 import ProductCard from './ProductCard';
 import ProductShimmer from '../components/shimmers/ProductShimmer';
 
@@ -12,4 +13,4 @@ function ProductsComponent({ products }) {
     </>
 }
 
-export default ProductsComponent;
+export default React.memo(ProductsComponent);

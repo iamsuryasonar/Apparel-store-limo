@@ -1,8 +1,9 @@
+import React from 'react';
 import useOnScreen from '../../../hooks/useOnScreen'
 import CategoryCard from '../../../components/CategoryCard'
 import CategoryShimmer from '../../../components/shimmers/CategoryShimmer'
 
-function ProductSection({ categories }) {
+function CategorySection({ categories }) {
     const [ref, isVisible] = useOnScreen({ threshold: 0 });
 
     return <div ref={ref} className={`w-11/12 h-full transition-all duration-700 delay-100 ${isVisible && categories ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}>
@@ -15,4 +16,4 @@ function ProductSection({ categories }) {
     </div>
 }
 
-export default ProductSection
+export default CategorySection
