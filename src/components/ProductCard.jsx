@@ -2,9 +2,11 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux';
 import { setShowSearch } from '../store/slices/searchSlice';
+import useOnScreen from '../hooks/useOnScreen'
 
 function ProductCard(props) {
     const { product, index, arr } = props;
+    const [ref, isVisible] = useOnScreen({ threshold: 0 });
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -16,7 +18,7 @@ function ProductCard(props) {
     };
 
     /* scroll-container class is just to observe the last 3rd product and load more products(for pagination) */
-    return <div key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} relative min-h-[300px] min-w-[150px] w-full h-full flex flex-col cursor-pointer group`}
+    return <div ref={ref} key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} relative min-h-[300px] min-w-[150px] w-full h-full flex flex-col cursor-pointer group transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
         onClick={() => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }

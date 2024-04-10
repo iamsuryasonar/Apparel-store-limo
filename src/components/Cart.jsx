@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect } from 'react'
+import { useState, useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -11,11 +11,10 @@ function Cart(props) {
 
     const navigate = useNavigate();
 
-    const dispatch = useDispatch();
     const cartItems = useSelector((state) => state.cart.cart);
 
     /* prevents body from scrolling while cart is active */
-    useEffect(() => {
+    /* useEffect(() => {
         if (show) {
             document.body.style.overflow = 'hidden';
         } else {
@@ -25,13 +24,76 @@ function Cart(props) {
         return () => {
             document.body.style.overflow = 'auto';
         };
-    }, [show]);
+    }, [show]); */
 
     const totalPrice = useMemo(() => {
         return cartItems?.reduce((acc, item) => {
             return acc + item?.sizevariant?.selling_price * item?.quantity;
         }, 0);
     }, [cartItems]);
+
+    return (
+        <Transition in={show} timeout={100}>
+            {(state) => (
+                <div className={`z-50 fixed inset-0 md:left-1/2 xl:left-2/3 bg-slate-100 px-4 py-6 transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 ' : 'translate-x-full '}`}>
+                    <div className="flex flex-col gap-4 w-full h-full">
+                        <div className="font-mono font-bold text-xl">
+                            <div className='flex justify-between items-center'>
+                                <h1 className="">CART</h1>
+                                <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                                    <FontAwesomeIcon onClick={() =>
+                                        setToggleCart(false)
+                                    } className='text-4xl group-hover:text-blue-500' icon={faXmark} />
+                                </div>
+                            </div>
+                            <div className='h-[1px] bg-black w-full'></div>
+                        </div>
+                        <div className='h-full flex flex-col gap-4 overflow-auto scrollbar overscroll-none p-2'>
+                            {cartItems?.length === 0 ?
+                                (
+                                    <div className="flex flex-col mt-20 justify-center items-center">
+                                        <p>Your cart is empty</p>
+                                    </div>
+                                )
+                                :
+                                (
+                                    cartItems?.map((item) => {
+                                        return <CartItem key={item._id} product={item} setToggleCart={setToggleCart} />
+                                    })
+                                )
+                            }
+                        </div>
+                        <div className='w-full h-auto relative bottom-0 right-0 bg-slate-100'>
+                            <div className='w-full h-[1px] bg-black'></div>
+                            <div className='flex flex-col gap-2'>
+                                <div className='flex flex-row justify-between'>
+                                    <p>SUBTOTAL</p>
+                                    <p>Rs. {totalPrice}</p>
+                                </div>
+                                {cartItems?.length > 0 && <>
+                                    <p>Shipping, taxes and discount codes are calculated at check-out</p>
+                                    <button onClick={() => {
+                                        setToggleCart(false)
+                                        navigate('/check-out', { state: cartItems })
+                                    }} className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
+                                </>}
+                            </div>
+                        </div>
+                    </div>
+                </div >
+            )
+            }
+        </Transition >
+    )
+}
+
+export default Cart;
+
+function CartItem(props) {
+    const { product, setToggleCart } = props
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const [countMap, setCountMap] = useState(new Map());
 
@@ -65,7 +127,6 @@ function Cart(props) {
         } else {
             if (type === 'DECREMENT') {
                 setCountMap(prev => {
-                    console.log(prev)
                     const updatedMap = new Map(prev);
                     updatedMap.set(itemId, itemCount - 1);
                     return updatedMap;
@@ -99,80 +160,41 @@ function Cart(props) {
         })
     }
 
-    return (
-        <Transition in={show} timeout={100}>
-            {(state) => (
-                <div className={`z-50 fixed inset-0 md:left-1/2 xl:left-2/3 bg-slate-100 px-4 py-6 transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 ' : 'translate-x-full '}`}>
-                    <div className="flex flex-col gap-4 w-full h-full">
-                        <div className="font-mono font-bold text-xl">
-                            <div className='flex justify-between items-center'>
-                                <h1 className="">CART</h1>
-                                <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
-                                    <FontAwesomeIcon onClick={() =>
-                                        setToggleCart(false)
-                                    } className='text-4xl group-hover:text-blue-500' icon={faXmark} />
-                                </div>
-                            </div>
-                            <div className='h-[1px] bg-black w-full'></div>
-                        </div>
-                        <div className='h-full flex flex-col gap-4 overflow-auto scrollbar overscroll-none p-2'>
-                            {cartItems?.length === 0 ?
-                                (
-                                    <div className="flex flex-col mt-20 justify-center items-center">
-                                        <p>Your cart is empty</p>
-                                    </div>
-                                )
-                                :
-                                (
-                                    cartItems?.map((item) => {
-                                        return (
-                                            <div key={item._id} className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-xl bg-slate-100 rounded-md '>
-                                                <img alt='product' className='w-40 aspect-square' src={item?.colorvariant.images[0].url}></img>
-                                                <div className='flex flex-col gap-2 py-2'>
-                                                    <p>{item?.product?.name}</p>
-                                                    <p>size: {item?.sizevariant?.name}</p>
-                                                    <p className='place-self-end'>Rs. {item?.sizevariant?.selling_price}</p>
-                                                    <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
-                                                        <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => countHandler(item._id, item?.quantity, 'DECREMENT')}>-</p>
-                                                        <p className='px-1 cursor-pointer'>{countMap?.has(item?._id) ? countMap?.get(item?._id) : item?.quantity}</p>
-                                                        <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white' onClick={() => countHandler(item._id, item?.quantity, 'INCREMENT')}>+</p>
-                                                    </div>
-                                                    {countMap?.has(item?._id) && <div onClick={() => {
-                                                        updateItemQuantityHandler(countMap?.get(item?._id), item?._id)
-                                                    }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
-                                                </div>
-                                                <div onClick={() =>
-                                                    removeItemFromCart(item)
-                                                } className='absolute top-0 right-0 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
-                                                    <FontAwesomeIcon icon={faXmark} />
-                                                </div>
-                                            </div>
-                                        )
-                                    })
-                                )
-                            }
-                        </div>
-                        <div className='w-full h-auto relative bottom-0 right-0 bg-slate-100'>
-                            <div className='w-full h-[1px] bg-black'></div>
-                            <div className='flex flex-col gap-2'>
-                                <div className='flex flex-row justify-between'>
-                                    <p>SUBTOTAL</p>
-                                    <p>Rs. {totalPrice}</p>
-                                </div>
-                                {cartItems?.length > 0 && <>
-                                    <p>Shipping, taxes and discount codes are calculated at check-out</p>
-                                    <button onClick={() => {
-                                        setToggleCart(false)
-                                        navigate('/check-out', { state: cartItems })
-                                    }} className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
-                                </>}
-                            </div>
-                        </div>
-                    </div>
-                </div >
-            )}
-        </Transition >
-    )
+    return <div className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-xl bg-slate-100 rounded-md'
+        onClick={() => {
+            navigate(`/product/${product?.product?._id}`, {
+                state: { colorVariantId: product?.colorvariant?.id, sizeVariantId: product?.sizevariant?._id, productId: product?.product?._id }
+            })
+            setToggleCart(false)
+        }}>
+        <img alt='product' className='w-40 aspect-square' src={product?.colorvariant.images[0].url}></img>
+        <div className='flex flex-col gap-2 py-2'>
+            <p>{product?.product?.name}</p>
+            <p>size: {product?.sizevariant?.name}</p>
+            <p className='place-self-end'>Rs. {product?.sizevariant?.selling_price}</p>
+            <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
+                <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        countHandler(product._id, product?.quantity, 'DECREMENT')
+                    }}>-</p>
+                <p className='px-1 cursor-pointer'>{countMap?.has(product?._id) ? countMap?.get(product?._id) : product?.quantity}</p>
+                <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
+                    onClick={(e) => {
+                        e.stopPropagation()
+                        countHandler(product._id, product?.quantity, 'INCREMENT')
+                    }}>+</p>
+            </div>
+            {countMap?.has(product?._id) && <div onClick={(e) => {
+                e.stopPropagation()
+                updateItemQuantityHandler(countMap?.get(product?._id), product?._id)
+            }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
+        </div>
+        <div onClick={(e) => {
+            e.stopPropagation()
+            removeItemFromCart(product)
+        }} className='absolute top-0 right-0 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
+            <FontAwesomeIcon icon={faXmark} />
+        </div>
+    </div>
 }
-
-export default Cart;
