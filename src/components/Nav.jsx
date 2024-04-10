@@ -19,7 +19,7 @@ function Nav() {
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-
+    console.log(loading);
     const [menu, setMenu] = useState(false);
     const [toggleCart, setToggleCart] = useState(false);
 

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import axios from "axios";
 import { setShowSearch } from '../store/slices/searchSlice';
+import { setLoading } from '../store/slices/loadingSlice'
 import { API_URL } from '../utilities/constants';
 import ProductsComponent from '../components/ProductsComponent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
@@ -37,6 +38,8 @@ const SearchComponent = () => {
     }, [show]);
 
     const handleSearch = async (searchedKeyword, pageNo) => {
+        dispatch(setLoading(true))
+        console.log('hello');
         const response = await axios
             .get(API_URL + 'product/by_name/' + searchedKeyword, {
                 params: {
@@ -44,12 +47,14 @@ const SearchComponent = () => {
                 },
                 headers: { 'Content-Type': 'application/json', }
             });
+        dispatch(setLoading(false))
         if (response?.data?.code === 200) {
             setResult(response.data.results);
         }
     }
 
     const handlePagination = async (searchedKeyword, pageNo) => {
+        dispatch(setLoading(true))
         const response = await axios
             .get(API_URL + 'product/by_name/' + searchedKeyword, {
                 params: {
@@ -57,6 +62,7 @@ const SearchComponent = () => {
                 },
                 headers: { 'Content-Type': 'application/json', }
             });
+        dispatch(setLoading(false))
         if (response?.data?.code === 200) {
             setResult(prev => {
                 return {
@@ -139,7 +145,7 @@ const SearchComponent = () => {
     return (
         <Transition in={show} timeout={100}>
             {(state) => (
-                <div className={`z-40 fixed bg-slate-200 rounded-lg transition-transform transform ease-in-out duration-700 overflow-hidden ${state === 'entered' ? 'translate-x-0  top-2 bottom-2 left-2 right-2' : 'translate-x-full top-2 bottom-2 left-2 right-0'}`}>
+                <div className={`z-40 fixed  rounded-lg transition-transform transform ease-in-out duration-700 overflow-hidden ${state === 'entered' ? 'translate-x-0  top-2 bottom-2 left-2 right-2' : 'translate-x-full top-2 bottom-2 left-2 right-0'}`}>
                     <div className='max-w-7xl mx-auto w-full h-full flex flex-col gap-2 p-4 bg-slate-200 rounded-md'>
                         <div className='h-auto z-50 bg-slate-200 relative top-0 w-full py-6 flex flex-row justify-between items-center gap-4' >
                             <div className="w-full relative">
