@@ -39,7 +39,6 @@ const SearchComponent = () => {
 
     const handleSearch = async (searchedKeyword, pageNo) => {
         dispatch(setLoading(true))
-        console.log('hello');
         const response = await axios
             .get(API_URL + 'product/by_name/' + searchedKeyword, {
                 params: {

@@ -15,6 +15,7 @@ import AccountPage from "./pages/account/AccountPage";
 import CheckOutPage from './pages/CheckOutPage'
 import OrderPlacedPage from './pages/OrderPlacedPage';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
+import NoPage from "./pages/NoPage";
 
 function App() {
   const userData = useSelector((state) => state.auth?.userData);
@@ -38,7 +39,7 @@ function App() {
           <Route path='/order-placed' element={<OrderPlacedPage />}></Route>
         </Route>
       </Route>
-      <Route></Route>
+      <Route path='*' element={<NoPage />}></Route>
     </Routes >
   );
 }
