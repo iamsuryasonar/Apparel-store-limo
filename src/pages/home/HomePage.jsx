@@ -5,7 +5,7 @@ import Subscribe from "./components/Subscribe";
 import InstagramWrapper from "./components/InstagramWrapper";
 import BottomAlert from '../../components/BottomAlert'
 import BannerSection from './components/BannerSection'
-import NewArrivedProducts from './components/NewArrivedProducts'
+import OurProductsSection from './components/OurProductsSection'
 import CategorySection from './components/CategorySection'
 
 function HomePage() {
@@ -30,7 +30,7 @@ function HomePage() {
             <CategorySection categories={categories} />
             {
                 categories && <>
-                    <NewArrivedProducts categories={categories} />
+                    <OurProductsSection categories={categories} />
                     <InstagramWrapper />
                     <Subscribe />
                 </>
