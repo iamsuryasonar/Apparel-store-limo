@@ -18,7 +18,7 @@ function ProductCard(props) {
     };
 
     /* scroll-container class is just to observe the last 3rd product and load more products(for pagination) */
-    return <div ref={ref} key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} relative min-h-[300px] min-w-[150px] w-full h-full flex flex-col cursor-pointer group transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
+    return <div ref={ref} key={index} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''}  rounded-md shadow-lg overflow-hidden relative min-h-[300px] min-w-[150px] w-full h-full flex flex-col cursor-pointer group transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorVariants?._id, sizeVariantId: product?.sizeVariants?._id, productId: product._id }
@@ -31,7 +31,7 @@ function ProductCard(props) {
                 <div className='w-8 h-8 bg-transparent rounded-full border-black animate-spin border-2 border-dashed border-t-transparent'></div>
             </div>
         }
-        <img alt='product' className=' object-cover w-full h-full' src={product?.image?.url} onLoad={() =>
+        <img alt='product' className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} onLoad={() =>
             handleImageLoad(product?.image?._id)
         } />
         {
@@ -42,10 +42,10 @@ function ProductCard(props) {
                 : <></>
         }
         {
-            loadedImages.includes(product?.image?._id) && <div className='flex flex-col justify-between w-full bg-slate-50 text-black group-hover:bg-black group-hover:text-white p-2 '>
+            loadedImages.includes(product?.image?._id) && <div className='flex flex-col justify-between w-full bg-white text-black group-hover:bg-slate-900 group-hover:text-white p-2 '>
                 <p className='text-sm font-semibold'>{product?.name}</p>
                 <div>
-                    <p className='text-slate-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
+                    <p className='text-white-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
                     <div className='flex flex-row gap-1 text-xs sm:text-sm'>
                         <p className=''>₹{product?.sizeVariants.selling_price}</p>
                         <div className='flex flex-row gap-1'>

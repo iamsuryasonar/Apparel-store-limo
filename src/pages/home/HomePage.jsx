@@ -5,9 +5,6 @@ import Subscribe from "./components/Subscribe";
 import InstagramWrapper from "./components/InstagramWrapper";
 import BottomAlert from '../../components/BottomAlert'
 import BannerSection from './components/BannerSection'
-import FollowUsSection from './components/FollowUsSection'
-import HelpAndInformationSection from './components/HelpAndInformationSection'
-import ServicesSection from './components/ServicesSection'
 import NewArrivedProducts from './components/NewArrivedProducts'
 import CategorySection from './components/CategorySection'
 
@@ -20,12 +17,12 @@ function HomePage() {
         dispatch(get_categories());
     }, [])
 
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, []);
+    // useEffect(() => {
+    //     window.scrollTo({
+    //         top: 0,
+    //         behavior: 'smooth'
+    //     });
+    // }, []);
 
     return (
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
@@ -36,9 +33,6 @@ function HomePage() {
                     <NewArrivedProducts categories={categories} />
                     <InstagramWrapper />
                     <Subscribe />
-                    <ServicesSection />
-                    <HelpAndInformationSection />
-                    <FollowUsSection />
                 </>
             }
             {message && <BottomAlert message={message} />}

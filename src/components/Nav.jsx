@@ -59,7 +59,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <div className="fixed h-20 top-0 right-0 left-0 z-20 bg-slate-100 p-4 justify-between flex ">
+            <nav className="fixed h-20 top-0 right-0 left-0 z-20 bg-slate-100 p-4 justify-between flex ">
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {
                         navItems.map((item) => {
@@ -121,7 +121,7 @@ function Nav() {
                         </div>
                     )}
                 </Transition >
-            </div >
+            </nav >
             {showSearchContainer && <SearchComponent />}
         </>
     )

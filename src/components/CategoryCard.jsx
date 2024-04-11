@@ -11,7 +11,7 @@ function CategoryCard({ category }) {
 
     return (
         <div className='flex justify-center'>
-            <div className="relative ">
+            <div className="relative rounded-md shadow-lg overflow-hidden">
                 {/* {
                     !loadedImages && <div className='absolute w-full h-full aspect-[400/550] bg-slate-300 animate-pulse'>
                     </div>

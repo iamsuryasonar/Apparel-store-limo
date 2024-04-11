@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCartShopping, faCreditCard, faRankingStar, faTruckFast } from "@fortawesome/free-solid-svg-icons";
 
 function ServicesSection() {
-    return <div className="w-10/12 grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-start">
+    return <section className="w-10/12 grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-start">
         <div className="flex flex-row gap-6 items-center">
             <FontAwesomeIcon className="text-xl " icon={faRankingStar} />
             <div className="flex flex-col">
@@ -31,7 +31,7 @@ function ServicesSection() {
                 <p>Ships in 24 Hours*</p>
             </div>
         </div>
-    </div>
+    </section>
 }
 
 export default ServicesSection

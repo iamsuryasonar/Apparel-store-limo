@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
 function HelpAndInformationSection() {
-    return <div className="w-full p-4 md:p-6 flex flex-col md:flex-row justify-between gap-4">
-        <div className="w-full  flex flex-col">
+    return <section className="w-10/12 grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-start">
+        <div className="w-full flex flex-col">
             <p className="font-bold">NEED HELP?</p>
             <Link className='hover:text-blue-400' to='/account'>Your Account</Link>
             <Link className='hover:text-blue-400' to='/contact-us'>Contact Us</Link>
@@ -13,7 +13,7 @@ function HelpAndInformationSection() {
             <Link to='/terms-and-conditions' className='hover:text-blue-400'>Terms & Conditions</Link>
             <Link className='hover:text-blue-400'>Privacy Policy</Link>
         </div>
-    </div>
+    </section>
 }
 
 

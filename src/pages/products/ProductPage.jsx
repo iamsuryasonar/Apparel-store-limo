@@ -68,6 +68,7 @@ function ProductPage() {
                 {product.tag && <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                     <p className='text-white text-sm font-light'>{product.tag}</p>
                 </div>}
+                {console.log(product)}
                 {product.colorvariants[selectedColorVariantIndex]?.images && <ImageCarousel images={product.colorvariants[selectedColorVariantIndex]?.images} />}
             </div>
             <div className="p-4 flex flex-col gap-4">
@@ -84,6 +85,10 @@ function ProductPage() {
                     <p className='text-slate-500 font-light text-sm'>Inclusive of All Taxes + Free Shipping</p>
                 </div>
                 <div className='w-full flex flex-col gap-1'>
+                    <p > GENDER: <span className='text-slate-500'>{product?.gender}</span> </p>
+
+                </div>
+                <div className='w-full flex flex-col gap-1'>
                     <p > COLOR: <span className='text-slate-500'>{product.colorvariants[selectedColorVariantIndex]?.name}</span> </p>
                     <div className='flex flex-row gap-4'>
                         {product.colorvariants?.map((item, index, arr) => {
@@ -95,7 +100,7 @@ function ProductPage() {
                 <div className="w-full flex flex-row gap-2 font-light ">
                     {
                         product.colorvariants[selectedColorVariantIndex]?.sizevariants?.map((size, index, arr) => {
-                            return <div key={size._id} className={`w-10 h-10 border-black border grid place-content-center ${selectedSizeVariantIndex === index ? 'bg-black text-white' : 'bg-slate-100 text-black '}`}
+                            return <div key={size._id} className={`w-10 h-10 border-black border grid place-content-center ${selectedSizeVariantIndex === index ? 'bg-black text-white' : 'bg-white text-black '}`}
                                 onClick={() => {
                                     setSelectedSizeVariantIndex(index)
                                 }}
@@ -107,7 +112,7 @@ function ProductPage() {
                 </div>
                 <div className='flex flex-row gap-2 items-center'>
                     <label>QTY:</label>
-                    <select name="Quantity" id="" onChange={(e) => setQuantity(e.target.value)} className='px-2 py-2 cursor-pointer border-[1px] border-black'>
+                    <select name="Quantity" id="" onChange={(e) => setQuantity(e.target.value)} className='px-2 py-2 cursor-pointer border-[1px] bg-white border-black'>
                         <option disabled value="Select...">Select...</option>
                         {['1', '2', '3', '4', '5'].map((i) => {
                             return <option key={i} value={i}>{i}</option>
@@ -124,7 +129,7 @@ function ProductPage() {
                             })
 
                     }}
-                    className="py-2 px-4 font-bold text-black border border-black hover:bg-black hover:text-white">
+                    className="py-2 px-4 font-bold text-white bg-black rounded-lg border border-black hover:bg-white hover:text-black">
                     ADD TO CART
                 </button>
             </div>
