@@ -20,14 +20,13 @@ function NewArrivedProducts({ categories }) {
     return <>
         {
             categories &&
-            <div className='bg-slate-50 w-full min-h-[400px] p-10 flex flex-col items-center justify-center gap-4'>
+            <div className='bg-slate-50 w-full min-h-[400px] px-10 flex flex-col items-center justify-center gap-4'>
                 <p className="self-start text-3xl font-bold ">New Arrivals</p>
-                <div className='w-9/12 h-full p-2 flex flex-col'>
+                {(width <= 768) && <div className='w-9/12 h-full p-2 flex flex-col'>
                     {/* achieving responsiveness using custom hook and listening to width - to stop unnecessary render*/}
-                    {(width <= 768) && newArrivedProducts &&
-                        <ProductCarousel products={newArrivedProducts} />
-                    }
-                </div>
+                    newArrivedProducts &&
+                    <ProductCarousel products={newArrivedProducts} />
+                </div>}
                 {/* achieving responsiveness using custom hook and listening to width - to stop unnecessary render*/}
                 {(width >= 768) && < div className='md:grid md:grid-cols-2 lg:grid-cols-4 gap-4 p-4'>
                     {newArrivedProducts && newArrivedProducts?.map((product, index) => {

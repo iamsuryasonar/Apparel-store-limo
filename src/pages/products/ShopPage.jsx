@@ -170,7 +170,7 @@ function ShopPage() {
                     {isFilterContainerVisible &&
                         <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProducts} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
                     }
-                    <div className={`w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 p-4 mt-4 md:p-8 md:mt-0 gap-4`}>
+                    <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 mt-4 md:p-8 md:mt-0 gap-4 sm:gap-10`}>
                         <ProductsComponent products={products} />
                     </div>
                 </div>
