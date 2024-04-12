@@ -63,7 +63,7 @@ function Nav() {
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {
                         navItems.map((item) => {
-                            return <Link key={item.id} to={item.path} className={`text-base hover:text-blue-600 hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title}</Link>
+                            return <Link key={item.id} state={item.title === 'Shop' ? { name: 'Shop' } : {}} to={item.path} className={`text-base hover:text-blue-600 hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title}</Link>
                         })
                     }
                 </div>
@@ -113,7 +113,7 @@ function Nav() {
                             </div>
                             {
                                 navItems.map((item) => {
-                                    return <Link key={item.id} to={item.path} onClick={() =>
+                                    return <Link key={item.id} to={item.path} state={item.title === 'Shop' ? { name: 'Shop' } : {}} onClick={() =>
                                         toggleMenu()
                                     } className={`text-2xl hover:scale-150 transition-all duration-300 ease-in-out  ${currentPageName === item.path ? 'text-blue-600' : ''}`}>{item.title} </Link>
                                 })

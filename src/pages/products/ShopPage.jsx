@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import { get_products, get_more_products } from '../../store/slices/productsSlice'
@@ -9,6 +10,8 @@ import ScrollToTopButton from '../../components/ScrollToTopButton';
 import useScrollToTop from '../../hooks/useScrollToTop'
 
 function ShopPage() {
+    let { state } = useLocation();
+
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products)
     const numberOfProducts = (products?.pagination?.per_page * products?.pagination?.page_no) - products?.pagination?.total_products > 0 ? products?.pagination?.total_products : products?.pagination?.per_page * products?.pagination?.page_no;
@@ -123,7 +126,10 @@ function ShopPage() {
 
                 observer.current.disconnect();
             }
-        }, { threshold: 0.5 });
+        }, {
+            rootMargin: '200px',
+            threshold: 0.5,
+        });
 
         const scrollContainer = document.querySelector('.scroll-container');
 
@@ -154,7 +160,9 @@ function ShopPage() {
                     {/* {bannerImage?.url} */}
                     <img alt='banner' className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
                 </div>
-                <div className='w-full h-[1px] bg-black'></div>
+                <div className='w-full px-4 py-2 flex flex-row'>
+                    <p className='text-3xl font-light'>{state?.name}</p>
+                </div>
                 <div className='sticky top-20 w-full h-8 sm:h-12 flex bg-slate-50 items-center justify-between gap-6 z-10'>
                     <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8  border-r border-black flex items-center gap-2 pr-2 cursor-pointer'>
                         <p className='font-thin'>FILTER</p>

@@ -66,7 +66,7 @@ function OurProductsSection() {
             })}
         </div>
         {tabs[currentTab].component}
-        <Link to={`/products/tag/${tabs[currentTab].label}`} state={tabs[currentTab].label} className="px-6 py-2 cursor-pointer rounded-lg bg-white text-black border border-black hover:bg-black hover:text-white">Load More</Link>
+        <Link to={`/products/tag/${tabs[currentTab].label}`} state={{ name: tabs[currentTab].label }} className="px-6 py-2 cursor-pointer rounded-lg bg-white text-black border border-black hover:bg-black hover:text-white">Load More</Link>
     </div>
 }
 
