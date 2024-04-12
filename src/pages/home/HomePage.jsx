@@ -5,10 +5,10 @@ import Subscribe from "./components/Subscribe";
 import InstagramWrapper from "./components/InstagramWrapper";
 import BottomAlert from '../../components/BottomAlert'
 import BannerSection from './components/BannerSection'
-import OurProductsSection from './components/OurProductsSection'
+import ProductsByTagsSection from './components/ProductsByTagsSection'
 import CategorySection from './components/CategorySection'
 import useScrollToTop from '../../hooks/useScrollToTop'
- 
+
 function HomePage() {
     const dispatch = useDispatch();
     const message = useSelector((state) => state.message.message);
@@ -24,9 +24,9 @@ function HomePage() {
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
             <BannerSection />
             <CategorySection categories={categories} />
+            <ProductsByTagsSection />
             {
                 categories && <>
-                    <OurProductsSection categories={categories} />
                     <InstagramWrapper />
                     <Subscribe />
                 </>

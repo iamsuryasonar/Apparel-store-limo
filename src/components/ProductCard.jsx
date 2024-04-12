@@ -31,7 +31,7 @@ function ProductCard(props) {
     }
 
     /* scroll-container class is just to observe the last 3rd product and load more products(for pagination) */
-    return <div ref={ref} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} group min-h-[200px] min-w-[100px] max-w-[240px] max-h-[390px] h-full w-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
+    return <div ref={ref} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} shrink-0  group w-[240px] h-[390px] place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }

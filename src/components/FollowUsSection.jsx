@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 function FollowUsSection() {
-    return <section className="w-10/12 grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-start">
+    return <section className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-start">
         <div className='flex flex-col gap-2'>
             <p className="font-bold">Follow Us</p>
             <div className="flex flex-row gap-2">

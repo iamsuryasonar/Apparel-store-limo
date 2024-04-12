@@ -8,6 +8,7 @@ import useLocalStorageLimited from '../../hooks/useLocalStorageLimited';
 import { LOCAL_STORAGE_RECENTLY_VIEWED } from '../../utilities/constants'
 import ProductCard from '../../components/ProductCard'
 import useScrollToTop from '../../hooks/useScrollToTop'
+import { setLoading } from "../../store/slices/loadingSlice";
 
 /* page to display single product information */
 function ProductPage() {
@@ -27,8 +28,14 @@ function ProductPage() {
     const [recentlyViewed, setRecentlyViewed] = useLocalStorageLimited(LOCAL_STORAGE_RECENTLY_VIEWED, 4);
 
     const getAProduct = async () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+        dispatch(setLoading(true))
         const response = await ProductsService.getProduct(state?.productId);
         setProduct(response?.product)
+        dispatch(setLoading(false))
     }
 
     useEffect(() => {
@@ -75,11 +82,9 @@ function ProductPage() {
         }))
     }
 
-    useScrollToTop()
-
     return (<div className="max-w-7xl w-full flex ">
-        {product && <div className="flex flex-col gap-6">
-            <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 my-4'>
+        {product && <div className="flex flex-col ">
+            <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 mt-4'>
                 <div className="p-4 w-full h-min relative">
                     {product.tag && <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                         <p className='text-white text-sm font-light'>{product.tag}</p>
@@ -152,7 +157,7 @@ function ProductPage() {
                     <p className="p-1 text-sm text-slate-500">{product.keyword}</p>
                 </div>
             </div>
-            <div>
+            <div className="flex flex-col gap-4">
                 <p className="font-light text-3xl px-4 uppercase ">Recently viewed</p>
                 <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center px-4 md:px-8 gap-4`}>
                     {recentlyViewed.length > 0 && recentlyViewed?.map((product, index) => {
