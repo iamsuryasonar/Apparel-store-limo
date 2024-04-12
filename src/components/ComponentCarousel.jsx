@@ -87,12 +87,12 @@ function ComponentCarousel({ className, style, items, Child }) {
                 })}
             </div>
             <FontAwesomeIcon
-                className="text-white bg-transparent w-6 h-6 absolute top-1/2 bottom-1/2 left-[5px] -translate-y-1/2"
+                className="text-green-400 bg-transparent w-6 h-6 absolute top-1/2 bottom-1/2 left-[4px] -translate-y-1/2"
                 onClick={prevImageHandler}
                 icon={faCircleChevronLeft}
             />
             <FontAwesomeIcon
-                className="text-white bg-transparent w-6 h-6 absolute top-1/2 bottom-1/2 right-[5px] -translate-y-1/2"
+                className="text-green-400 bg-transparent w-6 h-6 absolute top-1/2 bottom-1/2 right-[4px] -translate-y-1/2"
                 onClick={nextImageHandler}
                 icon={faCircleChevronRight}
             />

@@ -4,8 +4,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setShowSearch } from '../store/slices/searchSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
-import useOnScreen from '../hooks/useOnScreen'
 import { addToCart } from "../store/slices/cartSlice";
+import useOnScreen from '../hooks/useOnScreen'
+import LazyLoadImage from '../components/LazyLoadImage';
 
 function ProductCard(props) {
     const { product, index, arr } = props;
@@ -44,7 +45,11 @@ function ProductCard(props) {
                 <div className='w-8 h-8 bg-transparent rounded-full border-black animate-spin border-2 border-dashed border-t-transparent'></div>
             </div>
         }
-        <img alt='product' className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} onLoad={() =>
+
+        {/* <img alt='product' className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} onLoad={() =>
+            handleImageLoad(product?.image?._id)
+        } /> */}
+        <LazyLoadImage className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} alt='product' onLoad={() =>
             handleImageLoad(product?.image?._id)
         } />
         {

@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Transition } from 'react-transition-group';
 import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
+import LazyLoadImage from '../components/LazyLoadImage';
 
 function Cart(props) {
     const { show, toggleCart } = props;
@@ -155,7 +156,7 @@ const CartItem = (props) => {
                 })
                 toggleCart()
             }}>
-        <img alt='product' className='w-40 aspect-square' src={product?.colorvariant.images[0].url}></img>
+        <LazyLoadImage className='w-40 aspect-square bg-slate-50' src={product?.colorvariant.images[0].url} alt='product' />
         <div className='flex flex-col gap-2 pb-2 pt-4 pr-4'>
             <p>{product?.product?.name}</p>
             <p>size: {product?.sizevariant?.name}</p>
