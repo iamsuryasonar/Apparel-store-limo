@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { setLoading } from '../../../store/slices/loadingSlice';
 import { useDispatch } from 'react-redux'
 import ComponentCarousel from '../../../components/ComponentCarousel';
+import useWindowSize from '../../../hooks/useWindowSize'
 
 function ProductsByTagsSection() {
     const dispatch = useDispatch();
