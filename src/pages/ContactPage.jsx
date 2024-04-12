@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import BottomAlert from '../components/BottomAlert'
 import ContactUsServices from '../services/contactUs.services'
 import { setMessage, clearMessage } from '../store/slices/messageSlice'
+import useScrollToTop from '../hooks/useScrollToTop'
 
 function ContactPage() {
     const dispatch = useDispatch();
@@ -56,12 +57,7 @@ function ContactPage() {
         }
     };
 
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, []);
+    useScrollToTop()
 
     return (
         <>

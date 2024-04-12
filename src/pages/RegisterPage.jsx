@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { clearMessage } from '../store/slices/messageSlice'
 import { register } from '../store/slices/authSlice'
 import BottomAlert from '../components/BottomAlert'
+import useScrollToTop from '../hooks/useScrollToTop'
 
 function RegisterPage() {
 
@@ -60,12 +61,7 @@ function RegisterPage() {
         }
     };
 
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, []);
+    useScrollToTop()
 
     return (<>
         <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">

@@ -29,10 +29,10 @@ const getProductsByCategoryId = async (data) => {
 }
 
 const ProductsByCategoryService = {
-    getProduct,
-    getProducts,
-    getProductsByCategoryId,
-    getProductsByCategoryId
+    // getProduct,
+    // getProducts,
+    // getProductsByCategoryId,
+    // getProductsByCategoryId
 }
 
 export default ProductsByCategoryService;

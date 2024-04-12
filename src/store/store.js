@@ -5,6 +5,7 @@ import messageReducer from "./slices/messageSlice";
 import loadingReducer from "./slices/loadingSlice";
 import categoriesReducer from "./slices/categorySlice";
 import productsByCategoryReducer from "./slices/productsByCategorySlice";
+import productsByTagReducer from "./slices/productsByTagSlice";
 import productsReducer from "./slices/productsSlice";
 import cartReducer from './slices/cartSlice';
 import searchReducer from "./slices/searchSlice";
@@ -16,6 +17,7 @@ const reducer = {
     categories: categoriesReducer,
     products: productsReducer,
     productsByCategory: productsByCategoryReducer,
+    productsByTag: productsByTagReducer,
     cart: cartReducer,
     search: searchReducer,
 }

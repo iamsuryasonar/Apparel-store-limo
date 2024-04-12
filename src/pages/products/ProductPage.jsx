@@ -7,6 +7,7 @@ import ImageCarousel from "../../components/ImageCarousel";
 import useLocalStorageLimited from '../../hooks/useLocalStorageLimited';
 import { LOCAL_STORAGE_RECENTLY_VIEWED } from '../../utilities/constants'
 import ProductCard from '../../components/ProductCard'
+import useScrollToTop from '../../hooks/useScrollToTop'
 
 /* page to display single product information */
 function ProductPage() {
@@ -74,12 +75,7 @@ function ProductPage() {
         }))
     }
 
-    // useEffect(() => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: 'smooth'
-    //     });
-    // }, []);
+    useScrollToTop()
 
     return (<div className="max-w-7xl w-full flex ">
         {product && <div className="flex flex-col gap-6">

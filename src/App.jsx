@@ -15,6 +15,7 @@ import CheckOutPage from './pages/CheckOutPage'
 import OrderPlacedPage from './pages/OrderPlacedPage';
 import TermsAndConditionsPage from './pages/TermsAndConditionsPage';
 import NoPage from "./pages/NoPage";
+import ProductsByTagPage from "./pages/products/ProductsByTagPage";
 
 function App() {
   return (
@@ -23,7 +24,8 @@ function App() {
         <Route path="/sign-in" element={<PublicRoute><LogInPage /></PublicRoute>} />
         <Route path="/sign-up" element={<PublicRoute><RegisterPage /></PublicRoute>} />
         <Route path="/" element={<HomePage />} />
-        <Route path="/products/:id" element={<ProductsByCategoryPage />} />
+        <Route path="/products/category/:id" element={<ProductsByCategoryPage />} />
+        <Route path="/products/tag/:tag" element={<ProductsByTagPage />} />
         <Route path="/contact-us" element={<ContactPage />} />
         <Route path="/shop" element={<ShopPage />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditionsPage />} />

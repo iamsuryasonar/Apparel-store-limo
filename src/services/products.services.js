@@ -22,9 +22,29 @@ const getProducts = async (data) => {
     return response.data.results
 }
 
-const getProductsByTag = async (tag) => {
+const getProductsByTag = async (data) => {
     const response = await axios
-        .get(API_URL + 'product/tag/' + tag, {
+        .get(API_URL + 'product/tag/' + data.tag, {
+            params: {
+                page: data?.pageNo,
+                sort_type: data?.sortType,
+                from: data?.from,
+                to: data?.to,
+            },
+            headers: getNonAuthHeaders()
+        })
+    return response.data.results
+}
+
+const getProductsByCategoryId = async (data) => {
+    const response = await axios
+        .get(API_URL + 'product/category/' + data.id, {
+            params: {
+                page: data?.pageNo,
+                sort_type: data?.sortType,
+                from: data?.from,
+                to: data?.to,
+            },
             headers: getNonAuthHeaders()
         })
     return response.data.results
@@ -33,7 +53,8 @@ const getProductsByTag = async (tag) => {
 const ProductsService = {
     getProduct,
     getProducts,
-    getProductsByTag
+    getProductsByTag,
+    getProductsByCategoryId
 }
 
 export default ProductsService;

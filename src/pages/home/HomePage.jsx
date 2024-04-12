@@ -7,7 +7,8 @@ import BottomAlert from '../../components/BottomAlert'
 import BannerSection from './components/BannerSection'
 import OurProductsSection from './components/OurProductsSection'
 import CategorySection from './components/CategorySection'
-
+import useScrollToTop from '../../hooks/useScrollToTop'
+ 
 function HomePage() {
     const dispatch = useDispatch();
     const message = useSelector((state) => state.message.message);
@@ -17,12 +18,7 @@ function HomePage() {
         dispatch(get_categories());
     }, [])
 
-    // useEffect(() => {
-    //     window.scrollTo({
-    //         top: 0,
-    //         behavior: 'smooth'
-    //     });
-    // }, []);
+    useScrollToTop()
 
     return (
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">

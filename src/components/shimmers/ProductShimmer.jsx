@@ -2,7 +2,7 @@ function ProductShimmer() {
     return <>
         {
             [1, 2, 3, 4, 5, 6].map((i) => {
-                return <div key={i} className="w-full flex ">
+                return <div key={i} className="flex min-h-[200px] min-w-[100px] max-w-[240px] max-h-[390px] h-full w-full rounded-md overflow-hidden">
                     <div className="w-full bg-gray-200 animate-pulse ">
                         <div className="w-full flex flex-col gap-1 ">
                             <div className="relative w-full h-64 sm:h-96 bg-gray-300">

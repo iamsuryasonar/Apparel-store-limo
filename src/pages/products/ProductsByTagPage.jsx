@@ -3,19 +3,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { get_products_by_category_id, get_more_products_by_category_id } from '../../store/slices/productsByCategorySlice'
 import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
+import { get_more_products_by_tag, get_products_by_tag } from '../../store/slices/productsByTagSlice';
 import useScrollToTop from '../../hooks/useScrollToTop'
 
-/* displays list of products by category */
-function ProductsByCategoryPage() {
-    const { id } = useParams();
+/* displays list of products by tag */
+function ProductsByTagPage() {
+    const { tag } = useParams();
     let { state } = useLocation();
 
     const dispatch = useDispatch();
-    const products = useSelector((state) => state.productsByCategory.productsByCategory)
+    const products = useSelector((state) => state.productsByTag.productsByTag)
 
     const observer = useRef();
 
@@ -99,9 +99,9 @@ function ProductsByCategoryPage() {
         setRemovedCriteria(type)
     }
 
-    const getProductByCategoryId = (sortType) => {
-        dispatch(get_products_by_category_id({
-            id,
+    const getProductByTag = (sortType) => {
+        dispatch(get_products_by_tag({
+            tag,
             pageNo: 0,
             sortType,
             from: priceRange[0],
@@ -110,7 +110,7 @@ function ProductsByCategoryPage() {
     }
 
     useEffect(() => {
-        getProductByCategoryId(sortType)
+        getProductByTag(sortType)
     }, [sortType, removedCriteria])
 
     const observeScroll = () => {
@@ -125,8 +125,8 @@ function ProductsByCategoryPage() {
 
                 /* another slice to get one more page and append it to the
                 previously fetched products list also replacing pagination information */
-                dispatch(get_more_products_by_category_id({
-                    id,
+                dispatch(get_more_products_by_tag({
+                    tag,
                     pageNo: products?.pagination?.page_no + 1,
                     sortType,
                     from: priceRange[0],
@@ -180,7 +180,7 @@ function ProductsByCategoryPage() {
             </div>
             <div className='w-full flex sm:flex-row flex-col'>
                 {isFilterContainerVisible &&
-                    <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProductByCategoryId} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
+                    <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProductByTag} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
                 }
                 <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 mt-4 md:p-8 md:mt-0 gap-4 sm:gap-10`}>
                     <ProductsComponent products={products} />
@@ -191,7 +191,7 @@ function ProductsByCategoryPage() {
     )
 }
 
-export default ProductsByCategoryPage;
+export default ProductsByTagPage;
 
 
 

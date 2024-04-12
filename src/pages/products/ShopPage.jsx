@@ -6,6 +6,7 @@ import { get_products, get_more_products } from '../../store/slices/productsSlic
 import ProductsComponent from '../../components/ProductsComponent';
 import FilterContainer from './components/FilterContainer';
 import ScrollToTopButton from '../../components/ScrollToTopButton';
+import useScrollToTop from '../../hooks/useScrollToTop'
 
 function ShopPage() {
     const dispatch = useDispatch();
@@ -143,12 +144,7 @@ function ShopPage() {
         };
     }, [products]);
 
-    useEffect(() => {
-        window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-        });
-    }, []);
+    useScrollToTop()
 
 
     return (
