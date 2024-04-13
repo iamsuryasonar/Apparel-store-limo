@@ -83,8 +83,8 @@ function LogInPage() {
       <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
         <h1 className="font-extrabold text-5xl font-raleway">Login</h1>
         <p className="font-thin text-md font-raleway">
-          Don't have an account?{" "}
-          <Link to="/sign-up" className="underline">
+          Don't have an account?
+          <Link to="/sign-up" className="underline px-1">
             Sign up here
           </Link>
         </p>
@@ -110,7 +110,6 @@ function LogInPage() {
               <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
             </div>
             {errors.password && <p className="text-red-500">{errors.password}</p>}
-
           </form>
 
         </div>
@@ -121,12 +120,12 @@ function LogInPage() {
           >
             Sign In
           </button>
-          <div className=" flex flex-row justify-between items-center">
-            <a href="" className=" mt-2  underline font-light self-start text-sm md:self-end">
+          <div className="mt-2 md:mt-0 flex flex-row justify-between items-center gap-2">
+            <Link to="/" className="underline font-light self-center text-sm">
               Return to store
-            </a>
-            <div className=" mt-2 flex flex-col gap-6 font-light ">
-              <a href="" className="underline font-light text-sm md:self-end">
+            </Link>
+            <div className="flex flex-col gap-6 font-light ">
+              <a href="" className="underline font-light text-sm self-center">
                 Forgot Password
               </a>
             </div>
