@@ -98,7 +98,7 @@ const CartItem = (props) => {
 
         if (type === 'DECREMENT') {
             dispatch(decrementQuantity(itemId))
-            dispatch(debouncedUpdateItemQuantity({
+            dispatch(updateItemQuantity({
                 quantity: product.quantity - 1,
                 itemId
             }))
