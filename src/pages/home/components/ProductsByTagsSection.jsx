@@ -16,23 +16,21 @@ function ProductsByTagsSection() {
         popular: [],
     })
 
-    const getProductsByTag = async (tag) => {
+    const getProductsByTag = async (data) => {
         dispatch(setLoading(true))
-        const res = await ProductsService.getProductsByTag({
-            tag: tag,
-        })
-        if (tag === 'New arrival') {
+        const res = await ProductsService.getProductsByTag(data)
+        if (data.tag === 'New arrival') {
             setProductByTag(prev => {
                 return { ...prev, newArrived: res.products }
             });
         }
-        if (tag === 'Most purchased') {
+        if (data.tag === 'Most purchased') {
             setProductByTag(prev => {
                 return { ...prev, mostPurchased: res.products }
             });
 
         }
-        if (tag === 'Popular') {
+        if (data.tag === 'Popular') {
             setProductByTag(prev => {
                 return { ...prev, popular: res.products }
             });
@@ -41,9 +39,26 @@ function ProductsByTagsSection() {
     }
 
     useEffect(() => {
-        getProductsByTag('New arrival');
-        getProductsByTag('Most purchased');
-        getProductsByTag('Popular');
+        getProductsByTag({
+            tag: 'New arrival',
+            pageNo: 0,
+            from: 0,
+            to: 99999,
+        });
+
+        getProductsByTag({
+            tag: 'Most purchased',
+            pageNo: 0,
+            from: 0,
+            to: 99999,
+        });
+
+        getProductsByTag({
+            tag: 'Popular',
+            pageNo: 0,
+            from: 0,
+            to: 99999,
+        });
     }, [])
 
     return <div className='w-full flex flex-col gap-2 rounded-lg'>
