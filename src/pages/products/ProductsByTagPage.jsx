@@ -1,13 +1,11 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useLocation } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowDown, faArrowUp } from '@fortawesome/free-solid-svg-icons'
 import ProductsComponent from '../../components/ProductsComponent';
-import FilterContainer from './components/FilterContainer';
-import ScrollToTopButton from '../../components/ScrollToTopButton';
 import { get_more_products_by_tag, get_products_by_tag } from '../../store/slices/productsByTagSlice';
 import useScrollToTop from '../../hooks/useScrollToTop'
+import usePaginationObserver from '../../hooks/usePaginationObserver';
+import ProductsWithFilter from './components/ProductsWithFilter';
 
 /* displays list of products by tag */
 function ProductsByTagPage() {
@@ -17,9 +15,6 @@ function ProductsByTagPage() {
     const dispatch = useDispatch();
     const products = useSelector((state) => state.productsByTag.productsByTag)
 
-    const observer = useRef();
-
-    const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
     const [sortType, setSortType] = useState(null);
     const [removedCriteria, setRemovedCriteria] = useState(null);
     const [minMaxValue, setMinMaxValue] = useState({
@@ -36,68 +31,6 @@ function ProductsByTagPage() {
     maximum price is assumed to be 6000 for now hence 60 multiplied by 100. 
     */
     const priceRange = [minMaxValue.minValue * 60, minMaxValue.maxValue * 60];
-    const numberOfProducts = (products?.pagination?.per_page * products?.pagination?.page_no) - products?.pagination?.total_products > 0 ? products?.pagination?.total_products : products?.pagination?.per_page * products?.pagination?.page_no;
-
-    const sortHandler = (type) => {
-        setSortType(type);
-        setActiveFilters({
-            ...activeFilters,
-            sortType: type,
-        })
-    }
-
-    const handleRangeChange = (values) => {
-        setMinMaxValue({
-            minValue: values[0],
-            maxValue: values[1],
-        })
-        setActiveFilters({
-            ...activeFilters,
-            range: '₹ ' + values[0] * 60 + ' - ' + '₹ ' + values[1] * 60
-        })
-    };
-
-    const removeFilterCriteria = (type) => {
-        /*   
-            this function removes criteria of filter and sets values to default values.
-            updating removedCriteria triggers useEffect to get updated product values 
-        */
-
-        if (type === 'RANGE') {
-            setMinMaxValue((prev) => ({
-                ...prev,
-                minValue: 0,
-                maxValue: 100,
-            }))
-            setActiveFilters({
-                ...activeFilters,
-                range: ''
-            })
-        }
-
-        if (type === 'SORT_TYPE') {
-            setSortType(null);
-            setActiveFilters({
-                ...activeFilters,
-                sortType: '',
-
-            })
-        }
-
-        if (type === 'ALL') {
-            setSortType(null);
-            setMinMaxValue((prev) => ({
-                ...prev,
-                minValue: 0,
-                maxValue: 100,
-            }))
-            setActiveFilters({
-                sortType: '',
-                range: '',
-            })
-        }
-        setRemovedCriteria(type)
-    }
 
     const getProductByTag = (sortType) => {
         dispatch(get_products_by_tag({
@@ -113,51 +46,17 @@ function ProductsByTagPage() {
         getProductByTag(sortType)
     }, [sortType, removedCriteria])
 
-    const observeScroll = () => {
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) {
+    const isTotalPagesFetched = products?.pagination?.page_no === products?.pagination?.total_pages;
 
-                if (products?.pagination?.page_no === products?.pagination?.total_pages) {
-                    /* if total pages retrieved, disconnect the obeserver and return */
-                    observer.current.disconnect();
-                    return;
-                }
-
-                /* another slice to get one more page and append it to the
-                previously fetched products list also replacing pagination information */
-                dispatch(get_more_products_by_tag({
-                    tag,
-                    pageNo: products?.pagination?.page_no + 1,
-                    sortType,
-                    from: priceRange[0],
-                    to: priceRange[1],
-                }))
-
-                observer.current.disconnect();
-            }
-        }, {
-            rootMargin: '200px',
-            threshold: 0.5,
-        });
-
-        const scrollContainer = document.querySelector('.scroll-container');
-
-        if (scrollContainer) {
-            /* observes the scroll-container className that is attached to the last third product card */
-            observer.current.observe(scrollContainer);
-        }
-    }
-
-    useEffect(() => {
-
-        observeScroll();
-
-        return () => {
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-        };
-    }, [products]);
+    usePaginationObserver(isTotalPagesFetched, () => {
+        dispatch(get_more_products_by_tag({
+            tag,
+            pageNo: products?.pagination?.page_no + 1,
+            sortType,
+            from: priceRange[0],
+            to: priceRange[1],
+        }))
+    })
 
     useScrollToTop()
 
@@ -170,23 +69,20 @@ function ProductsByTagPage() {
             <div className='w-full px-4 py-2 flex flex-row'>
                 <p className='text-3xl font-light'>{state?.name}</p>
             </div>
-            <div className='w-full h-[1px] bg-black'></div>
-            <div className='sticky top-[70px] w-full h-8 sm:h-12 flex bg-slate-50 items-center justify-between gap-6 z-10'>
-                <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8 border-r border-black flex items-center gap-2 pr-2 cursor-pointer'>
-                    <p className='font-thin'>FILTER</p>
-                    <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
-                </div>
-                {numberOfProducts !== 'NaN' && products?.pagination?.total_products ? <div className='mr-8 flex gap-1 text-lg font-semibold text-slate-500'><span>{numberOfProducts}</span><span>of</span><span> {products?.pagination?.total_products}</span></div> : <div></div>}
-            </div>
-            <div className='w-full flex sm:flex-row flex-col'>
-                {isFilterContainerVisible &&
-                    <FilterContainer sortType={sortType} setFilterContainerVisible={setFilterContainerVisible} sortHandler={sortHandler} minMaxValue={minMaxValue} handleRangeChange={handleRangeChange} onDragEndHandler={getProductByTag} priceRange={priceRange} activeFilters={activeFilters} removeFilterCriteria={removeFilterCriteria} />
-                }
-                <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 mt-4 md:p-8 md:mt-0 gap-4 sm:gap-10`}>
-                    <ProductsComponent products={products} />
-                </div>
-            </div>
-            <ScrollToTopButton />
+            <ProductsWithFilter
+                products={products}
+                minMaxValue={minMaxValue}
+                setMinMaxValue={setMinMaxValue}
+                priceRange={priceRange}
+                onDragEndHandler={getProductByTag}
+                sortType={sortType}
+                setSortType={setSortType}
+                activeFilters={activeFilters}
+                setActiveFilters={setActiveFilters}
+                setRemovedCriteria={setRemovedCriteria}
+            >
+                <ProductsComponent products={products} />
+            </ProductsWithFilter>
         </div>
     )
 }
