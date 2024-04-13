@@ -157,9 +157,9 @@ function ProductPage() {
                     <p className="p-1 text-sm text-slate-500">{product.keyword}</p>
                 </div>
             </div>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-0">
                 <p className="font-light text-3xl px-4 uppercase ">Recently viewed</p>
-                <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center px-4 md:px-8 gap-4`}>
+                <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 md:p-8 gap-4`}>
                     {recentlyViewed.length > 0 && recentlyViewed?.map((product, index) => {
                         return <ProductCard key={index} product={product} index={index} arr={recentlyViewed} />
                     })}

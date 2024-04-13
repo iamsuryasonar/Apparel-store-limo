@@ -1,10 +1,10 @@
-import React, { useState, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Transition } from 'react-transition-group';
-import { updateItemQuantity, remove_item_from_cart } from '../store/slices/cartSlice'
+import { updateItemQuantity, remove_item_from_cart, incrementQuantity, decrementQuantity } from '../store/slices/cartSlice'
 import LazyLoadImage from '../components/LazyLoadImage';
 
 function Cart(props) {
@@ -83,69 +83,30 @@ const CartItem = (props) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [countMap, setCountMap] = useState(new Map());
+    const incrementDecrementHandler = (itemId, type) => {
 
-    const countHandler = (itemId, itemCount, type) => {
-        let currentCount = countMap?.get(itemId);
+        if (type === 'INCREMENT' && product.quantity >= 5) return;
+        if (type === 'DECREMENT' && product.quantity <= 1) return;
 
-        if (!currentCount) {
-            if (type === 'INCREMENT' && itemCount >= 5) return;
-            if (type === 'DECREMENT' && itemCount <= 1) return;
-        } else {
-            if (type === 'INCREMENT' && currentCount >= 5) return;
-            if (type === 'DECREMENT' && currentCount <= 1) return;
+        if (type === 'INCREMENT') {
+            dispatch(incrementQuantity(itemId))
+            dispatch(updateItemQuantity({
+                quantity: product.quantity + 1,
+                itemId
+            }))
         }
 
-        if (countMap?.has(itemId)) {
-            if (type === 'DECREMENT') {
-                setCountMap(prev => {
-                    const updatedMap = new Map(prev);
-                    updatedMap.set(itemId, currentCount - 1);
-                    return updatedMap;
-                })
-            }
-
-            if (type === 'INCREMENT') {
-                setCountMap(prev => {
-                    const updatedMap = new Map(prev);
-                    updatedMap.set(itemId, currentCount + 1);
-                    return updatedMap;
-                })
-            }
-        } else {
-            if (type === 'DECREMENT') {
-                setCountMap(prev => {
-                    const updatedMap = new Map(prev);
-                    updatedMap.set(itemId, itemCount - 1);
-                    return updatedMap;
-                })
-            }
-
-            if (type === 'INCREMENT') {
-                setCountMap(prev => {
-                    const updatedMap = new Map(prev);
-                    updatedMap.set(itemId, itemCount + 1);
-                    return updatedMap;
-                })
-            }
+        if (type === 'DECREMENT') {
+            dispatch(decrementQuantity(itemId))
+            dispatch(debouncedUpdateItemQuantity({
+                quantity: product.quantity - 1,
+                itemId
+            }))
         }
     }
 
     const removeItemFromCart = (item) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
-    }
-
-    const updateItemQuantityHandler = (quantity, itemId) => {
-        dispatch(updateItemQuantity({
-            quantity,
-            itemId
-        })).then(() => {
-            setCountMap(prev => {
-                const updatedMap = new Map(prev);
-                updatedMap.delete(itemId);
-                return updatedMap;
-            });
-        })
     }
 
     return <div className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-md bg-white rounded-md'
@@ -165,19 +126,15 @@ const CartItem = (props) => {
                 <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
                     onClick={(e) => {
                         e.stopPropagation()
-                        countHandler(product._id, product?.quantity, 'DECREMENT')
+                        incrementDecrementHandler(product._id, 'DECREMENT')
                     }}>-</p>
-                <p className='px-1 cursor-pointer'>{countMap?.has(product?._id) ? countMap?.get(product?._id) : product?.quantity}</p>
+                <p className='px-1 cursor-pointer'>{product?.quantity}</p>
                 <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
                     onClick={(e) => {
                         e.stopPropagation()
-                        countHandler(product._id, product?.quantity, 'INCREMENT')
+                        incrementDecrementHandler(product._id, 'INCREMENT')
                     }}>+</p>
             </div>
-            {countMap?.has(product?._id) && <div onClick={(e) => {
-                e.stopPropagation()
-                updateItemQuantityHandler(countMap?.get(product?._id), product?._id)
-            }} className='w-full px-2 py-1 bg-black text-white flex justify-center cursor-pointer'><p>Update</p></div>}
         </div>
         <div onClick={(e) => {
             e.stopPropagation()

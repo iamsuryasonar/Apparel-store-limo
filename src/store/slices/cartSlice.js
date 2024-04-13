@@ -113,6 +113,20 @@ const initialState = {
 const cartSlice = createSlice({
     name: "cart",
     initialState,
+    reducers: {
+        incrementQuantity: (state, action) => {
+            const index = state.cart.findIndex(item => item._id === action.payload);
+            if (index !== -1) {
+                state.cart[index].quantity += 1;
+            }
+        },
+        decrementQuantity: (state, action) => {
+            const index = state.cart.findIndex(item => item._id === action.payload);
+            if (index !== -1) {
+                state.cart[index].quantity -= 1;
+            }
+        },
+    },
     extraReducers:
         (builder) => {
             builder
@@ -123,5 +137,6 @@ const cartSlice = createSlice({
         },
 })
 
-const { reducer } = cartSlice;
+const { reducer, actions } = cartSlice;
+export const { incrementQuantity, decrementQuantity } = actions
 export default reducer;

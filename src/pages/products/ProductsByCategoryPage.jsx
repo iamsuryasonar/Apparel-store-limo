@@ -171,7 +171,7 @@ function ProductsByCategoryPage() {
                 <p className='text-3xl font-light'>{state?.name}</p>
             </div>
             <div className='w-full h-[1px] bg-black'></div>
-            <div className='sticky top-20 w-full h-8 sm:h-12 flex bg-slate-50 items-center justify-between gap-6 z-10'>
+            <div className='sticky top-[70px] w-full h-8 sm:h-12 flex bg-slate-50 items-center justify-between gap-6 z-10'>
                 <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8 border-r border-black flex items-center gap-2 pr-2 cursor-pointer'>
                     <p className='font-thin'>FILTER</p>
                     <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />

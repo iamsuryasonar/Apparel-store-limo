@@ -59,7 +59,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <nav className="fixed h-20 top-0 right-0 left-0 z-20 bg-slate-100 p-4 justify-between flex ">
+            <nav className="fixed h-[70px] top-0 right-0 left-0 z-20 bg-slate-100 p-4 justify-between flex ">
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {
                         navItems.map((item) => {
@@ -105,7 +105,7 @@ function Nav() {
 
                 <Transition in={menu} timeout={100}>
                     {(state) => (
-                        <div className={` z-50  bg-white flex flex-col justify-center items-center gap-6 fixed md:hidden transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 top-0 bottom-0 right-0 left-1/4' : 'translate-x-full top-0 bottom-0 right-0 left-1/4'}`}>
+                        <div className={`z-50 bg-white flex flex-col justify-center items-center gap-6 fixed md:hidden transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 top-0 bottom-0 right-0 left-1/4' : 'translate-x-full top-0 bottom-0 right-0 left-1/4'}`}>
                             <div className='fixed top-6 right-6 group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
                                 <FontAwesomeIcon className="text-3xl" icon={faXmark} onClick={() =>
                                     toggleMenu()
@@ -122,7 +122,7 @@ function Nav() {
                     )}
                 </Transition >
             </nav >
-            {showSearchContainer && <SearchComponent />}
+            <SearchComponent />
         </>
     )
 }
