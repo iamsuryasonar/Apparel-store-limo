@@ -37,7 +37,6 @@ const getProductsByTag = async (data) => {
 }
 
 const getProductsByCategoryId = async (data) => {
-    console.log(data)
     const response = await axios
         .get(API_URL + 'product/category/' + data.id, {
             params: {

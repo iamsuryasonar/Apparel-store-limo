@@ -6,10 +6,12 @@ function ProductsComponent({ products }) {
     return <>
         {!products && <ProductShimmer />}
         {
-            products?.products && products?.products?.map((product, index, arr) => {
-                return <ProductCard key={index} product={product} index={index} arr={arr} />
+            products?.products && products?.products?.map((product, index) => {
+                return <ProductCard key={index} product={product} />
             })
         }
+        {/* for pagination */}
+        {products?.products && <div className='scroll-container'></div>}
     </>
 }
 

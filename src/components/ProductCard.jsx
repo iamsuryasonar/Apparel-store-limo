@@ -8,8 +8,7 @@ import { addToCart } from "../store/slices/cartSlice";
 import useOnScreen from '../hooks/useOnScreen'
 import LazyLoadImage from '../components/LazyLoadImage';
 
-function ProductCard(props) {
-    const { product, index, arr } = props;
+function ProductCard({ product }) {
     const user = useSelector((state) => state.auth.userData);
     const [ref, isVisible] = useOnScreen({ threshold: 0 });
 
@@ -30,9 +29,8 @@ function ProductCard(props) {
             sizeVariantId: product?.sizevariants._id,
         }))
     }
-
     /* scroll-container class is just to observe the last 3rd product and load more products(for pagination) */
-    return <div ref={ref} className={`${(arr.length - 3 === index) ? 'scroll-container' : ''} shrink-0  group max-w-[240px] max-h-[390px] w-full h-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
+    return <div ref={ref} className={` shrink-0  group max-w-[240px] max-h-[390px] w-full h-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }

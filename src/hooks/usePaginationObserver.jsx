@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-function usePaginationObserver(isTotalPagesFetched, callback) {
+function usePaginationObserver(isTotalPagesFetched, products, callback) {
     const observer = useRef(null);
 
     useEffect(() => {
@@ -17,7 +17,7 @@ function usePaginationObserver(isTotalPagesFetched, callback) {
                 observer.current.disconnect();
             }
         }, {
-            rootMargin: '200px',
+            rootMargin: '350px',
             threshold: 0.5,
         });
 
@@ -33,7 +33,7 @@ function usePaginationObserver(isTotalPagesFetched, callback) {
                 observer.current.disconnect();
             }
         };
-    }, [isTotalPagesFetched]);
+    }, [products]);
 }
 
 export default usePaginationObserver;

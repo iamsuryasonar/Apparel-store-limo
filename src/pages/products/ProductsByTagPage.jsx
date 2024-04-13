@@ -48,7 +48,7 @@ function ProductsByTagPage() {
 
     const isTotalPagesFetched = products?.pagination?.page_no === products?.pagination?.total_pages;
 
-    usePaginationObserver(isTotalPagesFetched, () => {
+    usePaginationObserver(isTotalPagesFetched, products, () => {
         dispatch(get_more_products_by_tag({
             tag,
             pageNo: products?.pagination?.page_no + 1,

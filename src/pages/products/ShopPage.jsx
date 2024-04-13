@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom'
 import { get_products, get_more_products } from '../../store/slices/productsSlice'
@@ -43,7 +43,7 @@ function ShopPage() {
         getProducts(sortType)
     }, [sortType, removedCriteria])
 
-    usePaginationObserver(isTotalPagesFetched, () => {
+    usePaginationObserver(isTotalPagesFetched, products, () => {
         dispatch(get_more_products({
             pageNo: products?.pagination?.page_no + 1,
             sortType,

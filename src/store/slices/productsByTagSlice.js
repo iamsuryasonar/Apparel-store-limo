@@ -9,7 +9,6 @@ export const get_products_by_tag = createAsyncThunk(
         try {
             thunkAPI.dispatch(setLoading(true));
             thunkAPI.dispatch(clearProducts());
-            console.log(data)
             let response = await ProductsService.getProductsByTag(data);
             return response;
         } catch (error) {
@@ -35,7 +34,6 @@ export const get_more_products_by_tag = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
-            console.log(data)
             let response = await ProductsService.getProductsByTag(data);
             return response;
         } catch (error) {

@@ -69,7 +69,7 @@ function AddAddressForm(props) {
         return Object.keys(newErrors).length === 0;
     };
 
-    const handleAddresSubmit = async () => {
+    const handleAddressSubmit = async () => {
         if (validateForm()) {
             if (editMode && editFormData) {
                 await AddressServices.updateAddress(formData);
@@ -179,7 +179,7 @@ function AddAddressForm(props) {
                     <option value="India">India</option>
                 </select>
             </form>
-            <button onClick={handleAddresSubmit} className="bg-black text-white py-2 px-6 self-end">{editMode ? 'Save' : 'Add'}</button>
+            <button onClick={handleAddressSubmit} className="bg-black text-white py-2 px-6 self-end">{editMode ? 'Save' : 'Add'}</button>
         </div>
     </div>
 }
