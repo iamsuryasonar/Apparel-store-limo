@@ -1,9 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import axios from "axios";
 import { Transition } from 'react-transition-group';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import axios from "axios";
 import { setShowSearch } from '../store/slices/searchSlice';
 import { setLoading } from '../store/slices/loadingSlice'
 import { API_URL } from '../utilities/constants';
@@ -11,11 +11,12 @@ import ProductsComponent from '../components/ProductsComponent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import useDebounce from '../hooks/useDebounce';
 import useOutsideClick from '../hooks/useOutSideClick';
+import usePaginationObserver from '../hooks/usePaginationObserver';
 
 const SearchComponent = () => {
-    const observer = useRef();
     const scrollToElement = useRef(null);
     const containerRef = useRef(null);
+
     useOutsideClick(containerRef, () => {
         dispatch(setShowSearch(false));
     });
@@ -29,7 +30,7 @@ const SearchComponent = () => {
         pagination: [],
     });
 
-    /* to prevent body from scrolling while search component is active */
+    /* prevents body from scrolling while search component is active */
     useEffect(() => {
         if (show) {
             document.body.style.overflow = 'hidden';
@@ -59,8 +60,9 @@ const SearchComponent = () => {
 
     const debounced = useDebounce(handleSearch, 300)
 
-    const handlePagination = async (searchedKeyword, pageNo) => {
+    const getMoreOfSearchedProducts = async (searchedKeyword, pageNo) => {
         dispatch(setLoading(true))
+
         const response = await axios
             .get(API_URL + 'product/by_name/' + searchedKeyword, {
                 params: {
@@ -68,21 +70,24 @@ const SearchComponent = () => {
                 },
                 headers: { 'Content-Type': 'application/json', }
             });
-        dispatch(setLoading(false))
+
         if (response?.data?.code === 200) {
             setResult(prev => {
                 return {
                     products: [...prev.products, ...response.data.results.products],
-                    pagination: [response.data.results.pagination],
+                    pagination: response.data.results.pagination,
                 }
             })
         }
+
+        dispatch(setLoading(false))
     }
 
     const onInputChangeHandler = (e) => {
         setSearchKeyword(e.target.value);
+
         if (e.target.value !== '') {
-            debounced(e.target.value, 1); // when input value changes debounced function is called
+            debounced(e.target.value, 1); // when input value changes debounced search function is called
         } else {
             setResult({
                 products: [],
@@ -99,40 +104,12 @@ const SearchComponent = () => {
         });
     };
 
-    const observeScroll = () => {
-        observer.current = new IntersectionObserver(entries => {
-            if (entries[0].isIntersecting) {
-
-                if (result?.pagination?.page_no === result?.pagination?.total_pages) {
-                    /* if total pages retrieved, disconnect the obeserver and return */
-                    observer.current.disconnect();
-                    return;
-                }
-
-                handlePagination(searchKeyword, result?.pagination?.page_no + 1,)
-
-                observer.current.disconnect();
-            }
-        }, { threshold: 0.5 });
-
-        const scrollContainer = document.querySelector('.scroll-container');
-
-        if (scrollContainer) {
-            /* observes the scroll-container className that is attached to the last third product card */
-            observer.current.observe(scrollContainer);
-        }
-    }
-
-    useEffect(() => {
-
-        observeScroll();
-
-        return () => {
-            if (observer.current) {
-                observer.current.disconnect();
-            }
-        };
-    }, [result]);
+    usePaginationObserver(result, () => {
+        getMoreOfSearchedProducts(
+            searchKeyword,
+            result?.pagination?.page_no + 1
+        )
+    });
 
     return (
         <Transition in={show} timeout={100}>

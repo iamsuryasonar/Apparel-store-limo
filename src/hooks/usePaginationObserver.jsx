@@ -6,6 +6,7 @@ function usePaginationObserver(products, callback) {
     useEffect(() => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
+
                 if (products?.pagination?.page_no >= products?.pagination?.total_pages) {
                     /* if total pages retrieved, disconnect the obeserver and return */
                     observer.current.disconnect();

@@ -44,6 +44,7 @@ export const register = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
+      thunkAPI.dispatch(clearMessage());
       const response = await AuthService.register(credentials);
       thunkAPI.dispatch(setMessage(response.data.message));
       return response.data;
@@ -70,6 +71,7 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
+      thunkAPI.dispatch(clearMessage());
       const res = await AuthService.login(credentials);
       const data = {
         userData: {
@@ -99,6 +101,7 @@ export const logout = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
+      thunkAPI.dispatch(clearMessage());
       AuthService.logout();
       return;
     } catch (error) {

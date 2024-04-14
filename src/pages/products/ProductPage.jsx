@@ -3,75 +3,37 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductsService from "../../services/products.services";
 import { addToCart } from "../../store/slices/cartSlice";
-import ImageCarousel from "../../components/ImageCarousel";
+import ImageCarousel from "../../components/carousal/ImageCarousel";
 import useLocalStorageLimited from '../../hooks/useLocalStorageLimited';
 import { LOCAL_STORAGE_RECENTLY_VIEWED } from '../../utilities/constants'
 import ProductCard from '../../components/ProductCard'
-import useScrollToTop from '../../hooks/useScrollToTop'
 import { setLoading } from "../../store/slices/loadingSlice";
 
 /* page to display single product information */
 function ProductPage() {
-    const user = useSelector((state) => state.auth.userData);
     const dispatch = useDispatch()
+    const user = useSelector((state) => state.auth.userData);
 
     let { state } = useLocation();
     const navigate = useNavigate();
 
     const [quantity, setQuantity] = useState(1);
     const [product, setProduct] = useState(null);
-    const [selectedColorVariantIndex, setSelectedColorVariantIndex] =
-        useState(0);
-    const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] =
-        useState(0);
+    const [selectedColorVariantIndex, setSelectedColorVariantIndex] = useState(0);
+    const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] = useState(0);
 
     const [recentlyViewed, setRecentlyViewed] = useLocalStorageLimited(LOCAL_STORAGE_RECENTLY_VIEWED, 4);
 
     const getAProduct = async () => {
+        dispatch(setLoading(true))
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
-        dispatch(setLoading(true))
         const response = await ProductsService.getProduct(state?.productId);
         setProduct(response?.product)
         dispatch(setLoading(false))
     }
-
-    useEffect(() => {
-        getAProduct();
-    }, [state]);
-
-    useEffect(() => {
-        const currentColorVariantIndex = product?.colorvariants?.reduce((acc, curr, index) => {
-            return curr._id === state.colorVariantId ? index : acc;
-        }, 0);
-
-        setSelectedColorVariantIndex(currentColorVariantIndex);
-    }, [product]);
-
-    useEffect(() => {
-        const currentSizeVariantIndex = product?.colorvariants[selectedColorVariantIndex].sizevariants?.reduce((acc, curr, index) => {
-            return curr._id === state.sizeVariantId ? index : acc;
-        }, 0);
-
-        setSelectedSizeVariantIndex(currentSizeVariantIndex);
-    }, [selectedColorVariantIndex]);
-
-    useEffect(() => {
-        if (product && selectedColorVariantIndex && selectedSizeVariantIndex) {
-            setRecentlyViewed({
-                _id: product?._id,
-                name: product.name,
-                tag: product.tag,
-                category: product.category,
-                image: product?.colorvariants[selectedColorVariantIndex]?.images[0],
-                colorvariants: product?.colorvariants[selectedColorVariantIndex],
-                sizevariants: product?.colorvariants[selectedColorVariantIndex].sizevariants[selectedSizeVariantIndex],
-            })
-        }
-
-    }, [product, selectedColorVariantIndex, selectedSizeVariantIndex])
 
     const addToCartHandler = () => {
         dispatch(addToCart({
@@ -81,6 +43,38 @@ function ProductPage() {
             sizeVariantId: product?.colorvariants[selectedColorVariantIndex].sizevariants[selectedSizeVariantIndex]._id,
         }))
     }
+
+    useEffect(() => {
+        getAProduct();
+    }, [state]);
+
+    useEffect(() => {
+        if (product && state) {
+            /* sets initial color variant index received from state */
+            const currentColorVariantIndex = product.colorvariants?.reduce((acc, curr, index) => {
+                return curr._id === state.colorVariantId ? index : acc;
+            }, 0);
+
+            /* sets initial size variant index received from state */
+            const currentSizeVariantIndex = product.colorvariants[currentColorVariantIndex]?.sizevariants?.reduce((acc, curr, index) => {
+                return curr._id === state.sizeVariantId ? index : acc;
+            }, 0);
+
+            setSelectedColorVariantIndex(currentColorVariantIndex);
+            setSelectedSizeVariantIndex(currentSizeVariantIndex);
+
+            /* updated recently viewed product since new product is viewed*/
+            setRecentlyViewed({
+                _id: product._id,
+                name: product.name,
+                tag: product.tag,
+                category: product.category,
+                image: product.colorvariants[selectedColorVariantIndex]?.images[0],
+                colorvariants: product.colorvariants[selectedColorVariantIndex],
+                sizevariants: product.colorvariants[selectedColorVariantIndex]?.sizevariants[selectedSizeVariantIndex],
+            })
+        }
+    }, [product, state]);
 
     return (<div className="max-w-7xl w-full flex ">
         {product && <div className="flex flex-col ">

@@ -6,10 +6,11 @@ import { setLoading } from '../../../store/slices/loadingSlice';
 import { useDispatch } from 'react-redux'
 import useWindowSize from '../../../hooks/useWindowSize'
 import LoadingComponent from '../../../components/fallback/LoadingComponent'
-const ComponentCarousel = lazy(() => import('../../../components/ComponentCarousel'))
+const ComponentCarousel = lazy(() => import('../../../components/carousal/ComponentCarousel'))
 
 function ProductsByTagsSection() {
     const dispatch = useDispatch();
+
     const [productByTag, setProductByTag] = useState({
         newArrived: [],
         mostPurchased: [],
@@ -18,6 +19,7 @@ function ProductsByTagsSection() {
 
     const getProductsByTag = async (data) => {
         dispatch(setLoading(true))
+
         const res = await ProductsService.getProductsByTag(data)
         if (data.tag === 'New arrival') {
             setProductByTag(prev => {
@@ -35,6 +37,7 @@ function ProductsByTagsSection() {
                 return { ...prev, popular: res.products }
             });
         }
+
         dispatch(setLoading(false))
     }
 

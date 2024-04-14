@@ -27,8 +27,12 @@ function OrderHistoryComponent() {
                     return (
                         <div key={order._id} className="flex items-start rounded-md bg-slate-50 p-4 shadow-lg gap-4 cursor-pointer"
                             onClick={() => {
+                                const colorVariantId = order?.item?.colorvariant?._id;
+                                const sizeVariantId = order?.item?.sizevariant?._id;
+                                const productId = order?.item.product._id;
+
                                 navigate(`/product/${order?.item.product._id}`, {
-                                    state: { colorVariantId: order?.item?.colorvariant?._id, sizeVariantId: order?.item?.sizevariant?._id, productId: order?.item.product._id }
+                                    state: { colorVariantId, sizeVariantId, productId }
                                 })
                             }}
                         >

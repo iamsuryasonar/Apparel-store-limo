@@ -10,11 +10,11 @@ function ProductsWithFilter(props) {
         setMinMaxValue,
         priceRange,
         onDragEndHandler,
-        activeFilters,
-        setActiveFilters,
         sortType,
         setSortType,
-        setRemovedCriteria,
+        activeFilters,
+        setActiveFilters,
+        getProducts,
     } = props;
 
     const [isFilterContainerVisible, setFilterContainerVisible] = useState(false);
@@ -41,7 +41,7 @@ function ProductsWithFilter(props) {
 
     const removeFilterCriteria = (type) => {
         /* this function removes criteria of filter and sets values to default values.
-        updating removedCriteria triggers useEffect to get updated product values */
+        in the end gets the updated products */
         if (type === 'RANGE') {
             setMinMaxValue((prev) => ({
                 ...prev,
@@ -75,7 +75,7 @@ function ProductsWithFilter(props) {
                 range: '',
             })
         }
-        setRemovedCriteria(type)
+        getProducts()
     }
 
     return (
@@ -105,11 +105,11 @@ function ProductsWithFilter(props) {
                     <FilterContainer
                         setFilterContainerVisible={setFilterContainerVisible}
                         sortType={sortType} sortHandler={sortHandler}
-                        minMaxValue={minMaxValue}
-                        handleRangeChange={handleRangeChange}
-                        onDragEndHandler={onDragEndHandler}
                         priceRange={priceRange}
+                        handleRangeChange={handleRangeChange}
+                        minMaxValue={minMaxValue}
                         activeFilters={activeFilters}
+                        onDragEndHandler={onDragEndHandler}
                         removeFilterCriteria={removeFilterCriteria} />
                 }
                 <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 mt-4 md:p-8 md:mt-0 gap-4 sm:gap-10`}>

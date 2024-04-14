@@ -8,10 +8,10 @@ function FilterContainer(props) {
         setFilterContainerVisible,
         sortType,
         priceRange,
-        activeFilters,
+        handleRangeChange,
         minMaxValue,
         sortHandler,
-        handleRangeChange,
+        activeFilters,
         onDragEndHandler,
         removeFilterCriteria
     } = props;

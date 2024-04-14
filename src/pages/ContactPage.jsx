@@ -9,13 +9,13 @@ function ContactPage() {
     const dispatch = useDispatch();
     const message = useSelector((state) => state.message.message);
 
+    const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
         name: '',
         email: '',
         message: '',
         query: 'Business Inquiry',
     });
-    const [errors, setErrors] = useState({});
 
 
     const onChangeHandler = (e) => {

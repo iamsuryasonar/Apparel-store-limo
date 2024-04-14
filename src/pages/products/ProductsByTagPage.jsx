@@ -16,7 +16,6 @@ function ProductsByTagPage() {
     const products = useSelector((state) => state.productsByTag.productsByTag)
 
     const [sortType, setSortType] = useState(null);
-    const [removedCriteria, setRemovedCriteria] = useState(null);
     const [minMaxValue, setMinMaxValue] = useState({
         minValue: 0,
         maxValue: 100,
@@ -44,9 +43,9 @@ function ProductsByTagPage() {
 
     useEffect(() => {
         getProductByTag(sortType)
-    }, [sortType, removedCriteria])
+    }, [sortType])
 
-    usePaginationObserver( products, () => {
+    usePaginationObserver(products, () => {
         dispatch(get_more_products_by_tag({
             tag,
             pageNo: products?.pagination?.page_no + 1,
@@ -77,7 +76,7 @@ function ProductsByTagPage() {
                 setSortType={setSortType}
                 activeFilters={activeFilters}
                 setActiveFilters={setActiveFilters}
-                setRemovedCriteria={setRemovedCriteria}
+                getProducts={getProductByTag}
             >
                 <ProductsComponent products={products} />
             </ProductsWithFilter>

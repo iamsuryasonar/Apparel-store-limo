@@ -175,7 +175,7 @@ function CheckOutPage() {
                         })}
                     </div>
 
-                    <div className='flex flex-row gap-2'>
+                    {/* <div className='flex flex-row gap-2'>
                         <input
                             value=''
                             onChange={() => { }}
@@ -185,12 +185,14 @@ function CheckOutPage() {
                             className="p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 "
                         ></input>
                         <button className='px-4 py-2 bg-black text-white'>Apply</button>
-                    </div>
+                    </div> */}
+
                     <div className='flex justify-between items-center'>
                         <p>Total</p>
                         <p>Rs. {totalPrice}</p>
                     </div>
                     <button onClick={checkOutHandler} className='w-full px-4 py-2 bg-black text-white'>Pay now</button>
+                    <p className='bg-red-100 p-2 rounded text-sm'>Note:<a className='text-blue-500' target='_blank' href='https://razorpay.com/docs/payments/payment-gateway/ecommerce-plugins/wix/test-integration/'> Click here</a> to get Razorpay test credentials.</p>
                 </div>
             </div >
         }

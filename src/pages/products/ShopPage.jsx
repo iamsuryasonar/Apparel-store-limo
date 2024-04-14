@@ -14,7 +14,6 @@ function ShopPage() {
     const products = useSelector((state) => state.products.products)
 
     const [sortType, setSortType] = useState(null);
-    const [removedCriteria, setRemovedCriteria] = useState(null);
     const [minMaxValue, setMinMaxValue] = useState({
         minValue: 0,
         maxValue: 100,
@@ -40,7 +39,7 @@ function ShopPage() {
 
     useEffect(() => {
         getProducts(sortType)
-    }, [sortType, removedCriteria])
+    }, [sortType])
 
     usePaginationObserver(products, () => {
         dispatch(get_more_products({
@@ -73,7 +72,7 @@ function ShopPage() {
                     setSortType={setSortType}
                     activeFilters={activeFilters}
                     setActiveFilters={setActiveFilters}
-                    setRemovedCriteria={setRemovedCriteria}
+                    getProducts={getProducts}
                 >
                     <ProductsComponent products={products} />
                 </ProductsWithFilter>

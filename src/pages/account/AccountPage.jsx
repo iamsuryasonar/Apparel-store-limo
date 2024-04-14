@@ -5,6 +5,7 @@ import { faArrowDown, faArrowUp, } from "@fortawesome/free-solid-svg-icons";
 import AddressComponent from './components/AddressComponent';
 import OrderHistoryComponent from './components/OrderHistoryComponent';
 import SignoutModal from '../../components/SignoutModal';
+import useScrollToTop from '../../hooks/useScrollToTop';
 
 function AccountPage() {
   let navigate = useNavigate();
@@ -14,12 +15,7 @@ function AccountPage() {
   const [activeTab, setActiveTab] = useState(0);
   const [isLogoutModal, setIsLogoutModal] = useState(false);
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  }, []);
+  useScrollToTop()
 
   const options = [
     {

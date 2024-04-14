@@ -1,25 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { clearMessage } from '../store/slices/messageSlice'
 import { register } from '../store/slices/authSlice'
 import BottomAlert from '../components/BottomAlert'
 import useScrollToTop from '../hooks/useScrollToTop'
 
 function RegisterPage() {
-
     const dispatch = useDispatch();
     const { message } = useSelector((state) => state.message);
 
     const [input, setInput] = useState({});
     const [showPassword, setShowPassword] = useState(false);
     const [errors, setErrors] = useState({});
-
-    useEffect(() => {
-        dispatch(clearMessage());
-    }, [dispatch]);
 
     const onChangeHandler = (e) => {
         setInput({

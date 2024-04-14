@@ -16,7 +16,6 @@ function ProductsByCategoryPage() {
     const products = useSelector((state) => state.productsByCategory.productsByCategory)
 
     const [sortType, setSortType] = useState(null);
-    const [removedCriteria, setRemovedCriteria] = useState(null);
     const [minMaxValue, setMinMaxValue] = useState({
         minValue: 0,
         maxValue: 100,
@@ -44,7 +43,7 @@ function ProductsByCategoryPage() {
 
     useEffect(() => {
         getProductByCategoryId(sortType)
-    }, [sortType, removedCriteria])
+    }, [sortType])
 
 
     usePaginationObserver(products, () => {
@@ -78,7 +77,7 @@ function ProductsByCategoryPage() {
                 setSortType={setSortType}
                 activeFilters={activeFilters}
                 setActiveFilters={setActiveFilters}
-                setRemovedCriteria={setRemovedCriteria}
+                getProducts={getProductByCategoryId}
             >
                 <ProductsComponent products={products} />
             </ProductsWithFilter>

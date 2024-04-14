@@ -11,9 +11,28 @@ import LoadingBar from './LoadingBar';
 import SearchComponent from './SearchComponent'
 import useOutsideClick from '../hooks/useOutSideClick';
 
+let navItems = [
+    {
+        id: 1,
+        title: 'Home',
+        path: '/'
+    },
+    {
+        id: 2,
+        title: 'Shop',
+        path: '/shop'
+    },
+    {
+        id: 3,
+        title: 'Contact',
+        path: '/contact-us'
+    },
+]
+
 function Nav() {
     const location = useLocation();
     const currentPageName = location.pathname;
+
     const containerRef = useRef(null);
     const dispatch = useDispatch();
 
@@ -27,24 +46,6 @@ function Nav() {
     useOutsideClick(containerRef, () => {
         setMenu(false)
     });
-
-    let navItems = [
-        {
-            id: 1,
-            title: 'Home',
-            path: '/'
-        },
-        {
-            id: 2,
-            title: 'Shop',
-            path: '/shop'
-        },
-        {
-            id: 3,
-            title: 'Contact',
-            path: '/contact-us'
-        },
-    ]
 
     const toggleMenu = () => {
         setMenu(!menu);

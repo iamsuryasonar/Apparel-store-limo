@@ -5,7 +5,7 @@ import Footer from '../components/Footer'
 function NavAndOutlet() {
     return <div className='relative bg-slate-50'>
         <Nav />
-        <main className='flex mx-auto mt-[70px] min-h-screen w-full justify-center'>{/* overflow-hidden here might affect sticky property in FilterContainer*/}
+        <main className='flex mx-auto mt-[70px] min-h-screen w-full justify-center'>{/* putting overflow-hidden here will affect sticky property in FilterContainer*/}
             <Outlet />
         </main>
         <Footer />

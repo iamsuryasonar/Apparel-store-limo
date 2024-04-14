@@ -4,7 +4,8 @@ import { logout } from '../store/slices/authSlice'
 
 const SignoutModal = ({ isLogoutModal, setIsLogoutModal }) => {
     const dispatch = useDispatch();
-    /* to prevent body from scrolling while modal is active */
+
+    /* prevents body from scrolling while modal is active */
     useEffect(() => {
         if (isLogoutModal) {
             document.body.style.overflow = 'hidden';

@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import BottomAlert from '../components/BottomAlert'
 import { login } from "../store/slices/authSlice";
-import { clearMessage } from "../store/slices/messageSlice";
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import useScrollToTop from '../hooks/useScrollToTop'
 
 function LogInPage() {
   const navigate = useNavigate();
@@ -21,10 +21,6 @@ function LogInPage() {
     email: '',
     password: '',
   });
-
-  useEffect(() => {
-    dispatch(clearMessage());
-  }, [dispatch]);
 
   const onChangeHandler = (e) => {
     const { name, value } = e.target;
@@ -71,12 +67,7 @@ function LogInPage() {
     };
   }
 
-  useEffect(() => {
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth'
-    });
-  }, []);
+  useScrollToTop()
 
   return (
     <>
