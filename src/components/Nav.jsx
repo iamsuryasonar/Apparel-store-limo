@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -9,20 +9,24 @@ import { get_all_cart_items } from '../store/slices/cartSlice'
 import Cart from '../components/Cart'
 import LoadingBar from './LoadingBar';
 import SearchComponent from './SearchComponent'
+import useOutsideClick from '../hooks/useOutSideClick';
 
 function Nav() {
     const location = useLocation();
     const currentPageName = location.pathname;
-
+    const containerRef = useRef(null);
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-    const showSearchContainer = useSelector((state) => state.search.show);
 
     const [menu, setMenu] = useState(false);
     const [isCartActive, setIsCartActive] = useState(false);
+
+    useOutsideClick(containerRef, () => {
+        setMenu(false)
+    });
 
     let navItems = [
         {
@@ -105,10 +109,10 @@ function Nav() {
 
                 <Transition in={menu} timeout={100}>
                     {(state) => (
-                        <div className={`z-50 bg-white flex flex-col justify-center items-center gap-6 fixed md:hidden transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 top-0 bottom-0 right-0 left-1/4' : 'translate-x-full top-0 bottom-0 right-0 left-1/4'}`}>
+                        <div ref={containerRef} className={`z-50 bg-white flex flex-col justify-center items-center gap-6 fixed md:hidden transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 top-0 bottom-0 right-0 left-1/4' : 'translate-x-full top-0 bottom-0 right-0 left-1/4'}`}>
                             <div className='fixed top-6 right-6 group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
                                 <FontAwesomeIcon className="text-3xl" icon={faXmark} onClick={() =>
-                                    toggleMenu()
+                                    setMenu(false)
                                 } />
                             </div>
                             {

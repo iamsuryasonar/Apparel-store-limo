@@ -85,11 +85,20 @@ function ProductsWithFilter(props) {
                     <p className='font-thin'>FILTER</p>
                     <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
                 </div>
-                {numberOfProducts !== 'NaN' && products?.pagination?.total_products && <div className='mr-8 flex gap-1 text-sm sm:text-lg font-semibold text-slate-500'>
-                    <span>{numberOfProducts}</span>
-                    <span>of</span>
-                    <span> {products?.pagination?.total_products}</span>
-                </div>}
+                {(numberOfProducts !== 'NaN' && products?.pagination?.total_products)
+                    ?
+                    <div className='mr-8 flex gap-1 text-sm sm:text-lg font-semibold text-slate-500'>
+                        <span>{numberOfProducts}</span>
+                        <span>of</span>
+                        <span> {products?.pagination?.total_products}</span>
+                    </div>
+                    :
+                    <div className='mr-8 flex gap-1 text-sm sm:text-lg font-semibold text-slate-500'>
+                        <span>{0}</span>
+                        <span>of</span>
+                        <span>{0}</span>
+                    </div>
+                }
             </div>
             <div className='w-full flex sm:flex-row flex-col'>
                 {isFilterContainerVisible &&

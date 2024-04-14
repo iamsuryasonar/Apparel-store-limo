@@ -1,12 +1,12 @@
 import { useEffect, useRef } from 'react';
 
-function usePaginationObserver(isTotalPagesFetched, products, callback) {
+function usePaginationObserver(products, callback) {
     const observer = useRef(null);
 
     useEffect(() => {
         observer.current = new IntersectionObserver(entries => {
             if (entries[0].isIntersecting) {
-                if (isTotalPagesFetched) {
+                if (products?.pagination?.page_no >= products?.pagination?.total_pages) {
                     /* if total pages retrieved, disconnect the obeserver and return */
                     observer.current.disconnect();
                     return;

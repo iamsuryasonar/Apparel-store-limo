@@ -46,9 +46,8 @@ function ProductsByCategoryPage() {
         getProductByCategoryId(sortType)
     }, [sortType, removedCriteria])
 
-    const isTotalPagesFetched = products?.pagination?.page_no === products?.pagination?.total_pages;
 
-    usePaginationObserver(isTotalPagesFetched, products, () => {
+    usePaginationObserver(products, () => {
         dispatch(get_more_products_by_category_id({
             id,
             pageNo: products?.pagination?.page_no + 1,

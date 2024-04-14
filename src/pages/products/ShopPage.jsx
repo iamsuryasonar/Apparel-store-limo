@@ -12,7 +12,6 @@ function ShopPage() {
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products)
-    const isTotalPagesFetched = products?.pagination?.page_no === products?.pagination?.total_pages;
 
     const [sortType, setSortType] = useState(null);
     const [removedCriteria, setRemovedCriteria] = useState(null);
@@ -43,7 +42,7 @@ function ShopPage() {
         getProducts(sortType)
     }, [sortType, removedCriteria])
 
-    usePaginationObserver(isTotalPagesFetched, products, () => {
+    usePaginationObserver(products, () => {
         dispatch(get_more_products({
             pageNo: products?.pagination?.page_no + 1,
             sortType,

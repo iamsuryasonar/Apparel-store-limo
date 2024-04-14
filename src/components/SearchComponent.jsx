@@ -10,10 +10,15 @@ import { API_URL } from '../utilities/constants';
 import ProductsComponent from '../components/ProductsComponent';
 import ScrollToTopButton from '../components/ScrollToTopButton';
 import useDebounce from '../hooks/useDebounce';
+import useOutsideClick from '../hooks/useOutSideClick';
 
 const SearchComponent = () => {
     const observer = useRef();
     const scrollToElement = useRef(null);
+    const containerRef = useRef(null);
+    useOutsideClick(containerRef, () => {
+        dispatch(setShowSearch(false));
+    });
 
     const dispatch = useDispatch();
     const show = useSelector((state) => state.search.show);
@@ -133,7 +138,7 @@ const SearchComponent = () => {
         <Transition in={show} timeout={100}>
             {(state) => (
                 <div className={`z-40 fixed rounded-lg transition-transform transform ease-in-out duration-700 overflow-hidden ${state === 'entered' ? 'translate-x-0 top-2 bottom-2 left-2 right-2' : 'translate-x-full top-2 bottom-2 left-2 right-0'}`}>
-                    <div className='max-w-7xl mx-auto w-full h-full flex flex-col gap-2 p-4 bg-slate-200 rounded-md'>
+                    <div ref={containerRef} className='max-w-7xl mx-auto w-full h-full flex flex-col gap-2 p-4 bg-slate-200 rounded-md'>
                         <div className='h-auto z-50 bg-slate-200 relative top-0 w-full py-6 flex flex-row justify-between items-center gap-4' >
                             <div className="w-full relative">
                                 <input
