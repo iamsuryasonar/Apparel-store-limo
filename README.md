@@ -30,6 +30,13 @@ This e-commerce site is packed with features to provide a comprehensive shopping
 - **Font Awesome:** For a wide range of icons.
 - **React Router:** For navigation within the application.
 
+### Additional Points:
+
+- Optimistic Rendering: Implemented optimistic rendering for cart item increment or decrement, providing instant feedback to users and enhancing perceived performance.
+- Infinite Pagination: Utilized infinite pagination to efficiently handle large datasets, improving user experience by reducing loading times and enhancing navigation.
+- Lazy Loading: Implemented lazy loading for both components and images, optimizing page load times and conserving bandwidth by loading content as it becomes visible on the screen.
+- Image Compression: Employed the Sharp npm library for image compression, reducing file sizes without compromising quality and further optimizing load times for improved performance.
+
 ## Getting Started
 
 To get a local copy up and running, follow these simple steps:
