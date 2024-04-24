@@ -37,3 +37,13 @@ export const getAuthHeaders = () => {
 export const getAccessToken = () => JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.accessToken;
 
 export const getUserData = () => JSON.parse(localStorage.getItem(LOCAL_STORAGE_NAME))?.userData;
+
+export function padSentence(sentence, maxLength) {
+    if (!sentence) return
+    if (sentence.length < maxLength) {
+        return sentence;
+    } else {
+        const padding = '...';
+        return sentence.slice(0, 26) + padding;
+    }
+}

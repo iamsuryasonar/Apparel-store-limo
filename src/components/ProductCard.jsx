@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowSearch } from '../store/slices/searchSlice';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,6 +7,7 @@ import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
 import { addToCart } from "../store/slices/cartSlice";
 import useOnScreen from '../hooks/useOnScreen'
 import LazyLoadImage from '../components/LazyLoadImage';
+import { padSentence } from '../utilities/utility'
 
 function ProductCard({ product }) {
     const user = useSelector((state) => state.auth.userData);
@@ -14,6 +15,7 @@ function ProductCard({ product }) {
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
+    let { state } = useLocation();
 
     const [loadedImages, setLoadedImages] = useState([]);
 
@@ -29,7 +31,7 @@ function ProductCard({ product }) {
             sizeVariantId: product?.sizevariants._id,
         }))
     }
-    
+
     return <div ref={ref} className={` shrink-0  group max-w-[240px] max-h-[390px] w-full h-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
@@ -58,7 +60,7 @@ function ProductCard({ product }) {
                 : <></>
         }
         {
-            loadedImages.includes(product?.image?._id) && <div className='relative flex flex-col justify-between w-full bg-white text-black group-hover:bg-slate-900 group-hover:text-white p-2 pt-4 '>
+            loadedImages.includes(product?.image?._id) && <div className='relative flex flex-col justify-between w-full h-full bg-white text-black group-hover:bg-slate-900 group-hover:text-white p-2 pt-4 '>
                 <FontAwesomeIcon className='absolute -top-4 right-1 p-2 w-4 h-4 rounded-full group bg-yellow-300 hover:bg-orange-500  text-white shadow-xl' icon={faCartPlus}
                     onClick={(e) => {
                         e.stopPropagation();
@@ -69,7 +71,7 @@ function ProductCard({ product }) {
                                 state: { ...state, type: 'ADD_TO_CART' },
                             })
                     }} />
-                <p className='text-sm font-semibold'>{product?.name}</p>
+                <p className='text-sm font-semibold'>{padSentence(product?.name, 3)}</p>
                 <div>
                     <p className='text-white-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
                     <div className='flex flex-row gap-1 text-xs sm:text-sm'>
