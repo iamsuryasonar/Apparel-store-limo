@@ -39,6 +39,7 @@ function Nav() {
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
+    
 
     const [menu, setMenu] = useState(false);
     const [isCartActive, setIsCartActive] = useState(false);
@@ -126,6 +127,7 @@ function Nav() {
                         </div>
                     )}
                 </Transition >
+
             </nav >
             <SearchComponent />
         </>

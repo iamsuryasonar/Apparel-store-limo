@@ -36,3 +36,20 @@
         /* Firefox */
     }
 }
+
+.animated-message {
+    opacity: 0;
+    animation: slideFromBottom 0.5s ease forwards;
+}
+
+@keyframes slideFromBottom {
+    0% {
+        opacity: 0;
+        transform: translateY(100%);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

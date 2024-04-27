@@ -4,12 +4,10 @@ import { Link } from 'react-router-dom'
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { register } from '../store/slices/authSlice'
-import BottomAlert from '../components/BottomAlert'
 import useScrollToTop from '../hooks/useScrollToTop'
 
 function RegisterPage() {
     const dispatch = useDispatch();
-    const { message } = useSelector((state) => state.message);
 
     const [input, setInput] = useState({});
     const [showPassword, setShowPassword] = useState(false);
@@ -105,7 +103,6 @@ function RegisterPage() {
                 <button onClick={registerHandler} className="px-6 py-2 bg-black text-white font-light">Create</button>
             </div>
         </div>
-        {message && <BottomAlert message={message} />}
     </>)
 }
 

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
-import BottomAlert from '../components/BottomAlert'
 import { login } from "../store/slices/authSlice";
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -13,7 +12,6 @@ function LogInPage() {
   let { state } = useLocation();
 
   const dispatch = useDispatch();
-  const { message } = useSelector((state) => state.message);
 
   const [input, setInput] = useState({});
   const [showPassword, setShowPassword] = useState(false);
@@ -123,7 +121,6 @@ function LogInPage() {
           </div>
         </div>
       </div>
-      {message && <BottomAlert message={message} />}
     </>
   );
 }

@@ -1,13 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
-import BottomAlert from '../components/BottomAlert'
 import ContactUsServices from '../services/contactUs.services'
 import { setMessage, clearMessage } from '../store/slices/messageSlice'
 import useScrollToTop from '../hooks/useScrollToTop'
 
 function ContactPage() {
     const dispatch = useDispatch();
-    const message = useSelector((state) => state.message.message);
 
     const [errors, setErrors] = useState({});
     const [formData, setFormData] = useState({
@@ -129,8 +127,6 @@ function ContactPage() {
 
                 </div >
             </div >
-            {message && <BottomAlert message={message} />
-            }
         </>
     )
 }

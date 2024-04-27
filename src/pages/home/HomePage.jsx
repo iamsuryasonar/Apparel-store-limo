@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux'
 import { get_categories } from '../../store/slices/categorySlice'
 import Subscribe from "./components/Subscribe";
 import InstagramWrapper from "./components/InstagramWrapper";
-import BottomAlert from '../../components/BottomAlert'
 import BannerSection from './components/BannerSection'
 import ProductsByTagsSection from './components/ProductsByTagsSection'
 import CategorySection from './components/CategorySection'
@@ -11,7 +10,6 @@ import useScrollToTop from '../../hooks/useScrollToTop'
 
 function HomePage() {
     const dispatch = useDispatch();
-    const message = useSelector((state) => state.message.message);
     const categories = useSelector((state) => state.categories.categories);
 
     useEffect(() => {
@@ -33,7 +31,6 @@ function HomePage() {
                     <Subscribe />
                 </>
             }
-            {message && <BottomAlert message={message} />}
         </main>
     )
 }

@@ -1,10 +1,7 @@
 
 const BottomAlert = ({ message }) => {
-
     return (
-        <div className="z-50 fixed bottom-0 left-0 right-0 mx-auto w-11/12 bg-green-500 text-white p-4 text-center">
-            {message}
-        </div>
+        <p className={`z-50 fixed rounded-t-md bottom-0 left-0 right-0 px-4 py-1 text-white text-sm bg-green-400 animated-message animate-slideFromBottom`}>{message}</p>
     )
 };
 
