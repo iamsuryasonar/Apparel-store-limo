@@ -9,7 +9,7 @@ import useOnScreen from '../hooks/useOnScreen'
 import LazyLoadImage from '../components/LazyLoadImage';
 import { padSentence } from '../utilities/utility'
 
-function ProductCard({ product }) {
+function ProductCard({ product, animate }) {
     const user = useSelector((state) => state.auth.userData);
     const [ref, isVisible] = useOnScreen({ threshold: 0 });
 
@@ -32,7 +32,7 @@ function ProductCard({ product }) {
         }))
     }
 
-    return <div ref={ref} className={` shrink-0  group max-w-[240px] max-h-[390px] w-full h-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}
+    return <div ref={ref} className={` shrink-0  group max-w-[240px] max-h-[390px] w-full h-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }

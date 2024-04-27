@@ -22,9 +22,11 @@ function HomePage() {
 
     return (
         <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
+            {/* Todo: this banner should be a carousal featuring various categories and sections */}
             <BannerSection />
             <CategorySection categories={categories} />
             <ProductsByTagsSection />
+            {/*Todo:  mens section and womens sections, reuse product with filter component */}
             {
                 categories && <>
                     <InstagramWrapper />

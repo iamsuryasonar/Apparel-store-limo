@@ -155,7 +155,7 @@ function ProductPage() {
                 <p className="font-light text-3xl px-4 uppercase ">Recently viewed</p>
                 <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 md:p-8 gap-4`}>
                     {recentlyViewed.length > 0 && recentlyViewed?.map((product, index) => {
-                        return <ProductCard key={index} product={product} index={index} arr={recentlyViewed} />
+                        return <ProductCard key={index} product={product} index={index} arr={recentlyViewed} animate={true} />
                     })}
                 </div>
             </div>

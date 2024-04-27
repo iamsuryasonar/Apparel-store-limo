@@ -7,7 +7,7 @@ function ProductsComponent({ products }) {
         {!products && <ProductShimmer />}
         {
             products?.products && products?.products?.map((product, index) => {
-                return <ProductCard key={index} product={product} />
+                return <ProductCard key={index} product={product} animate={true} />
             })
         }
         {/* for pagination */}

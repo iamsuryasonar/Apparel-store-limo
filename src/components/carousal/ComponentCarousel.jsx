@@ -1,28 +1,42 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faCircleChevronLeft,
     faCircleChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
-function ComponentCarousel({ className, style, items, Child }) {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+function ComponentCarousel({ className, style, items, Child, timer }) {
+    const [currentComponentIndex, setcurrentComponentIndex] = useState(0);
     const containerRef = useRef(null);
     const [startX, setStartX] = useState(null);
     const [swipeType, setSwipeType] = useState("");
+    const [carousalDirection, setCarousalDirection] = useState(true); //true means incrementing component index
+
     const nextImageHandler = () => {
-        if (items.length - 1 > currentImageIndex) {
-            let t = (currentImageIndex + 1) * 100;
+        if (items.length - 1 > currentComponentIndex) {
+            let t;
+            if (items.length - 2 === currentComponentIndex) { // last card should be traslated to by 88%
+                t = (currentComponentIndex + 1) * 88;
+            } else {
+                t = (currentComponentIndex + 1) * 100;
+            }
+
             containerRef.current.style.transform = `translateX(-${t}%)`;
-            setCurrentImageIndex(prev => prev + 1);
+            setcurrentComponentIndex(prev => prev + 1);
+        }
+        if (items.length - 1 === currentComponentIndex) {
+            setCarousalDirection(false)
         }
     };
 
     const prevImageHandler = () => {
-        if (currentImageIndex > 0) {
-            setCurrentImageIndex(prev => prev - 1);
-            let t = (currentImageIndex - 1) * 100
+        if (currentComponentIndex > 0) {
+            setcurrentComponentIndex(prev => prev - 1);
+            let t = (currentComponentIndex - 1) * 100
             containerRef.current.style.transform = `translateX(-${t}%)`;
+        }
+        if (0 === currentComponentIndex) {
+            setCarousalDirection(true)
         }
     };
 
@@ -52,15 +66,27 @@ function ComponentCarousel({ className, style, items, Child }) {
         setSwipeType("");
     };
 
-    const jumpToHandler = (index) => {
-        if (index < currentImageIndex) {
-            prevImageHandler()
-        }
+    // const jumpToHandler = (index) => {
+    //     if (index < currentComponentIndex) {
+    //         prevImageHandler()
+    //     }
 
-        if (index > currentImageIndex) {
-            nextImageHandler()
-        }
-    }
+    //     if (index > currentComponentIndex) {
+    //         nextImageHandler()
+    //     }
+    // }
+
+    useEffect(() => {
+        const id = setInterval(() => {
+            if (carousalDirection) {
+                nextImageHandler()
+            } else {
+                prevImageHandler()
+            }
+        }, timer);
+
+        return () => clearInterval(id);
+    })
 
     return (
         <div className="w-full h-full relative overflow-hidden">
@@ -96,18 +122,20 @@ function ComponentCarousel({ className, style, items, Child }) {
                 onClick={nextImageHandler}
                 icon={faCircleChevronRight}
             />
-            <div className='absolute bottom-[4px] right-0 left-0 flex justify-center gap-4'>
+            <div className='absolute self-center rounded-md w-fit bottom-[4px] right-1/2 left-1/2 -translate-x-1/2 flex justify-center gap-0'
+                style={{
+                    boxShadow: "1px 1px 2px rgba(0,0,0,.3)",
+                }}
+            >
                 {items.map((_, index) => {
                     return (
                         <div
                             key={index}
-                            className={`w-[18px] h-[6px] rounded-md cursor-pointer ${currentImageIndex === index ? 'bg-green-400' : 'bg-transparent'}`}
-                            style={{
-                                boxShadow: "1px 1px 2px rgba(0,0,0,.3)",
-                            }}
-                            onClick={() => {
-                                jumpToHandler(index);
-                            }}
+                            className={`w-[18px] h-[6px] rounded-md cursor-pointer ${currentComponentIndex === index ? 'bg-green-400' : 'bg-transparent'}`}
+
+                        // onClick={() => {
+                        //     jumpToHandler(index);
+                        // }}
                         ></div>
                     );
                 })}

@@ -6,6 +6,8 @@ import ProductsComponent from '../../components/ProductsComponent';
 import useScrollToTop from '../../hooks/useScrollToTop'
 import usePaginationObserver from '../../hooks/usePaginationObserver';
 import ProductsWithFilter from './components/ProductsWithFilter';
+import bannerImage from '../../assets/banner.jpg'
+
 
 function ShopPage() {
     let { state } = useLocation();
@@ -55,12 +57,9 @@ function ShopPage() {
     return (
         <>
             <div className=" max-w-7xl  w-full flex flex-col items-center">
-                <div className="w-full">
-                    {/* {bannerImage?.url} */}
-                    <img alt='banner' className="w-full h-[20rem] object-cover" src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' />
-                </div>
-                <div className='w-full px-4 py-2 flex flex-row'>
-                    <p className='text-3xl font-light'>{state?.name}</p>
+                <div className="w-full relative">
+                    <img alt='banner' className="w-full h-[20rem] object-cover" src={bannerImage} />
+                    <p className='absolute bottom-2 right-0 px-4 py-2 text-3xl font-light bg-white'>Shop</p>
                 </div>
                 <ProductsWithFilter
                     products={products}

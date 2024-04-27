@@ -66,15 +66,15 @@ function ProductsByTagsSection() {
 
     return <div className='w-full flex flex-col gap-2 rounded-lg'>
         <p className='mx-6 py-2 font-light text-4xl border-b-[1px] border-slate-200'>Our Products</p>
-        <OverflowCarousal products={productByTag.mostPurchased} title={'Most purchased'} />
-        <OverflowCarousal products={productByTag.newArrived} title={'New arrival'} />
-        <OverflowCarousal products={productByTag.popular} title={'Popular'} />
+        <OverflowCarousal products={productByTag.mostPurchased} title={'Most purchased'} timer={2100} />
+        <OverflowCarousal products={productByTag.newArrived} title={'New arrival'} timer={2300} />
+        <OverflowCarousal products={productByTag.popular} title={'Popular'} timer={2100} />
     </div>
 }
 
 export default ProductsByTagsSection;
 
-function OverflowCarousal({ title, products }) {
+function OverflowCarousal({ title, products, timer }) {
     const [width, height] = useWindowSize();
 
     return <>
@@ -90,13 +90,14 @@ function OverflowCarousal({ title, products }) {
                             }}
                             items={products.slice(0, 4)}
                             Child={ProductCard}
+                            timer={timer}
                         >
                         </ComponentCarousel>
                     </Suspense>)}
                 {(width >= 640) && <div className={`w-full p-6 grid sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-start gap-4`}
                 >
                     {products.slice(0, 4).map((product, index) => {
-                        return <ProductCard key={index} product={product} index={index} arr={products.slice(0, 4)} />
+                        return <ProductCard key={index} product={product} index={index} arr={products.slice(0, 4)} animate={false} />
                     })
                     }
                 </div>}
