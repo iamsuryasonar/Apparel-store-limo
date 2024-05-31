@@ -6,6 +6,9 @@ export default {
   ],
   theme: {
     extend: {
+      screens: {
+        'mobile': '440px',
+      },
       fontFamily: {
         raleway: ['Raleway', 'sans-serif'],
       },
