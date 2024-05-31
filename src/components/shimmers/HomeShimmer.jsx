@@ -2,8 +2,8 @@ function HomeShimmer({ loaded }) {
     return (
         <div
             style={{ display: loaded ? "none" : "flex" }}
-            className={`flex flex-col gap-4 w-full h-full`}>
-            <div className='w-full h-full aspect-[700/320] bg-gray-300 animate-pulse'></div>
+            className={`flex flex-col gap-4 w-full `}>
+            <div className='w-full h-[320px] bg-gray-300 animate-pulse'></div>
             <div className={`flex flex-col justify-center items-center mobile:flex-row mobile:justify-start gap-8 w-full h-full px-6`}>
                 {
                     [1, 2].map((i) => {
