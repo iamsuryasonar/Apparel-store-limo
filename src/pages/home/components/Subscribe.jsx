@@ -15,8 +15,8 @@ function Subscribe() {
         <div className="w-full h-[25rem] bg-black none flex flex-col justify-center items-center gap-8">
             <p className="text-white text-4xl">GET ON OUR LIST</p>
             <div className="relative w-10/12 ">
-                <input className='w-full h-10 border-2 rounded-md border-yellow-200 bg-transparent text-white' ></input>
-                <button onClick={handleSubscribe} className="bg-white px-6 py-2 absolute top-0 bottom-0 right-0 rounded-md">SUBMIT</button>
+                <input className='w-full h-10 border-2 px-2 rounded-md border-yellow-200 bg-transparent text-white' ></input>
+                <button onClick={handleSubscribe} className="bg-white text-center px-6 absolute top-0 bottom-0 right-0 rounded-md border-2 border-yellow-200 hover:bg-slate-900 hover:text-white transition-colors duration-300">SUBMIT</button>
             </div>
         </div>
     </section>

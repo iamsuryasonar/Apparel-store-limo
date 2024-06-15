@@ -39,7 +39,7 @@ function Nav() {
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-    
+
 
     const [menu, setMenu] = useState(false);
     const [isCartActive, setIsCartActive] = useState(false);
@@ -65,7 +65,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <nav className="fixed h-[70px] top-0 right-0 left-0 z-20 bg-slate-100 p-4 justify-between flex ">
+            <nav className="fixed h-[70px] top-0 right-0 left-0 z-20 bg-white p-4 justify-between flex ">
                 <div className=' gap-5 uppercase items-center md:flex hidden'>
                     {
                         navItems.map((item) => {

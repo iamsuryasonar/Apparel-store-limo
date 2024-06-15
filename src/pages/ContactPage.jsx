@@ -59,9 +59,8 @@ function ContactPage() {
 
     return (
         <>
-            <div className="max-w-7xl w-full flex flex-col justify-center items-center">
-                <div className="w-full h-[8rem] bg-cyan-100 flex justify-center items-center font-bold">CONTACT</div>
-                <div className="w-5/6 h-[8rem] md:h-[20rem] my-10 flex flex-col justify-start md:flex-row md:justify-between md:items-center  gap-6">
+            <div className="max-w-7xl w-full flex flex-col items-center">
+                <div className="w-5/6 h-[8rem] md:h-[12rem] my-10 flex flex-col justify-start md:flex-row md:justify-between md:items-center  gap-6">
                     <div className="flex flex-col justify-center items-start ">
                         <p className="font-light">EMAIL US</p>
                         <p className="font-bold"> customercare@limostore.in</p>
@@ -73,7 +72,7 @@ function ContactPage() {
                         <p>GUWAHATI, ASSAM - 781002, INDIA</p>
                     </div>
                 </div>
-                <div className="w-5/6 md:h-[8rem] my-10 flex flex-col justify-start md:flex-row md:justify-between md:items-center  gap-6">
+                <div className="w-5/6 md:h-[4rem] my-4 flex flex-col justify-start md:flex-row md:justify-between md:items-center  gap-6">
                     <div className="flex flex-col justify-center items-start ">
                         <p className="font-light">WHATSAPP US</p>
                         <p className="font-bold">+91-99999-99999</p>

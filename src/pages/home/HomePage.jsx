@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import { get_categories } from '../../store/slices/categorySlice'
 import Subscribe from "./components/Subscribe";
@@ -7,36 +7,23 @@ import BannerSection from './components/BannerSection'
 import ProductsByTagsSection from './components/ProductsByTagsSection'
 import CategorySection from './components/CategorySection'
 import useScrollToTop from '../../hooks/useScrollToTop'
-import HomeShimmer from '../../components/shimmers/HomeShimmer'
 
 function HomePage() {
     const dispatch = useDispatch();
     const categories = useSelector((state) => state.categories.categories);
-    const [loaded, setLoaded] = useState(false);
+
 
     useEffect(() => {
         dispatch(get_categories());
     }, [])
 
-    useEffect(() => {
-        const handleLoad = () => {
-            setLoaded(true)
-        }
-
-        window.addEventListener('load', handleLoad);
-
-        return () => {
-            window.removeEventListener('load', handleLoad);
-        };
-    }, []);
 
     useScrollToTop()
 
     return (
         <>
-            <main className="max-w-7xl min-h-svh flex flex-col gap-8 items-center w-full h-full">
+            <main className="w-full h-full max-w-7xl min-h-svh flex flex-col gap-8">
                 <div
-                    style={{ display: loaded ? "flex" : "none" }}
                     className='flex flex-col gap-8 items-center'>
                     {/* Todo: this banner should be a carousal featuring various categories and sections */}
                     <BannerSection />
@@ -50,7 +37,6 @@ function HomePage() {
                         </>
                     }
                 </div>
-                <HomeShimmer loaded={loaded} />
             </main >
         </>
     )

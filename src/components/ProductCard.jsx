@@ -32,7 +32,7 @@ function ProductCard({ product, animate }) {
         }))
     }
 
-    return <div ref={ref} className={` shrink-0  group max-w-[240px] max-h-[390px] w-full h-full place-self-center rounded-md shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-700 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
+    return <div ref={ref} className={`shrink-0 group w-full h-full place-self-center rounded-md shadow-md hover:shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }
@@ -40,18 +40,12 @@ function ProductCard({ product, animate }) {
             /* if search modal is enabled, this will disable that */
             dispatch(setShowSearch(false));
         }}>
-        {
-            loadedImages.includes(product?.image?._id) ? <></> : <div className='absolute top-[50%] right-[50%] -translate-y-1/2 translate-x-1/2 aspect-square flex flex-col justify-center items-center'>
-                <div className='w-8 h-8 bg-transparent rounded-full border-black animate-spin border-2 border-dashed border-t-transparent'></div>
-            </div>
-        }
-
-        {/* <img alt='product' className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} onLoad={() =>
-            handleImageLoad(product?.image?._id)
-        } /> */}
         <LazyLoadImage className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} alt='product' onLoad={() =>
             handleImageLoad(product?.image?._id)
         } />
+
+        <div className={`absolute w-full h-full aspect-[10/12] animate-pulse bg-slate-300 ${loadedImages.includes(product?.image?._id) ? 'hidden' : 'block'}`}></div>
+
         {
             loadedImages.includes(product?.image?._id)
                 ? <div className='absolute top-2 left-0 sm:top-2 sm:left-0 bg-teal-400 px-[4px] py-[1px] rounded-e-sm'>
@@ -59,32 +53,34 @@ function ProductCard({ product, animate }) {
                 </div>
                 : <></>
         }
-        {
-            loadedImages.includes(product?.image?._id) && <div className='relative flex flex-col justify-between w-full h-full bg-white text-black group-hover:bg-slate-900 group-hover:text-white p-2 pt-4 '>
-                <FontAwesomeIcon className='absolute -top-4 right-1 p-2 w-4 h-4 rounded-full group bg-yellow-300 hover:bg-orange-500  text-white shadow-xl' icon={faCartPlus}
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        user ?
-                            addToCartHandler()
-                            :
-                            navigate('/sign-in', {// take id of whatever user was viewing and navigate to that page after log in
-                                state: { ...state, type: 'ADD_TO_CART' },
-                            })
-                    }} />
-                <p className='text-sm font-semibold'>{padSentence(product?.name, 3)}</p>
-                <div>
-                    <p className='text-white-400 font-light text-xs sm:text-sm'>{product?.category?.name}</p>
-                    <div className='flex flex-row gap-1 text-xs sm:text-sm'>
-                        <p className=''>₹{product?.sizevariants.selling_price}</p>
-                        <div className='flex flex-row gap-1'>
-                            <p className=' line-through text-slate-400'>₹{product?.sizevariants.mrp} </p>
-                            <p className='text-green-600 '>{product?.tag}</p>
-                        </div>
+        <div className="px-3 py-1">
+            <span className="text-gray-400 uppercase text-xs">{product?.category?.name}</span>
+            <p className="text-lg font-bold text-black truncate block capitalize">{padSentence(product?.name, 3)}</p>
+            <div className="flex items-center">
+                <div className='flex flex-col items-start'>
+                    <div className='flex items-center'>
+                        <p className="text-lg font-semibold text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
+                        <del>
+                            <p className="text-sm text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
+                        </del>
                     </div>
+                    <p className='text-green-600 '>{product?.tag}</p>
+                </div>
+                <div className="m-1 ml-auto text-black bg-transparent text-2xl hover:scale-110 transition-all duration-500 ">
+                    <FontAwesomeIcon className='' icon={faCartPlus}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            user ?
+                                addToCartHandler()
+                                :
+                                navigate('/sign-in', {// take id of whatever user was viewing and navigate to that page after log in
+                                    state: { ...state, type: 'ADD_TO_CART' },
+                                })
+                        }} />
                 </div>
             </div>
-        }
-    </div >
+        </div>
+    </div>
 }
 
 export default ProductCard;

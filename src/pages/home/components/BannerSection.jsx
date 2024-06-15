@@ -1,18 +1,18 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import bannerImage from '../../../assets/banner.jpg'
 
 function BannerSection() {
-    const [bannerImageLoaded, setBannerImageLoaded] = useState(false);
 
-    return <section className={`relative w-full h-[320px] transition-all duration-700 `}>
-        {
-            !bannerImageLoaded && <div className='absolute w-full h-full bg-slate-300 animate-pulse'>
-            </div>
-        }
-        {/* <img alt='banner' onLoad={() => setBannerImageLoaded(true)} className='h-[20rem] w-full object-cover' src='https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D' /> */}
-        <img alt='banner' src={bannerImage} onLoad={() => setBannerImageLoaded(true)} className='h-[20rem] w-full object-cover' />
-        <Link to='/shop' className='absolute bottom-6 right-6 bg-white px-4 py-1 rounded-md font-bold'>Shop Now</Link>
+    return <section className={`relative w-full h-full bg-slate-100 transition-all duration-700`}>
+        <div className='absolute inset-0 bg-gradient-to-b from-slate-100 to-transparent'></div>
+        <div className='relative h-[400px]'>
+            <img alt='banner' src={bannerImage} className='h-full w-full object-cover' />
+            <div className='absolute inset-0 bg-gradient-to-b from-transparent to-slate-50'></div>
+        </div>
+        <div className='px-6 absolute bottom-[150px]'>
+            <p className='font-bold text-6xl text-white'>Discover timeless trends...</p>
+        </div>
+        <Link to='/shop' className='absolute bottom-[150px] right-6 bg-white hover:bg-black hover:text-white transition-colors duration-500 px-4 py-1 rounded-md font-bold'>Shop Now</Link>
     </section>
 }
 
