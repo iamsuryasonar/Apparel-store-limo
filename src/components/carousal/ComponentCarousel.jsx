@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-    faCircleChevronLeft,
-    faCircleChevronRight,
+    faChevronLeft,
+    faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 function ComponentCarousel({ className, style, items, Child, timer }) {
@@ -112,16 +112,25 @@ function ComponentCarousel({ className, style, items, Child, timer }) {
                     );
                 })}
             </div>
-            <FontAwesomeIcon
+            {/* <FontAwesomeIcon
                 className="text-green-400 bg-transparent w-6 h-6 absolute top-1/2 bottom-1/2 left-[4px] -translate-y-1/2"
                 onClick={prevImageHandler}
                 icon={faCircleChevronLeft}
-            />
-            <FontAwesomeIcon
-                className="text-green-400 bg-transparent w-6 h-6 absolute top-1/2 bottom-1/2 right-[4px] -translate-y-1/2"
-                onClick={nextImageHandler}
-                icon={faCircleChevronRight}
-            />
+            /> */}
+            <div className="w-5 h-12 bg-white rounded-r-md top-1/2 bottom-1/2 left-0 absolute -translate-y-1/2 flex items-center">
+                <FontAwesomeIcon
+                    className="w-6 h-6"
+                    onClick={prevImageHandler}
+                    icon={faChevronLeft}
+                />
+            </div>
+            <div className="w-5 h-12 bg-white rounded-l-md top-1/2 bottom-1/2 right-0 absolute -translate-y-1/2 flex items-center">
+                <FontAwesomeIcon
+                    className="w-6 h-6"
+                    onClick={nextImageHandler}
+                    icon={faChevronRight}
+                />
+            </div>
             <div className='absolute self-center rounded-md w-fit bottom-[4px] right-1/2 left-1/2 -translate-x-1/2 flex justify-center gap-0'
                 style={{
                     boxShadow: "1px 1px 2px rgba(0,0,0,.3)",
@@ -131,7 +140,7 @@ function ComponentCarousel({ className, style, items, Child, timer }) {
                     return (
                         <div
                             key={index}
-                            className={`w-[18px] h-[6px] rounded-md cursor-pointer ${currentComponentIndex === index ? 'bg-green-400' : 'bg-transparent'}`}
+                            className={`w-[12px] h-[4px] rounded-md cursor-pointer ${currentComponentIndex === index ? 'bg-slate-400' : 'bg-transparent'}`}
 
                         // onClick={() => {
                         //     jumpToHandler(index);

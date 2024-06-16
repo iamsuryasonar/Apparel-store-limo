@@ -55,16 +55,16 @@ function ProductCard({ product, animate }) {
         }
         <div className="px-3 py-1">
             <span className="text-gray-400 uppercase text-xs">{product?.category?.name}</span>
-            <p className="text-lg font-bold text-black truncate block capitalize">{padSentence(product?.name, 3)}</p>
+            <p className="text-lg font-normal text-black truncate block capitalize">{padSentence(product?.name, 3)}</p>
             <div className="flex items-center">
                 <div className='flex flex-col items-start'>
                     <div className='flex items-center'>
-                        <p className="text-lg font-semibold text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
+                        <p className="text-sm font-normal text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
                         <del>
-                            <p className="text-sm text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
+                            <p className="text-sm font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
                         </del>
                     </div>
-                    <p className='text-green-600 '>{product?.tag}</p>
+                    <p className='text-green-600 font-light'>{product?.tag}</p>
                 </div>
                 <div className="m-1 ml-auto text-black bg-transparent text-2xl hover:scale-110 transition-all duration-500 ">
                     <FontAwesomeIcon className='' icon={faCartPlus}

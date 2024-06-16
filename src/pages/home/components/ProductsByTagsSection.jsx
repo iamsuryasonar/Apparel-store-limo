@@ -66,7 +66,7 @@ function ProductsByTagsSection() {
 
     return <>
         {(productByTag.mostPurchased || productByTag.newArrived || productByTag.popular) && <div className='w-full flex flex-col gap-2 rounded-lg'>
-            <p className='mx-6 py-2 font-light text-4xl border-b-[1px] border-slate-200'>Our Products</p>
+            {/* <p className='mx-6 py-2 font-light text-4xl border-b-[1px] border-slate-200'>Our Products</p> */}
             <OverflowCarousal products={productByTag.mostPurchased} title={'Most purchased'} timer={2100} />
             <OverflowCarousal products={productByTag.newArrived} title={'New arrival'} timer={2300} />
             <OverflowCarousal products={productByTag.popular} title={'Popular'} timer={2100} />
@@ -81,7 +81,10 @@ function OverflowCarousal({ title, products, timer }) {
 
     return <>
         {products && products.length > 0 && <div className='flex flex-col'>
-            <p className='px-6 capitalize w-full self-start rounded-lg text-3xl font-light'>{title}</p>
+            <div className='flex items-center justify-between'>
+                <p className='px-4 capitalize rounded-lg text-3xl font-light'>{title}</p>
+                <Link to={`/products/tag/${title}`} state={{ name: title }} className="mx-6 my-3 px-6 py-1 cursor-pointer text-center rounded-lg bg-white text-black border border-black hover:bg-black hover:text-white transition-colors duration-300">See more</Link>
+            </div>
             {products && products.length > 0 && <div className={`flex flex-col gap-4 overflow-x-scroll no-scrollbar overflow-y-hidden`}>
                 {(width < 640) && (
                     <Suspense fallback={<LoadingComponent />}>
@@ -96,7 +99,7 @@ function OverflowCarousal({ title, products, timer }) {
                         >
                         </ComponentCarousel>
                     </Suspense>)}
-                {(width >= 640) && <div className={`w-full p-6 grid sm:grid-cols-[repeat(auto-fill,minmax(220px,min-content))] justify-start gap-4`}
+                {(width >= 640) && <div className={`w-full p-4 grid sm:grid-cols-[repeat(auto-fill,minmax(220px,min-content))] justify-start gap-4`}
                 >
                     {products.slice(0, 4).map((product, index) => {
                         return <ProductCard key={index} product={product} index={index} arr={products.slice(0, 4)} animate={false} />
@@ -104,7 +107,7 @@ function OverflowCarousal({ title, products, timer }) {
                     }
                 </div>}
             </div>}
-            <Link to={`/products/tag/${title}`} state={{ name: title }} className="w-fit mx-6 my-3 px-6 py-1 cursor-pointer text-center rounded-lg bg-white text-black border border-black hover:bg-black hover:text-white transition-colors duration-300">See more</Link>
+
         </div >
         }
     </>
