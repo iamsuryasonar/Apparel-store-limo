@@ -94,7 +94,7 @@ function CheckOutPage() {
 
     return <>
         {
-            !processingPayment && !creatingOrder && <div className="max-w-7xl m-4 w-full flex flex-col md:flex-row gap-4">
+            !processingPayment && !creatingOrder && <div className="max-w-6xl m-4 w-full flex flex-col md:flex-row gap-4">
                 <div className='w-full flex flex-col gap-2'>
                     <div className="flex flex-col items-start ">
                         <p>Account</p>

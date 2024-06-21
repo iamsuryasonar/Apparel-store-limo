@@ -59,7 +59,7 @@ function ContactPage() {
 
     return (
         <>
-            <div className="max-w-7xl w-full flex flex-col items-center">
+            <div className="max-w-6xl w-full flex flex-col items-center">
                 <div className="w-5/6 h-[8rem] md:h-[12rem] my-10 flex flex-col justify-start md:flex-row md:justify-between md:items-center  gap-6">
                     <div className="flex flex-col justify-center items-start ">
                         <p className="font-light">EMAIL US</p>

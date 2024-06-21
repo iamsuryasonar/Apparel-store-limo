@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+
+/* custom react slick style */
+.slick-slide {
+    padding: 10px;
+}
+
+.react-multi-carousel-track {
+    gap: 10px;
+}
+
+
 /* Custom scrollbar */
 .scrollbar::-webkit-scrollbar {
     width: 3px;

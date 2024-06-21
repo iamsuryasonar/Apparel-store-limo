@@ -45,7 +45,7 @@ function AccountPage() {
 
   return (
     <>
-      <div className="max-w-7xl m-4 w-full">
+      <div className="max-w-6xl m-4 w-full">
         <div
           onClick={() => {
             setMenu(!menu);

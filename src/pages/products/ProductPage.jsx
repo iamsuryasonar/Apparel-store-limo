@@ -76,7 +76,7 @@ function ProductPage() {
         }
     }, [product, state]);
 
-    return (<div className="max-w-7xl w-full flex ">
+    return (<div className="max-w-6xl w-full flex ">
         {product && <div className="flex flex-col ">
             <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 mt-4'>
                 <div className="p-4 w-full h-min relative">

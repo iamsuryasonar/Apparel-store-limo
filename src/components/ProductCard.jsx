@@ -48,8 +48,8 @@ function ProductCard({ product, animate }) {
 
         {
             loadedImages.includes(product?.image?._id)
-                ? <div className='absolute top-2 left-0 sm:top-2 sm:left-0 bg-teal-400 px-[4px] py-[1px] rounded-e-sm'>
-                    <p className='text-white text-xs'>{Math.round(100 * (product?.sizevariants.mrp - product?.sizevariants.selling_price) / product?.sizevariants.mrp)}% Off</p>
+                ? <div className='absolute top-2 left-0 sm:top-2 sm:left-0 bg-white px-[4px] py-[1px] rounded-e-sm'>
+                    <p className='text-black text-xs'>{Math.round(100 * (product?.sizevariants.mrp - product?.sizevariants.selling_price) / product?.sizevariants.mrp)}% Off</p>
                 </div>
                 : <></>
         }

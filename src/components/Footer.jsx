@@ -3,8 +3,8 @@ import HelpAndInformationSection from './HelpAndInformationSection'
 import ServicesSection from './ServicesSection'
 
 function Footer() {
-    return <footer className="w-full py-10 px-6 flex flex-col justify-start bg-slate-100 " >
-        <div className='max-w-7xl flex flex-col gap-5'>
+    return <footer className="w-full bg-slate-100 py-14" >
+        <div className='max-w-7xl m-auto flex flex-col gap-5'>
             <ServicesSection />
             <HelpAndInformationSection />
             <FollowUsSection />

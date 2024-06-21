@@ -56,7 +56,7 @@ function ShopPage() {
 
     return (
         <>
-            <div className=" max-w-7xl  w-full flex flex-col items-center">
+            <div className="max-w-6xl w-full flex flex-col items-center">
                 <div className="w-full relative">
                     <img alt='banner' className="w-full h-[20rem] object-cover" src={bannerImage} />
                     <p className='absolute bottom-2 right-0 px-4 py-2 text-3xl font-light bg-white'>Shop</p>
