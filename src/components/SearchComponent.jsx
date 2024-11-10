@@ -115,8 +115,8 @@ const SearchComponent = () => {
         <Transition in={show} timeout={100}>
             {(state) => (
                 <div className={`z-40 fixed rounded-lg transition-transform transform ease-in-out duration-700 overflow-hidden ${state === 'entered' ? 'translate-x-0 top-2 bottom-2 left-2 right-2' : 'translate-x-full top-2 bottom-2 left-2 right-0'}`}>
-                    <div ref={containerRef} className='max-w-6xl mx-auto w-full h-full flex flex-col gap-2 p-4 bg-slate-100 rounded-md'>
-                        <div className='h-auto z-50 bg-slate-100 relative top-0 w-full py-6 flex flex-row justify-between items-center gap-4' >
+                    <div ref={containerRef} className='max-w-6xl mx-auto w-full h-full flex flex-col gap-2 p-4 bg-white rounded-md border'>
+                        <div className='h-auto z-50 bg-white relative top-0 w-full py-4 flex flex-row justify-between items-center gap-4' >
                             <div className="w-full relative">
                                 <input
                                     onChange={onInputChangeHandler}
@@ -133,14 +133,14 @@ const SearchComponent = () => {
                                     <p>clear</p> <FontAwesomeIcon className="text-xl" icon={faXmark} />
                                 </button>}
                             </div>
-                            <div className='group w-10 h-10 hover:bg-slate-300 grid place-items-center'>
+                            <div className='group w-10 h-10 hover:bg-slate-300 grid place-items-center cursor-pointer'>
                                 <FontAwesomeIcon className="text-3xl group-hover:text-red-500" icon={faXmark}
                                     onClick={() => {
                                         dispatch(setShowSearch(false));
                                     }} />
                             </div>
                         </div>
-                        <div ref={scrollToElement} className='overflow-auto scrollbar'>
+                        <div ref={scrollToElement} className='overflow-auto scrollbar py-2'>
                             <div className={`w-full grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4`}>
                                 {result?.products?.length > 0 && <ProductsComponent products={result} />}
                             </div>

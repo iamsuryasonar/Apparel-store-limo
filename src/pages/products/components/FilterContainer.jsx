@@ -16,8 +16,8 @@ function FilterContainer(props) {
         removeFilterCriteria
     } = props;
 
-    return <div className='z-50 sm:z-0 fixed sm:sticky top-0 sm:top-32 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm:right-auto min-h-screen w-full sm:w-64 bg-slate-50'>
-        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-slate-50 flex flex-col p-4 gap-6 '>
+    return <div className='z-50 sm:z-0 fixed sm:sticky top-0 sm:top-32 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm:right-auto min-h-screen w-full sm:w-64 bg-white border-t-[1px] border-r-[1px]'>
+        <div className='z-50 sm:z-10 absolute top-20 bottom-0 sm:bottom-auto left-0 sm:left-auto right-0 sm-right-auto sm:sticky sm:top-32 sm:w-full h-auto bg-white flex flex-col p-4 gap-6 '>
             <div>
                 <div className='flex justify-between items-center'>
                     <p className='uppercase font-thin'>By Price</p>

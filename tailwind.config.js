@@ -11,6 +11,7 @@ export default {
       },
       fontFamily: {
         raleway: ['Raleway', 'sans-serif'],
+        poppins: ['Poppins', 'Roboto'],
       },
       keyframes: {
         movingline: {

@@ -7,10 +7,10 @@ function BannerSection() {
         <div className='absolute inset-0 bg-gradient-to-b from-slate-100 to-transparent'></div>
         <div className='relative h-[400px]'>
             <img alt='banner' src={bannerImage} className='h-full w-full object-cover' />
-            <div className='absolute inset-0 bg-gradient-to-b from-[#0000007a] via-[#00000021] to-slate-50'></div>
+            <div className='absolute inset-0 bg-gradient-to-b from-[#0000007a] via-[#00000021] to-white'></div>
         </div>
-        <div className='px-4 absolute bottom-[170px]'>
-            <p className='mb-4 font-bold text-6xl text-white'>Discover timeless trends... </p>
+        <div className='px-4 absolute bottom-[160px]'>
+            <p className='mb-4 font-bold text-4xl sm:text-5xl text-white'>Discover timeless trends... </p>
             <Link to='/shop' className='text-xl text-black bg-white hover:bg-black hover:text-white transition-colors duration-500 px-4 py-2 rounded-md font-normal'>Shop Now</Link>
         </div>
 

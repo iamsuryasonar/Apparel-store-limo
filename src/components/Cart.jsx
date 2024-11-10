@@ -23,12 +23,12 @@ function Cart(props) {
     return (
         <Transition in={show} timeout={100}>
             {(state) => (
-                <div className={`z-50 fixed inset-0 md:left-1/2 xl:left-2/3 bg-slate-100 px-4 py-6 transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 ' : 'translate-x-full '}`}>
+                <div className={`z-50 fixed inset-0 md:left-1/2 xl:left-2/3 bg-white border px-4 py-6 transition-transform transform ease-in-out duration-700 ${state === 'entered' ? 'translate-x-0 ' : 'translate-x-full '}`}>
                     <div className="flex flex-col gap-4 w-full h-full">
                         <div className="font-mono font-bold text-xl">
                             <div className='flex justify-between items-center'>
                                 <h1 className="">CART</h1>
-                                <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                                <div className='group w-10 h-10 hover:bg-slate-200 grid place-items-center cursor-pointer'>
                                     <FontAwesomeIcon onClick={() =>
                                         toggleCart()
                                     } className='text-4xl group-hover:text-blue-500' icon={faXmark} />
@@ -51,7 +51,7 @@ function Cart(props) {
                                 )
                             }
                         </div>
-                        <div className='w-full h-auto relative bottom-0 right-0 bg-slate-100'>
+                        <div className='w-full h-auto relative bottom-0 right-0'>
                             <div className='w-full h-[1px] bg-black'></div>
                             <div className='flex flex-col gap-2'>
                                 <div className='flex flex-row justify-between'>
@@ -109,7 +109,7 @@ const CartItem = (props) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
     }
 
-    return <div className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-md bg-white rounded-md'
+    return <div className='relative flex flex-row justify-between m-1 p-2 gap-2 shadow-md bg-white rounded-md cursor-pointer'
         onClick={
             () => {
                 navigate(`/product/${product?.product?._id}`, {
@@ -139,7 +139,7 @@ const CartItem = (props) => {
         <div onClick={(e) => {
             e.stopPropagation()
             removeItemFromCart(product)
-        }} className='absolute top-1 right-1 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center' >
+        }} className='absolute top-1 right-1 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center cursor-pointer' >
             <FontAwesomeIcon icon={faXmark} />
         </div>
     </div>

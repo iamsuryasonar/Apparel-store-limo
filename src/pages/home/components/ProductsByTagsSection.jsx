@@ -78,7 +78,7 @@ export default ProductsByTagsSection;
 function MultiCarousel({ title, products }) {
 
     var settings = {
-        dots: true,
+        // dots: true,
         infinite: true,
         speed: 500,
         autoplay: true,

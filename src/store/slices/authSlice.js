@@ -149,7 +149,7 @@ const authSlice = createSlice({
         state.accessToken = null;
       })
       .addCase(register.fulfilled, (state, action) => {
-        state.isLoggedIn = true;
+        state.isLoggedIn = false;
         state.userData = action.payload.userData;
         state.accessToken = action.payload.accessToken;
       })

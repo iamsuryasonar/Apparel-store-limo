@@ -79,7 +79,7 @@ function ProductPage() {
     return (<div className="max-w-6xl w-full flex ">
         {product && <div className="flex flex-col ">
             <div className='w-full h-min grid grid-cols-1 md:grid-cols-2 mt-4'>
-                <div className="p-4 w-full h-min relative">
+                <div className="p-4 max-w-[400px] w-full h-min relative">
                     {product.tag && <div className='z-10 absolute top-10 left-10 -rotate-45 -translate-x-1/2 -translate-y-1/2 bg-teal-400 px-1 py-1'>
                         <p className='text-white text-sm font-light'>{product.tag}</p>
                     </div>}

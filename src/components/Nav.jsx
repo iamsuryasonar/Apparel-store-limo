@@ -65,7 +65,7 @@ function Nav() {
     return (
         <>
             {loading && <LoadingBar />}
-            <nav className="w-full h-[60px] fixed top-0 right-0 left-0 z-20 bg-white shadow-sm flex">
+            <nav className="w-full h-[60px] fixed top-0 right-0 left-0 z-20 bg-white border border-b-1 flex">
                 <div className="max-w-7xl w-full m-auto flex justify-between px-6">
                     <div className='uppercase items-center md:flex md:gap-5 hidden'>
                         {
@@ -82,7 +82,7 @@ function Nav() {
                         {/* search */}
                         <div onClick={() => {
                             dispatch(setShowSearch(true))
-                        }} className='group w-10 h-10 hover:bg-slate-200 grid place-items-center'>
+                        }} className='group w-10 h-10 hover:bg-slate-200 grid place-items-center cursor-pointer'>
                             <FontAwesomeIcon className='text-xl group-hover:text-blue-500' icon={faMagnifyingGlass} />
                         </div>
 

@@ -8,7 +8,7 @@ function NavAndOutlet() {
 
     const message = useSelector((state) => state.message.message);
 
-    return <div className='relative bg-slate-50'>
+    return <div className='relative bg-white font-poppins'>
         <Nav />
         <main className='min-h-screen w-full flex justify-center relative mx-auto mt-[60px] '>{/* putting overflow-hidden here will affect sticky property in FilterContainer*/}
             <Outlet />

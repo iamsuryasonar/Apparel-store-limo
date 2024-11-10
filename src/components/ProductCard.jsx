@@ -32,12 +32,12 @@ function ProductCard({ product, animate }) {
         }))
     }
 
-    return <div ref={ref} className={`shrink-0 group w-full h-full place-self-center rounded-md shadow-md hover:shadow-lg overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
+    return <div ref={ref} className={`shrink-0 group max-w-[180px] w-full h-full place-self-center hover:-translate-y-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
         onClick={(e) => {
             navigate(`/product/${product?._id}`, {
                 state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }
             })
-            /* if search modal is enabled, this will disable that */
+            /* if search modal is enabled, this will disable that */nm
             dispatch(setShowSearch(false));
         }}>
         <LazyLoadImage className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} alt='product' onLoad={() =>
@@ -48,25 +48,25 @@ function ProductCard({ product, animate }) {
 
         {
             loadedImages.includes(product?.image?._id)
-                ? <div className='absolute top-2 left-0 sm:top-2 sm:left-0 bg-white px-[4px] py-[1px] rounded-e-sm'>
+                ? <div className='absolute top-1 left-1 sm:top-1 sm:left-1 rounded-sm bg-white px-[3px] py-[1px]'>
                     <p className='text-black text-xs'>{Math.round(100 * (product?.sizevariants.mrp - product?.sizevariants.selling_price) / product?.sizevariants.mrp)}% Off</p>
                 </div>
                 : <></>
         }
-        <div className="px-3 py-1">
+        <div className="p-1">
             <span className="text-gray-400 uppercase text-xs">{product?.category?.name}</span>
-            <p className="text-lg font-normal text-black truncate block capitalize">{padSentence(product?.name, 3)}</p>
+            <p className="text-black block text-sm truncate">{padSentence(product?.name, 3)}</p>
             <div className="flex items-center">
                 <div className='flex flex-col items-start'>
                     <div className='flex items-center'>
-                        <p className="text-sm font-normal text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
+                        <p className="text-xs font-normal text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
                         <del>
-                            <p className="text-sm font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
+                            <p className="text-xs font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
                         </del>
                     </div>
-                    <p className='text-green-600 font-light'>{product?.tag}</p>
+                    <p className='text-green-600 font-light text-xs'>{product?.tag}</p>
                 </div>
-                <div className="m-1 ml-auto text-black bg-transparent text-2xl hover:scale-110 transition-all duration-500 ">
+                <div className="m-1 ml-auto text-black bg-transparent text-lg sm:text-2xl  hover:scale-110 transition-all duration-500 ">
                     <FontAwesomeIcon className='' icon={faCartPlus}
                         onClick={(e) => {
                             e.stopPropagation();
