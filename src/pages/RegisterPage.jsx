@@ -61,46 +61,62 @@ function RegisterPage() {
             <p className="font-light text-md">Have an account? <Link to='/sign-in' className="underline">Sign in here</Link></p>
             <div className="w-full flex flex-col justify-center items-center">
                 <form className="w-full flex flex-col gap-4 font-light ">
-                    <input
-                        onChange={onChangeHandler}
-                        name='firstName'
-                        type="text"
-                        placeholder='First Name'
-                        className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.firstName && 'border-red-500'}`}
-                    />
-                    {errors.firstName && <p className="text-red-500">{errors.firstName}</p>}
-                    <input
-                        onChange={onChangeHandler}
-                        name='lastName'
-                        type="text"
-                        placeholder='Last Name'
-                        className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.lastName && 'border-red-500'}`}
-                    />
-                    {errors.lastName && <p className="text-red-500">{errors.lastName}</p>}
-                    <input
-                        onChange={onChangeHandler}
-                        name='email'
-                        type="email"
-                        placeholder='Email'
-                        className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
-                    />
-                    {errors.email && <p className="text-red-500">{errors.email}</p>}
-                    <div className='relative flex  flex-col justify-center'>
+                    <div>
+                        <label htmlFor="firstName">First Name</label>
                         <input
+                            id='firstName'
                             onChange={onChangeHandler}
-                            autoComplete="off"
-                            name='password'
-                            type={showPassword ? 'text' : 'password'}
-                            placeholder='Password'
-                            className={`w-full p-1 pr-8 border-[1px] rounded-sm border-black placeholder:p-2 ${errors.password && 'border-red-500'}`}
+                            name='firstName'
+                            type="text"
+                            placeholder='eg. John'
+                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.firstName && 'border-red-500'}`}
                         />
-                        <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
                     </div>
-                    {errors.password && <p className="text-red-500">{errors.password}</p>}
+                    {errors.firstName && <p aria-live='polite' className="text-red-500">{errors.firstName}</p>}
+                    <div>
+                        <label htmlFor="lastName">Last Name</label>
+                        <input
+                            id="lastName"
+                            onChange={onChangeHandler}
+                            name='lastName'
+                            type="text"
+                            placeholder='eg. Doe'
+                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.lastName && 'border-red-500'}`}
+                        />
+                    </div>
+                    {errors.lastName && <p aria-live='polite' className="text-red-500">{errors.lastName}</p>}
+                    <div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            id='email'
+                            onChange={onChangeHandler}
+                            name='email'
+                            type="email"
+                            placeholder='eg. me@example.com'
+                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
+                        />
+                    </div>
+                    {errors.email && <p aria-live='polite' className="text-red-500">{errors.email}</p>}
+                    <div>
+                        <label htmlFor="password">Password</label>
+                        <div className='relative flex  flex-col justify-center'>
+                            <input
+                                id='password'
+                                onChange={onChangeHandler}
+                                autoComplete="off"
+                                name='password'
+                                type={showPassword ? 'text' : 'password'}
+                                placeholder='eg. akshjdf9678werjh'
+                                className={`w-full p-1 pr-8 border-[1px] rounded-sm border-black placeholder:p-2 ${errors.password && 'border-red-500'}`}
+                            />
+                            <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
+                        </div>
+                    </div>
+                    {errors.password && <p aria-live='polite' className="text-red-500">{errors.password}</p>}
                 </form>
             </div>
             <div className="flex self-start items-center gap-4">
-                <button onClick={registerHandler} className="px-6 py-2 bg-black text-white font-light">Create</button>
+                <button onClick={registerHandler} className="px-6 py-2 bg-black text-white font-light">Sign up</button>
             </div>
         </div>
     </>)

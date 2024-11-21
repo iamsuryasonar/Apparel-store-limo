@@ -1,11 +1,14 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useRef, useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import Slider from "react-slick";
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/navigation';
+import { Navigation } from 'swiper/modules';
 import { setLoading } from '../../../store/slices/loadingSlice';
 import ProductsService from '../../../services/products.services'
 import ProductCard from '../../../components/ProductCard'
+
 
 function ProductsByTagsSection() {
     const dispatch = useDispatch();
@@ -16,119 +19,104 @@ function ProductsByTagsSection() {
         popular: null,
     })
 
-    const getProductsByTag = async (data) => {
-        dispatch(setLoading(true))
+    const fetchProductsByTag = async (tag) => {
+        dispatch(setLoading(true));
+        const res = await ProductsService.getProductsByTag({ tag, pageNo: 0, from: 0, to: 99999 });
+        setProductByTag((prev) => ({ ...prev, [tag]: res.products }));
+        dispatch(setLoading(false));
+    };
 
-        const res = await ProductsService.getProductsByTag(data)
-        if (data.tag === 'New arrival') {
-            setProductByTag(prev => {
-                return { ...prev, newArrived: res.products }
-            });
-        }
-        if (data.tag === 'Most purchased') {
-            setProductByTag(prev => {
-                return { ...prev, mostPurchased: res.products }
-            });
-
-        }
-        if (data.tag === 'Popular') {
-            setProductByTag(prev => {
-                return { ...prev, popular: res.products }
-            });
-        }
-
-        dispatch(setLoading(false))
-    }
+    const TAGS = ['New arrival', 'Most purchased']
 
     useEffect(() => {
-        getProductsByTag({
-            tag: 'New arrival',
-            pageNo: 0,
-            from: 0,
-            to: 99999,
-        });
-
-        getProductsByTag({
-            tag: 'Most purchased',
-            pageNo: 0,
-            from: 0,
-            to: 99999,
-        });
-
-        getProductsByTag({
-            tag: 'Popular',
-            pageNo: 0,
-            from: 0,
-            to: 99999,
-        });
+        TAGS.forEach((tag) => fetchProductsByTag(tag));
     }, [])
 
     return <section>
-        {(productByTag.mostPurchased || productByTag.newArrived || productByTag.popular) && <div className='w-full flex flex-col gap-6 rounded-lg'>
-            {/* <p className='mx-6 py-2 font-light text-4xl border-b-[1px] border-slate-200'>Our Products</p> */}
-            <MultiCarousel products={productByTag.mostPurchased} title={'Most purchased'} timer={2100} />
-            <MultiCarousel products={productByTag.newArrived} title={'New arrival'} timer={2300} />
-            <MultiCarousel products={productByTag.popular} title={'Popular'} timer={2100} />
-        </div>}
+        {
+            TAGS.map((tag) => {
+                return <div key={tag} className='flex flex-col'>
+                    <div className='flex items-center justify-between'>
+                        <p className='px-4 rounded-lg text-xl lg:text-2xl font-light capitalize'>{tag}</p>
+                        <Link to={`/products/tag/${tag}`} state={{ name: tag }} aria-label={`see more ${tag} products`} className="mx-6 my-1 px-6 py-1 cursor-pointer rounded-lg bg-white hover:bg-black border border-black text-sm text-center text-black hover:text-white  transition-colors duration-300">See more</Link>
+                    </div>
+                    <MultiCarousel
+                        key={tag}
+                        data={productByTag[tag]}
+                        renderSlide={(product, index, arr) => <ProductCard product={product} index={index} arr={arr} />}
+                    />
+                </div>
+            })
+        }
     </section>
 }
 
 export default ProductsByTagsSection;
 
-function MultiCarousel({ title, products }) {
+function MultiCarousel({ data, renderSlide, maxitems = 6 }) {
 
-    var settings = {
-        // dots: true,
-        infinite: true,
-        speed: 500,
-        autoplay: true,
-        slidesToShow: 5,
-        slidesToScroll: 1,
-        swipeToSlide: true,
-        initialSlide: 0,
-        arrows: false,
-        responsive: [
-            {
-                breakpoint: 1024,
-                settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 600,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1,
-                }
-            },
-            {
-                breakpoint: 480,
-                settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                }
-            }
-        ]
-    };
+    const [isNavigationDisabled, setIsNavigationDisabled] = useState([true, false]);
+    const swiperRef = useRef(null);
+
+    const handlePrev = useCallback(() => {
+        if (!swiperRef.current && swiperRef.current.swiper.isBeginning) return;
+        swiperRef.current.swiper.slidePrev();
+        setIsNavigationDisabled([swiperRef.current.swiper.isBeginning, swiperRef.current.swiper.isEnd])
+    }, []);
+
+    const handleNext = useCallback(() => {
+        if (!swiperRef.current && swiperRef.current.swiper.isEnd) return;
+        swiperRef.current.swiper.slideNext();
+        setIsNavigationDisabled([swiperRef.current.swiper.isBeginning, swiperRef.current.swiper.isEnd])
+    }, []);
+
+    if (!data || data.length === 0) return null;
 
     return <>
         {
-            products && products.length > 0 && <div className='flex flex-col'>
-                <div className='flex items-center justify-between'>
-                    <p className='px-4 rounded-lg text-xl lg:text-2xl font-light capitalize'>{title}</p>
-                    <Link to={`/products/tag/${title}`} state={{ name: title }} className="mx-6 my-1 px-6 py-1 cursor-pointer rounded-lg bg-white hover:bg-black border border-black text-sm text-center text-black hover:text-white  transition-colors duration-300">See more</Link>
-                </div>
-                <div className='px-2'>
-                    <Slider {...settings}>
-                        {products.slice(0, 6).map((product, index, arr) => {
-                            return <React.Fragment key={product._id}>
-                                <ProductCard product={product} index={index} arr={arr} />
-                            </React.Fragment>
-                        })}
-                    </Slider>
-                </div>
-            </div >
+            <div className='relative'>
+                <Swiper
+                    ref={swiperRef}
+                    slidesPerView={2}
+                    spaceBetween={10}
+                    modules={[Navigation]}
+                    breakpoints={{
+                        520: { slidesPerView: 3, spaceBetween: 10 },
+                        768: { slidesPerView: 4, spaceBetween: 15 },
+                        1024: { slidesPerView: 5, spaceBetween: 20 },
+                    }}
+                >
+                    {data.slice(0, maxitems).map((item, index, arr) => {
+                        return <SwiperSlide key={index}>
+                            {renderSlide(item, index, arr)}
+                        </SwiperSlide>
+                    })}
+                </Swiper>
+
+                <button className="absolute top-1/2 left-3 z-20 -translate-y-1/2 w-[40px] aspect-square bg-white opacity-70 rounded-full flex justify-center items-center disabled:opacity-20"
+                    disabled={isNavigationDisabled[0]}
+                    onClick={handlePrev} >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15" className=" " stroke="none"
+                        style={
+                            {
+                                height: '15px',
+                                width: '10px',
+                            }}
+                    ><path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m7 13.5-6-6 6-6"></path></svg>
+                </button>
+                <button className="absolute top-1/2 right-3 z-20 -translate-y-1/2 w-[40px] aspect-square bg-white opacity-70 rounded-full flex justify-center items-center disabled:opacity-20"
+                    disabled={isNavigationDisabled[1]}
+                    onClick={handleNext}
+                >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15" className=" " stroke="none"
+                        style={
+                            {
+                                height: '15px',
+                                width: '10px',
+                            }}
+                    ><path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m1 1.5 6 6-6 6"></path></svg>
+                </button>
+            </div>
         }
     </>
 }

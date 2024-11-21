@@ -70,7 +70,7 @@ function LogInPage() {
   return (
     <>
       <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
-        <h1 className="font-extrabold text-5xl font-raleway">Login</h1>
+        <h1 className="font-extrabold text-5xl font-raleway">Log in</h1>
         <p className="font-thin text-md font-raleway">
           Don't have an account?
           <Link to="/sign-up" className="underline px-1">
@@ -79,24 +79,32 @@ function LogInPage() {
         </p>
         <div className="w-full flex flex-col justify-center items-center">
           <form className="w-full flex flex-col gap-4 font-light">
-            <input
-              onChange={onChangeHandler}
-              name="email"
-              type="email"
-              placeholder="Email"
-              className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
-            />
-            {errors.email && <p className="text-red-500">{errors.email}</p>}
-            <div className='relative flex flex-col justify-center'>
+            <div>
+              <label htmlFor="email">Email</label>
               <input
+                id='email'
                 onChange={onChangeHandler}
-                name="password"
-                autoComplete="off"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
-                className={`p-1 pr-8 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.password && 'border-red-500'}`}
+                name="email"
+                type="email"
+                placeholder="eg. me@example.com"
+                className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
               />
-              <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
+            </div>
+            {errors.email && <p className="text-red-500">{errors.email}</p>}
+            <div>
+              <label htmlFor="password">Password</label>
+              <div className='relative flex flex-col justify-center'>
+                <input
+                  id='password'
+                  onChange={onChangeHandler}
+                  name="password"
+                  autoComplete="off"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="eg. skajdfhgb87dfsa9"
+                  className={`p-1 pr-8 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.password && 'border-red-500'}`}
+                />
+                <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
+              </div>
             </div>
             {errors.password && <p className="text-red-500">{errors.password}</p>}
           </form>
@@ -107,7 +115,7 @@ function LogInPage() {
             onClick={logInHandler}
             className="px-6 py-2 bg-black text-white font-light"
           >
-            Sign In
+            Log in
           </button>
           <div className="mt-2 md:mt-0 flex flex-row justify-between items-center gap-2">
             <Link to="/" className="underline font-light self-center text-sm">

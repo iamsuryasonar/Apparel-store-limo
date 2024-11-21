@@ -81,7 +81,15 @@ function ProductsWithFilter(props) {
     return (
         <>
             <div className='sticky top-[60px] w-full h-8 sm:h-12 flex bg-white items-center justify-between gap-6 z-10 border-b-[1px]'>
-                <div onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }} className='group ml-8  border-r border-black flex items-center gap-2 pr-2 cursor-pointer'>
+                <div tabIndex={0}
+                    onClick={() => { setFilterContainerVisible(!isFilterContainerVisible) }}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                            e.preventDefault();
+                            e.currentTarget.click();
+                        }
+                    }}
+                    className='group ml-8  border-r border-black flex items-center gap-2 pr-2 cursor-pointer'>
                     <p className='font-thin'>FILTER</p>
                     <FontAwesomeIcon className='group-hover:text-green-400' icon={isFilterContainerVisible ? faArrowUp : faArrowDown} />
                 </div>

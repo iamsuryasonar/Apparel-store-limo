@@ -13,7 +13,6 @@ function BannerSection() {
             <p className='mb-4 font-bold text-4xl sm:text-5xl text-white'>Discover timeless trends... </p>
             <Link to='/shop' className='text-xl text-black bg-white hover:bg-black hover:text-white transition-colors duration-500 px-4 py-2 rounded-md font-normal'>Shop Now</Link>
         </div>
-
     </section>
 }
 

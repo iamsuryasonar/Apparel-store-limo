@@ -1,5 +1,4 @@
 import React from 'react';
-import Slider from "react-slick";
 import useOnScreen from '../../../hooks/useOnScreen';
 import CategoryCard from '../../../components/CategoryCard';
 import CategoryShimmer from '../../../components/shimmers/CategoryShimmer';
@@ -10,11 +9,11 @@ function CategorySection({ categories }) {
     const [ref, isVisible] = useOnScreen({ threshold: 0 });
 
     return <section ref={ref} className={`w-full h-full px-4 -mt-[150px] self-start transition-all duration-700 delay-100 ${isVisible && categories ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}>
-        {categories && <div className="w-full grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-4">
+        {categories && <ul className="list-none w-full grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-4">
             {categories.map((category) => {
                 return <CategoryCard key={category._id} category={category} />
             })}
-        </div>}
+        </ul>}
         {/* <CategoryCarousel categories={categories} /> */}
         {
             !categories && <div className="w-full h-full grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
@@ -49,7 +48,7 @@ function CategoryCarousel({ categories }) {
     return <>
         {
             categories && categories.length > 0 && <div className='flex flex-col'>
-                <div className=''>
+                <ul className='list-none'>
                     <Carousel
                         swipeable={false}
                         draggable={false}
@@ -74,7 +73,7 @@ function CategoryCarousel({ categories }) {
                             })
                         }
                     </Carousel>
-                </div>
+                </ul>
             </div>
         }
     </>

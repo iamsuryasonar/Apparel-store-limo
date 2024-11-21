@@ -32,20 +32,29 @@ function ProductCard({ product, animate }) {
         }))
     }
 
-    return <div ref={ref} className={`shrink-0 group max-w-[180px] w-full h-full place-self-center hover:-translate-y-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
-        onClick={(e) => {
-            navigate(`/product/${product?._id}`, {
-                state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }
-            })
+    function handleCardClicked(e) {
+        navigate(`/product/${product?._id}`, {
+            state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }
+        })
             /* if search modal is enabled, this will disable that */nm
-            dispatch(setShowSearch(false));
+        dispatch(setShowSearch(false));
+    }
+
+    return <div tabIndex={0}
+        ref={ref}
+        className={`group  m-2 place-self-center hover:-translate-y-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
+        onClick={handleCardClicked}
+        onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                e.currentTarget.click();
+            }
         }}>
         <LazyLoadImage className='aspect-[10/12] object-cover w-full h-full' src={product?.image?.url} alt='product' onLoad={() =>
             handleImageLoad(product?.image?._id)
         } />
 
         <div className={`absolute w-full h-full aspect-[10/12] animate-pulse bg-slate-300 ${loadedImages.includes(product?.image?._id) ? 'hidden' : 'block'}`}></div>
-
         {
             loadedImages.includes(product?.image?._id)
                 ? <div className='absolute top-1 left-1 sm:top-1 sm:left-1 rounded-sm bg-white px-[3px] py-[1px]'>

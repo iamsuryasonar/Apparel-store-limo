@@ -28,15 +28,18 @@ function FilterContainer(props) {
                 <div className='w-full h-[1px] bg-black'></div>
             </div>
             <div className='flex flex-row justify-between'>
-                <p>Price low to high</p>
-                <input className=' h-5 w-5' type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
+                <label htmlFor='pricelowtohigh'>Price low to high</label>
+                <input if='pricelowtohigh' className=' h-5 w-5' type="checkbox" checked={sortType === 'ASCENDING' ? true : false}
                     onChange={() => {
                         sortHandler('ASCENDING')
                     }} />
             </div>
             <div className='flex flex-row justify-between'>
-                <p>Price high to low</p>
-                <input className=' h-5 w-5' type="checkbox" checked={sortType === 'DECENDING' ? true : false}
+                <label htmlFor='pricehightolow'>Price high to low</label>
+                <input id='pricehightolow'
+                    className=' h-5 w-5'
+                    type="checkbox"
+                    checked={sortType === 'DECENDING' ? true : false}
                     onChange={() => {
                         sortHandler('DECENDING')
                     }} />
@@ -58,28 +61,28 @@ function FilterContainer(props) {
                 {activeFilters?.sortType &&
                     <div className='flex justify-between gap-2 bg-slate-100 rounded-2xl px-4 py-1'>
                         <p>{activeFilters?.sortType}</p>
-                        <p className='cursor-pointer hover:text-green-400'
+                        <button className='cursor-pointer hover:text-green-400 px-2'
                             onClick={() => {
                                 removeFilterCriteria('SORT_TYPE');
-                            }}>x</p>
+                            }}>x</button>
                     </div>
                 }
                 {activeFilters?.range &&
                     <div className='flex justify-between gap-2 bg-slate-100 rounded-2xl px-4 py-1'>
                         <p>{activeFilters?.range}</p>
-                        <p className='cursor-pointer hover:text-green-400'
+                        <button className='cursor-pointer hover:text-green-400 px-2'
                             onClick={() => {
                                 removeFilterCriteria('RANGE');
-                            }}>x</p>
+                            }}>x</button>
                     </div>
                 }
                 {activeFilters?.sortType !== '' && activeFilters?.range !== '' &&
                     <div className='flex justify-between gap-2 bg-slate-100 rounded-2xl px-4 py-1'>
                         <p className='font-thin'>Clear Filter</p>
-                        <p className='cursor-pointer hover:text-green-400'
+                        <button className='cursor-pointer hover:text-green-400 px-2'
                             onClick={() => {
                                 removeFilterCriteria('ALL');
-                            }}>x</p>
+                            }}>x</button>
                     </div>
                 }
             </div>

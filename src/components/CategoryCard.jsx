@@ -10,7 +10,7 @@ function CategoryCard({ category }) {
     };
 
     return (
-        <>
+        <li>
             <Link to={`/products/category/${category?._id}`} state={category} className="aspect-[1/1] w-full h-full hover:scale-105 transition-transform duration-500">
                 <div className="w-full h-full relative rounded-full overflow-hidden">
                     <div className={`h-full w-full bg-slate-200 animate-pulse ${loadedImages ? 'hidden' : 'block'}`}></div>
@@ -21,7 +21,7 @@ function CategoryCard({ category }) {
                     </div>}
                 </div >
             </Link >
-        </>
+        </li>
     )
 }
 
