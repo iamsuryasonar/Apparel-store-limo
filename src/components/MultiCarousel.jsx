@@ -44,7 +44,7 @@ function MultiCarousel({ data, renderSlide, maxitems = 6 }) {
                     })}
                 </Swiper>
 
-                <button className="absolute top-1/2 left-3 z-20 -translate-y-1/2 w-[40px] aspect-square bg-white opacity-70 rounded-full flex justify-center items-center disabled:opacity-20"
+                <button className="absolute top-1/2 left-3 z-10 -translate-y-1/2 w-[40px] aspect-square bg-white opacity-70 rounded-full flex justify-center items-center disabled:opacity-20"
                     disabled={isNavigationDisabled[0]}
                     onClick={handlePrev} >
                     <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="none" viewBox="0 0 8 15" className=" " stroke="none"
@@ -55,7 +55,7 @@ function MultiCarousel({ data, renderSlide, maxitems = 6 }) {
                             }}
                     ><path stroke="#000" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="m7 13.5-6-6 6-6"></path></svg>
                 </button>
-                <button className="absolute top-1/2 right-3 z-20 -translate-y-1/2 w-[40px] aspect-square bg-white opacity-70 rounded-full flex justify-center items-center disabled:opacity-20"
+                <button className="absolute top-1/2 right-3 z-10 -translate-y-1/2 w-[40px] aspect-square bg-white opacity-70 rounded-full flex justify-center items-center disabled:opacity-20"
                     disabled={isNavigationDisabled[1]}
                     onClick={handleNext}
                 >
