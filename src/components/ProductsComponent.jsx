@@ -1,10 +1,10 @@
 import React from 'react'
 import ProductCard from './ProductCard';
-import ProductShimmer from '../components/shimmers/ProductShimmer';
+import ProductsShimmer from '../components/shimmers/ProductsShimmer';
 
 function ProductsComponent({ products }) {
     return <>
-        {!products && <ProductShimmer />}
+        {!products && <ProductsShimmer />}
         {
             products?.products && products?.products?.map((product, index) => {
                 return <ProductCard key={index} product={product} animate={true} />

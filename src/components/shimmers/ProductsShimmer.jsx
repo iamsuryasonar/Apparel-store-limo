@@ -1,4 +1,4 @@
-function ProductShimmer() {
+function ProductsShimmer() {
     return <>
         {
             [1, 2, 3, 4, 5, 6].map((i) => {
@@ -21,4 +21,4 @@ function ProductShimmer() {
     </>
 }
 
-export default ProductShimmer;
+export default ProductsShimmer;
