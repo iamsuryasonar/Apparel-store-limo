@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../store/slices/authSlice";
@@ -13,7 +13,10 @@ function LogInPage() {
 
   const dispatch = useDispatch();
 
-  const [input, setInput] = useState({});
+  const [input, setInput] = useState({
+    email: '',
+    password: '',
+  });
   const [showPassword, setShowPassword] = useState(false);
   const [errors, setErrors] = useState({
     email: '',
@@ -26,6 +29,8 @@ function LogInPage() {
       ...input,
       [name]: value,
     });
+
+    console.log(input)
   };
 
   const validateForm = () => {
@@ -65,6 +70,13 @@ function LogInPage() {
     };
   }
 
+  function handleAutoFillGuestCreds() {
+    setInput({
+      email: 'guest@gmail.com',
+      password: 'sadfasfhjt65fsd',
+    })
+  }
+
   useScrollToTop()
 
   return (
@@ -86,6 +98,7 @@ function LogInPage() {
                 onChange={onChangeHandler}
                 name="email"
                 type="email"
+                value={input.email}
                 placeholder="eg. me@example.com"
                 className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
               />
@@ -100,6 +113,7 @@ function LogInPage() {
                   name="password"
                   autoComplete="off"
                   type={showPassword ? 'text' : 'password'}
+                  value={input.password}
                   placeholder="eg. skajdfhgb87dfsa9"
                   className={`p-1 pr-8 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.password && 'border-red-500'}`}
                 />
@@ -128,6 +142,10 @@ function LogInPage() {
             </div>
           </div>
         </div>
+        <button
+          className="bg-slate-950 text-white px-2 py-1 place-self-end"
+          onClick={handleAutoFillGuestCreds}>Auto fill guest credentials
+        </button>
       </div>
     </>
   );

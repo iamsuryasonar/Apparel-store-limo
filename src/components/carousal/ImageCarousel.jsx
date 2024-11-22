@@ -58,14 +58,17 @@ function ImageCarousel({ images }) {
         setSwipeType('');
     };
 
+
     return <>
         {
             <div ref={containerRef}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd} className='w-full h-full flex relative overflow-hidden'>
-                {images?.map((image, index) => {
-                    return <img alt='product' key={image?.id} src={image?.url} style={{ translate: `${-100 * currentImage}%`, transition: 'translate 700ms ease-in-out' }} className={`shrink-0 grow-0  object-cover w-full h-full`} onLoad={() => handleImageLoad(index)} />
+                {images && images?.map((image, index) => {
+                    return <>
+                        <img alt='product' key={image._id} src={image?.url} style={{ translate: `${-100 * currentImage}%`, transition: 'translate 700ms ease-in-out' }} className={`shrink-0 grow-0  object-cover w-full h-full`} onLoad={() => handleImageLoad(index)} />
+                    </>
                 })}
                 <div className='absolute top-1/2 right-1/2 -translate-y-1/2 translate-x-1/2'>
                     {!loadedImages.includes(currentImage) ? <div className={`w-12 h-12 rounded-full animate-spin border-8 border-dashed border-t-transparent`}></div> : <></>}
@@ -83,12 +86,13 @@ function ImageCarousel({ images }) {
             </div>
         }
         <div className='w-full flex flex-row gap-2 mt-4 justify-end'>
-            {images.map((item, index) => {
-                return <img alt='product' key={item._id} src={item.url} className={`w-1/6 object-cover aspect-square ${currentImage === index ? 'border-2 border-slate-500' : ''}`}
-                    onClick={() => {
-                        setCurrentImage(index)
-                    }}
-                />
+            {images && images.map((item, index) => {
+                return <>
+                    <img alt='product image' key={item._id} src={item.url} className={`w-1/6 object-cover aspect-square ${currentImage === index ? 'border-2 border-slate-500' : ''}`}
+                        onClick={() => {
+                            setCurrentImage(index)
+                        }}
+                    /></>
             })}
         </div>
     </>
