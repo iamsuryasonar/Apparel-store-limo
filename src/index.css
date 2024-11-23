@@ -3,6 +3,20 @@
 @tailwind utilities;
 
 
+/* color pallete
+dark cyan
+#78B3CE
+
+light blue
+#C9E6F0
+
+white
+#FBF8EF
+
+orange
+#F96E2A
+*/
+
 /* custom react slick style */
 .slick-slide {
     padding: 10px;

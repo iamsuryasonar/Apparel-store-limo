@@ -120,7 +120,7 @@ function ProductsWithFilter(props) {
                         onDragEndHandler={onDragEndHandler}
                         removeFilterCriteria={removeFilterCriteria} />
                 }
-                <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 mt-4 md:p-8 md:mt-0 gap-4 sm:gap-10`}>
+                <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(210px,max-content))] justify-center p-4 mt-4 md:p-8 md:mt-0 gap-4 sm:gap-10`}>
                     {props.children}
                 </div>
             </div>

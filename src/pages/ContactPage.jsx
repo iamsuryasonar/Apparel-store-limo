@@ -119,7 +119,7 @@ function ContactPage() {
                                 <option className="font-light" value='Feedback'>Feedback</option>
                             </select>
                         </div>
-                        <button onClick={handleFormSubmit} className="py-2 bg-black text-white font-bold">
+                        <button onClick={handleFormSubmit} className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md">
                             SEND
                         </button>
                     </form>

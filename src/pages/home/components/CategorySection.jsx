@@ -8,8 +8,10 @@ import 'react-multi-carousel/lib/styles.css';
 function CategorySection({ categories }) {
     const [ref, isVisible] = useOnScreen({ threshold: 0 });
 
-    return <section ref={ref} className={`w-full h-full px-4 -mt-[150px] self-start transition-all duration-700 delay-100 ${isVisible && categories ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}>
+    return <section ref={ref} className={`w-full h-full px-2 self-start transition-all duration-700 delay-100 ${isVisible && categories ? 'opacity-1 translate-y-0' : 'opacity-0 translate-y-[100px]'}`}>
+        <p className="mt-8 mb-3 text-[#78B3CE] text-xl lg:text-2xl font-bold uppercase">Find by category</p>
         {categories && <ul className="list-none w-full grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2">
+
             {categories.map((category) => {
                 return <CategoryCard key={category._id} category={category} />
             })}

@@ -42,7 +42,7 @@ function ProductCard({ product, animate }) {
 
     return <div tabIndex={0}
         ref={ref}
-        className={`group  m-2 place-self-center hover:-translate-y-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
+        className={`group w-full place-self-center hover:-translate-y-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
         onClick={handleCardClicked}
         onKeyDown={(e) => {
             if (e.key === 'Enter') {
@@ -64,16 +64,16 @@ function ProductCard({ product, animate }) {
         }
         <div className="p-1">
             <span className="text-gray-400 uppercase text-xs">{product?.category?.name}</span>
-            <p className="text-black block text-sm truncate">{padSentence(product?.name, 3)}</p>
+            <p className="text-black block text-sm sm:text-base truncate">{padSentence(product?.name, 3)}</p>
             <div className="flex items-center">
                 <div className='flex flex-col items-start'>
                     <div className='flex items-center'>
-                        <p className="text-xs font-normal text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
+                        <p className="text-xs sm:text-base font-normal text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
                         <del>
-                            <p className="text-xs font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
+                            <p className="text-xs sm:text-base font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
                         </del>
                     </div>
-                    <p className='text-green-600 font-light text-xs'>{product?.tag}</p>
+                    <p className='text-[#4ebef1] text-xs sm:text-base'>{product?.tag}</p>
                 </div>
                 <div className="m-1 ml-auto text-black bg-transparent text-lg sm:text-2xl  hover:scale-110 transition-all duration-500 ">
                     <FontAwesomeIcon className='' icon={faCartPlus}

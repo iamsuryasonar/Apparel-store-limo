@@ -179,7 +179,7 @@ function AddAddressForm(props) {
                     <option value="India">India</option>
                 </select>
             </form>
-            <button onClick={handleAddressSubmit} className="bg-black text-white py-2 px-6 self-end">{editMode ? 'Save' : 'Add'}</button>
+            <button onClick={handleAddressSubmit} className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md self-end">{editMode ? 'Save' : 'Add'}</button>
         </div>
     </div>
 }

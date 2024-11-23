@@ -42,10 +42,10 @@ function AddressComponent() {
     return (
         <div className="my-4 flex flex-col md:flex-col  gap-4">
             <div className="flex flex-col md:flex-row  justify-between md:items-center gap-2">
-                <p className="text-5xl font-bold">Your Addresses</p>
+                <p className="text-5xl font-bold text-[#78B3CE]">Your Addresses</p>
                 <button
                     onClick={handleAddressAdd}
-                    className="bg-black text-white p-2 self-start"
+                    className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md self-start"
                 >
                     Add a new Address
                 </button>
@@ -77,13 +77,13 @@ function AddressComponent() {
                                     <div className="flex gap-2 mt-2 mb-1">
                                         <button onClick={() => {
                                             handleAddressDelete(address);
-                                        }} className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-red-700 hover:text-white ">
+                                        }} className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#e74c4c] transition-colors duration-300 bg-opacity-70 backdrop-blur-md">
                                             Remove
                                         </button>
 
                                         <button onClick={() =>
                                             handleAddressEdit(address)
-                                        } className="py-2 px-4 font-bold text-white border rounded-sm bg-black hover:bg-amber-600 hover:text-white ">
+                                        } className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md">
                                             Edit
                                         </button>
                                     </div>

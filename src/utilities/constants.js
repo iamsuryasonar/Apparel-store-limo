@@ -1,3 +1,5 @@
+import { faCartShopping, faCreditCard, faRankingStar, faTruckFast } from '@fortawesome/free-solid-svg-icons';
+
 export const APP_NAME = 'Limo';
 
 export const LOCAL_STORAGE_NAME = 'user';
@@ -45,4 +47,27 @@ export const STATES = [
     'Ladakh',
     'Lakshadweep',
     'Puducherry',
+]
+
+export const SERVICES = [
+    {
+        icon: faRankingStar,
+        title: 'Quality',
+        description: '100 % Original quality guaranteed',
+    },
+    {
+        icon: faCartShopping,
+        title: '7 Days Replacement',
+        description: 'On all orders*',
+    },
+    {
+        icon: faCreditCard,
+        title: 'Secure Payments',
+        description: "Visa, Mastercard, EMI, Net Banking, UPI, BHIM, Wallet's",
+    },
+    {
+        icon: faTruckFast,
+        title: 'Fast & Free Shipping',
+        description: 'Ships in 24 Hours *',
+    }
 ]

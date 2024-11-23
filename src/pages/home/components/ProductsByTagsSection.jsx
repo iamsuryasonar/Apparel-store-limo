@@ -32,10 +32,10 @@ function ProductsByTagsSection() {
     return <section>
         {
             TAGS.map((tag) => {
-                return <div key={tag} className='flex flex-col'>
-                    <div className='flex items-center justify-between'>
-                        <p className='px-4 rounded-lg text-xl lg:text-2xl font-light capitalize'>{tag}</p>
-                        <Link to={`/products/tag/${tag}`} state={{ name: tag }} aria-label={`see more ${tag} products`} className="mx-6 my-1 px-6 py-1 cursor-pointer rounded-lg bg-white hover:bg-black border border-black text-sm text-center text-black hover:text-white  transition-colors duration-300">See more</Link>
+                return <div key={tag} className='flex flex-col m-2'>
+                    <div className='flex items-center justify-between mt-8 mb-3'>
+                        <p className='text-[#78B3CE] rounded-lg text-xl lg:text-2xl font-bold uppercase'>{tag}</p>
+                        <Link to={`/products/tag/${tag}`} state={{ name: tag }} aria-label={`see more ${tag} products`} className="px-6 py-1 cursor-pointer text-sm text-center bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] bg-opacity-70 backdrop-blur-md transition-colors duration-300">See more</Link>
                     </div>
                     <MultiCarousel
                         key={tag}
@@ -51,7 +51,7 @@ function ProductsByTagsSection() {
                 <div className='absolute right-[10px] top-1/2 -translate-y-1/2 rounded-full w-[40px] h-[40px] bg-gray-200 animate-pulse'></div>
             </div>
         }
-    </section>
+    </section >
 }
 
 export default ProductsByTagsSection;
