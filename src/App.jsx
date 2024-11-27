@@ -98,7 +98,6 @@ function App() {
           <NoPage />
         </Suspense>}>
       </Route>
-
     </Routes >
   );
 }

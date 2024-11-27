@@ -78,7 +78,7 @@ function AutoplaySlider({ renderProp, items, speed }) {
                     flexDirection: 'row',
                 }}>
                 {items.map((item) => {
-                    return renderProp(item._id, item);
+                    return renderProp(item.id, item);
                 })}
             </div>
             <div ref={duplicateCardsRef}
@@ -87,7 +87,7 @@ function AutoplaySlider({ renderProp, items, speed }) {
                     flexDirection: 'row',
                 }}>
                 {items.map((item) => {
-                    return renderProp(item._id, item);
+                    return renderProp(item.id, item);
                 })}
             </div>
         </div>

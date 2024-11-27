@@ -6,6 +6,7 @@ import { login } from "../store/slices/authSlice";
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useScrollToTop from '../hooks/useScrollToTop'
+import Button from '../components/Button';
 
 function LogInPage() {
   const navigate = useNavigate();
@@ -125,12 +126,7 @@ function LogInPage() {
 
         </div>
         <div className="flex flex-col w-full md:flex-row justify-between">
-          <button
-            onClick={logInHandler}
-            className="px-6 py-2 bg-black text-white font-light"
-          >
-            Log in
-          </button>
+          <Button className='place-self-end' onClick={logInHandler}>Log in</Button>
           <div className="mt-2 md:mt-0 flex flex-row justify-between items-center gap-2">
             <Link to="/" className="underline font-light self-center text-sm">
               Return to store
@@ -142,10 +138,7 @@ function LogInPage() {
             </div>
           </div>
         </div>
-        <button
-          className="bg-slate-950 text-white px-2 py-1 place-self-end"
-          onClick={handleAutoFillGuestCreds}>Auto fill guest credentials
-        </button>
+        <Button className='place-self-end' onClick={handleAutoFillGuestCreds}>Auto fill guest credentials</Button>
       </div>
     </>
   );

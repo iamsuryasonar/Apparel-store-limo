@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation } from 'react-router-dom'
 import { get_products, get_more_products } from '../../store/slices/productsSlice'
 import ProductsComponent from '../../components/ProductsComponent';
 import useScrollToTop from '../../hooks/useScrollToTop'
@@ -10,7 +9,6 @@ import bannerImage from '../../assets/banner.jpg'
 
 
 function ShopPage() {
-    let { state } = useLocation();
 
     const dispatch = useDispatch();
     const products = useSelector((state) => state.products.products)

@@ -3,6 +3,41 @@ import { useSelector, useDispatch } from 'react-redux'
 import ContactUsServices from '../services/contactUs.services'
 import { setMessage, clearMessage } from '../store/slices/messageSlice'
 import useScrollToTop from '../hooks/useScrollToTop'
+import Button from '../components/Button';
+
+const OPTIONS = [
+    {
+        id: 1,
+        value: 'Business Inquiry',
+        title: 'Business Inquiry',
+    },
+    {
+        id: 2,
+        value: 'General Inquiry',
+        title: 'General Inquiry',
+    },
+    {
+        id: 3,
+        value: 'Bulk Orders',
+        title: 'Bulk Orders',
+    },
+    {
+        id: 4,
+        value: 'Order Tracking',
+        title: 'Order Tracking',
+    },
+    {
+        id: 5,
+        value: 'Returns and Refunds',
+        title: 'Returns and Refunds',
+    },
+    {
+        id: 6,
+        value: 'Feedback',
+        title: 'Feedback',
+    },
+]
+
 
 function ContactPage() {
     const dispatch = useDispatch();
@@ -111,17 +146,14 @@ function ContactPage() {
                             <p className="py-2">Optional</p>
                             <label>Select Query type</label>
                             <select onChange={onChangeHandler} name="query" className="border-[1px] rounded-sm border-black font-light p-1 bg-white">
-                                <option className="font-light" value='Business Inquiry'>Business Inquiry</option>
-                                <option className="font-light" value='General Inquiry'>General Inquiry</option>
-                                <option className="font-light" value='Bulk Orders'>Bulk Orders</option>
-                                <option className="font-light" value='Order Tracking'>Order Tracking</option>
-                                <option className="font-light" value='Returns and Refunds'>Returns and Refunds</option>
-                                <option className="font-light" value='Feedback'>Feedback</option>
+                                {
+                                    OPTIONS.map((item) => {
+                                        return <option key={item.id} className="font-light" value={item.value}>{item.title}</option>
+                                    })
+                                }
                             </select>
                         </div>
-                        <button onClick={handleFormSubmit} className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md">
-                            SEND
-                        </button>
+                        <Button onClick={handleFormSubmit}>SEND</Button>
                     </form>
 
                 </div >

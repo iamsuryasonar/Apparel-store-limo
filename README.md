@@ -63,6 +63,8 @@ npm install
 
 1. Set up environment variables in a .env file at the root of your project:
 ```makefile
+VITE_BASE_URL="backend url"
+VITE_NODE_ENV="production"
 VITE_KEY="razorpay key"
 ```
 1. Start the development server:

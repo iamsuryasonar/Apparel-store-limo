@@ -5,9 +5,9 @@ import { setLoading } from '../../../store/slices/loadingSlice';
 import ProductsService from '../../../services/products.services'
 import ProductCard from '../../../components/ProductCard'
 import MultiCarousel from '../../../components/MultiCarousel';
+import { TAGS } from '../../../utilities/constants';
 
 function ProductsByTagsSection() {
-    const TAGS = ['New arrival', 'Most purchased'];
     const dispatch = useDispatch();
     const loading = useSelector((state) => state.loading.loading);
 

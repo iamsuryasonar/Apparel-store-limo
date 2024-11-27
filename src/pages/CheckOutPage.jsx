@@ -194,7 +194,7 @@ function CheckOutPage() {
                     <button onClick={checkOutHandler} className='w-full px-4 py-2 bg-black text-white'>Pay now</button>
                     <p className='bg-red-100 p-2 rounded text-sm'>Note:<a className='text-blue-500' target='_blank' href='https://razorpay.com/docs/payments/payment-gateway/ecommerce-plugins/wix/test-integration/'> Click here</a> to get Razorpay test credentials.</p>
                 </div>
-            </div >
+            </div>
         }
         {
             processingPayment && <div className='fixed top-0 bottom-0 right-0 left-0  bg-white z-50 flex flex-col justify-center items-center overflow-y-hidden'>

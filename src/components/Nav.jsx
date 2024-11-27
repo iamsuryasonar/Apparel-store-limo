@@ -11,7 +11,7 @@ import LoadingBar from './LoadingBar';
 import SearchComponent from './SearchComponent'
 import useOutsideClick from '../hooks/useOutSideClick';
 
-let navItems = [
+let NAV_ITEMS = [
     {
         id: 1,
         title: 'Home',
@@ -39,7 +39,6 @@ function Nav() {
     const user = useSelector((state) => state.auth.userData);
     const loading = useSelector((state) => state.loading.loading);
     const cartItems = useSelector((state) => state.cart.cart);
-
 
     const [menu, setMenu] = useState(false);
     const [isCartActive, setIsCartActive] = useState(false);
@@ -69,7 +68,7 @@ function Nav() {
                 <div className="max-w-7xl w-full m-auto flex justify-between px-2">
                     <ul className='uppercase items-center md:flex md:gap-5 hidden list-none'>
                         {
-                            navItems.map((item) => {
+                            NAV_ITEMS.map((item) => {
                                 return <li key={item.id}><Link state={item.title === 'Shop' ? { name: 'Shop' } : {}} to={item.path} className={`text-base hover:text-[#4ba7d1] hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-[#4ba7d1]' : ''}`}>{item.title}</Link></li>
                             })
                         }
@@ -126,7 +125,7 @@ function Nav() {
                                     <FontAwesomeIcon className="text-3xl" icon={faXmark} />
                                 </button>
                                 {
-                                    navItems.map((item) => {
+                                    NAV_ITEMS.map((item) => {
                                         return <Link
                                             key={item.id}
                                             to={item.path}

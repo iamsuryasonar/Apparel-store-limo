@@ -36,7 +36,7 @@ function ProductCard({ product, animate }) {
         navigate(`/product/${product?._id}`, {
             state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }
         })
-            /* if search modal is enabled, this will disable that */nm
+        /* if search modal is enabled, this will disable that */
         dispatch(setShowSearch(false));
     }
 

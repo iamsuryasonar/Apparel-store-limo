@@ -5,7 +5,7 @@ function ServicesSection() {
     return <section className="w-full grid grid-cols-1 sm:grid-cols-2 gap-6 place-items-start">
         {
             SERVICES.map((item) => {
-                return <div className="flex flex-row gap-6 items-center">
+                return <div key={item.id} className="flex flex-row gap-6 items-center">
                     <FontAwesomeIcon className="text-xl " icon={item.icon} />
                     <div className="flex flex-col">
                         <p className="font-semibold">{item.title}</p>

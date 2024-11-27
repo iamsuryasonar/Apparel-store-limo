@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductsService from "../../services/products.services";
 import { addToCart } from "../../store/slices/cartSlice";
-import ImageCarousel from "../../components/carousal/ImageCarousel";
+import ImageCarousel from "../../components/ImageCarousel";
 import useLocalStorageLimited from '../../hooks/useLocalStorageLimited';
 import { LOCAL_STORAGE_RECENTLY_VIEWED } from '../../utilities/constants'
 import ProductCard from '../../components/ProductCard'

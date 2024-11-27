@@ -6,6 +6,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Transition } from 'react-transition-group';
 import { updateItemQuantity, remove_item_from_cart, incrementQuantity, decrementQuantity } from '../store/slices/cartSlice'
 import LazyLoadImage from '../components/LazyLoadImage';
+import Button from './Button';
 
 function Cart(props) {
     const { show, toggleCart } = props;
@@ -60,10 +61,10 @@ function Cart(props) {
                                 </div>
                                 {cartItems?.length > 0 && <>
                                     <p>Shipping, taxes and discount codes are calculated at check-out</p>
-                                    <button onClick={() => {
+                                    <Button onClick={() => {
                                         toggleCart()
                                         navigate('/check-out', { state: cartItems })
-                                    }} className='w-full py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md'>Check Out</button>
+                                    }}>Check Out</Button>
                                 </>}
                             </div>
                         </div>

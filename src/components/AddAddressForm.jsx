@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import AddressServices from '../services/address.services'
 import { STATES } from "../utilities/constants";
+import Button from '../components/Button';
 
 function AddAddressForm(props) {
     const { setAddressFormVisible, editMode, editFormData, getAddresses } = props;
@@ -18,6 +19,7 @@ function AddAddressForm(props) {
         state: '',
         country: 'India',
     });
+    
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
@@ -179,7 +181,7 @@ function AddAddressForm(props) {
                     <option value="India">India</option>
                 </select>
             </form>
-            <button onClick={handleAddressSubmit} className="py-1 px-4 font-bold text-lg bg-[#78B3CE] border-[3px] border-[#78B3CE] hover:bg-white text-white hover:text-[#78B3CE] transition-colors duration-300 bg-opacity-70 backdrop-blur-md self-end">{editMode ? 'Save' : 'Add'}</button>
+            <Button onClick={handleAddressSubmit} >{editMode ? 'Save' : 'Add'}</Button>
         </div>
     </div>
 }

@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { register } from '../store/slices/authSlice'
 import useScrollToTop from '../hooks/useScrollToTop'
+import Button from '../components/Button';
 
 function RegisterPage() {
     const dispatch = useDispatch();
@@ -116,7 +117,7 @@ function RegisterPage() {
                 </form>
             </div>
             <div className="flex self-start items-center gap-4">
-                <button onClick={registerHandler} className="px-6 py-2 bg-black text-white font-light">Sign up</button>
+                <Button className='place-self-end' onClick={registerHandler}>Sign up</Button>
             </div>
         </div>
     </>)

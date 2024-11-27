@@ -7,6 +7,20 @@ import OrderHistoryComponent from './components/OrderHistoryComponent';
 import SignoutModal from '../../components/SignoutModal';
 import useScrollToTop from '../../hooks/useScrollToTop';
 
+const OPTIONS = [
+  {
+    id: 'order-history',
+    title: "Order History",
+    component: OrderHistoryComponent,
+  },
+  {
+    id: 'view-addresses',
+    title: "View Addresses",
+    component: AddressComponent,
+  },
+];
+
+
 function AccountPage() {
   let navigate = useNavigate();
   const location = useLocation();
@@ -17,20 +31,7 @@ function AccountPage() {
 
   useScrollToTop()
 
-  const options = [
-    {
-      id: 'order-history',
-      title: "Order History",
-      component: OrderHistoryComponent,
-    },
-    {
-      id: 'view-addresses',
-      title: "View Addresses",
-      component: AddressComponent,
-    },
-  ];
-
-  const Component = options[activeTab].component;
+  const Component = OPTIONS[activeTab].component;
 
   useEffect(() => {
     const queryParams = new URLSearchParams(location.search);
@@ -67,16 +68,16 @@ function AccountPage() {
         </div>
         {menu && (
           <>
-            {options.map((item, index) => {
+            {OPTIONS.map((item, index) => {
               return (
                 <p
+                  key={item.id}
                   onClick={() => {
                     index === 0 ? navigate('/account?tab=order-history') : ''
                     index === 1 ? navigate('/account?tab=view-addresses') : ''
                     setActiveTab(index);
                     setMenu(false);
                   }}
-                  key={item.id}
                   className="w-full py-2 p-4  hover:bg-white bg-slate-100 cursor-pointer"
                 >
                   {item.title}

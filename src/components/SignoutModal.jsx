@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { logout } from '../store/slices/authSlice'
+import Button from './Button';
 
 const SignoutModal = ({ isLogoutModal, setIsLogoutModal }) => {
     const dispatch = useDispatch();
@@ -30,8 +31,8 @@ const SignoutModal = ({ isLogoutModal, setIsLogoutModal }) => {
                 <div className="bg-white p-8 rounded-md shadow-md" onClick={e => e.stopPropagation()}>
                     <p className="text-lg mb-4">Are you sure you want to log out?</p>
                     <div className="flex justify-end">
-                        <button className="px-4 py-2 bg-red-500 text-white rounded-md mr-2" onClick={confirmLogout}>Logout</button>
-                        <button className="px-4 py-2 bg-gray-300 text-gray-800 rounded-md" onClick={() => setIsLogoutModal(false)}>Cancel</button>
+                        <Button className="bg-red-500 border-red-500 hover:text-red-500 mr-2" onClick={confirmLogout}>Logout</Button>
+                        <Button onClick={() => setIsLogoutModal(false)}>Cancel</Button>
                     </div>
                 </div>
             </div>
