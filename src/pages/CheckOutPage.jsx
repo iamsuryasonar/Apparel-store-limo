@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import AddressService from '../services/address.services'
 import PaymentServices from '../services/payment.services'
 import { get_all_cart_items } from '../store/slices/cartSlice';
+import { setMessage } from '../store/slices/messageSlice';
 import razorpay from '../assets/logos/razorpay.png'
 import visa from '../assets/logos/visa.png'
 import mastercard from '../assets/logos/mastercard.png'
@@ -20,10 +21,9 @@ function CheckOutPage() {
 
     const [addressFormVisible, setAddressFormVisible] = useState(false)
     const [addresses, setAddresses] = useState(null);
-    const [selectedAddress, setSelectedAddress] = useState(0);
-    const [showAllAddresses, setShowAllAddresses] = useState(false);
     const [processingPayment, setProcessingPayment] = useState(false);
     const [creatingOrder, setCreatingOrder] = useState(false);
+    const [selectedAddress, setSelectedAddress] = useState(null);
 
     const totalPrice = useMemo(() => {
         return state?.reduce((acc, item) => {
@@ -34,13 +34,23 @@ function CheckOutPage() {
     const getAddresses = async () => {
         const result = await AddressService.getAllAddresses();
         setAddresses(result);
+        setSelectedAddress(result[0])
     }
+
+    const handleAddressChange = (address) => {
+        setSelectedAddress(address);
+    };
 
     useEffect(() => {
         getAddresses()
     }, [])
 
     const checkOutHandler = async (e) => {
+
+        if (!selectedAddress) {
+            dispatch(setMessage('Address required!'));
+            return;
+        }
         setProcessingPayment(true);
         let order = await PaymentServices.orderPayment();
         let options = {
@@ -61,8 +71,9 @@ function CheckOutPage() {
             },
             "handler": async function (response) {
                 setCreatingOrder(true);
-                const res = await PaymentServices.validatePayment({
-                    addressId: addresses[selectedAddress]?._id,
+
+                const res = await PaymentServices.validatePaymentAndOrder({
+                    addressId: selectedAddress?._id,
                     razorpay_payment_id: response.razorpay_payment_id,
                     razorpay_order_id: response.razorpay_order_id,
                     razorpay_signature: response.razorpay_signature,
@@ -71,7 +82,11 @@ function CheckOutPage() {
                 dispatch(get_all_cart_items());
 
                 if (res.code == 200 || res.code == 201) {
-                    navigate(`/order-placed?order_id=${response.razorpay_order_id}`)
+                    navigate(`/order-placed?order_id=${response.razorpay_order_id}`);
+                } else {
+                    dispatch(setMessage('Refund initiated, Something went wrong!'));
+                    setCreatingOrder(false);
+                    setProcessingPayment(false);
                 }
             },
             "theme": {
@@ -80,16 +95,18 @@ function CheckOutPage() {
         };
         var rzp1 = new window.Razorpay(options);
         rzp1.on('payment.failed', function (response) {
-            alert(response.error.reason);
-            /* alert(response.error.code);
-            alert(response.error.description);
-            alert(response.error.source);
-            alert(response.error.step);
-            alert(response.error.metadata.order_id);
-            alert(response.error.metadata.payment_id); */
+            dispatch(setMessage('Payment failed!'));
+            /*  alert(response.error.reason);
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id); */
         });
         rzp1.open();
         e.preventDefault();
+
     }
 
     return <>
@@ -107,34 +124,29 @@ function CheckOutPage() {
                     </div>
 
                     {addressFormVisible &&
-                        <AddAddressForm setAddressFormVisible={setAddressFormVisible} />
+                        <AddAddressForm setAddressFormVisible={setAddressFormVisible} getAddresses={getAddresses} />
                     }
-
-                    {addresses &&
-                        <div className='flex flex-col bg-slate-50 p-2 rounded-sm'>
-                            <p>{addresses[selectedAddress]?.name}, {addresses[selectedAddress]?.contact_number}, {addresses[selectedAddress]?.pin}, {addresses[selectedAddress]?.city}, {addresses[selectedAddress]?.state}, {addresses[selectedAddress]?.country}...</p>
-                        </div>
-                    }
-
-                    {addresses &&
-                        <p onClick={() => {
-                            setShowAllAddresses(!showAllAddresses);
-                        }} className={`text-blue-500 ${showAllAddresses ? 'text-red-400' : ''} underline underline-offset-2 cursor-pointer`}>select from addresses...</p>
-                    }
-
-                    {showAllAddresses &&
-                        <div className='flex flex-col gap-2'>
-                            {addresses?.map((address, index) => {
-                                return <div key={address?._id} onClick={() => {
-                                    setSelectedAddress(index)
-                                    setShowAllAddresses(false)
-                                }} className='bg-slate-50 p-2 rounded-sm cursor-pointer' >
-                                    <p> {address?.name}, {address?.contact_number}, {address?.pin}, {address?.city}, {address?.state}, {address?.country}...</p>
-                                </div>
-                            })}
-                        </div >
-                    }
-
+                    <ul className="">
+                        {addresses?.map((address, index) => (
+                            <li key={index} className="flex items-center">
+                                <input
+                                    type="radio"
+                                    name="address"
+                                    id={`address-${index}`}
+                                    // value={address}
+                                    checked={selectedAddress === address}
+                                    onChange={() => handleAddressChange(address)}
+                                    className="mr-3 accent-blue-500"
+                                />
+                                <label
+                                    htmlFor={`address-${index}`}
+                                    className=""
+                                >
+                                    {address?.name}, {address?.contact_number}, {address?.pin}, {address?.city}, {address?.state}, {address?.country}...
+                                </label>
+                            </li>
+                        ))}
+                    </ul>
                     <div className="w-full h-[1px] bg-black"></div>
                     <p>Payment</p>
                     <div className=' bg-slate-100'>

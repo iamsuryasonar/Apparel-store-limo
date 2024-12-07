@@ -8,15 +8,23 @@ const orderPayment = async () => {
     return response.data.results
 }
 
-const validatePayment = async (data) => {
-    const response = await axios
-        .post(API_URL + 'payment/validate_payment/', data, { headers: getAuthHeaders() })
-    return response.data
+const validatePaymentAndOrder = async (data) => {
+    try {
+        const response = await axios
+            .post(API_URL + 'payment/validate_payment/', data, { headers: getAuthHeaders() })
+        return response.data;
+    } catch (error) {
+        const statusCode = error.response ? error.response.status : 500;
+        return {
+            code: statusCode,
+            message: error.response ? error.response.data : 'An unexpected error occurred'
+        };
+    }
 }
 
 const PaymentServices = {
     orderPayment,
-    validatePayment
+    validatePaymentAndOrder
 }
 
 export default PaymentServices;
