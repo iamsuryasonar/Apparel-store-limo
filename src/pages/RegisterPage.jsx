@@ -5,7 +5,7 @@ import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { register } from '../store/slices/authSlice'
 import useScrollToTop from '../hooks/useScrollToTop'
-import Button from '../components/Button';
+import ButtonBnW from '../components/ButtonBnW'
 
 function RegisterPage() {
     const dispatch = useDispatch();
@@ -57,49 +57,48 @@ function RegisterPage() {
     useScrollToTop()
 
     return (<>
-        <div className="max-w-2xl w-full p-4 flex flex-col items-start gap-4 mt-10">
-            <h1 className="font-extrabold text-5xl font-raleway">Sign Up</h1>
-            <p className="font-light text-md">Have an account? <Link to='/sign-in' className="underline">Sign in here</Link></p>
+        <div className="max-w-md w-full p-4 flex flex-col items-center justify-center gap-3">
+            <h1 className="font-bold text-xl font-raleway">Sign Up</h1>
             <div className="w-full flex flex-col justify-center items-center">
-                <form className="w-full flex flex-col gap-4 font-light ">
+                <form className="w-full flex flex-col gap-3 font-light ">
                     <div>
-                        <label htmlFor="firstName">First Name</label>
+                        <label htmlFor="firstName" className="text-sm text-slate-500">First Name</label>
                         <input
                             id='firstName'
                             onChange={onChangeHandler}
                             name='firstName'
                             type="text"
                             placeholder='eg. John'
-                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.firstName && 'border-red-500'}`}
+                            className={`p-1 border-[1px] rounded-md border-slate-200 w-full placeholder:p-2 ${errors.firstName && 'border-red-500'}`}
                         />
                     </div>
                     {errors.firstName && <p aria-live='polite' className="text-red-500">{errors.firstName}</p>}
                     <div>
-                        <label htmlFor="lastName">Last Name</label>
+                        <label htmlFor="lastName" className="text-sm text-slate-500">Last Name</label>
                         <input
                             id="lastName"
                             onChange={onChangeHandler}
                             name='lastName'
                             type="text"
                             placeholder='eg. Doe'
-                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.lastName && 'border-red-500'}`}
+                            className={`p-1 border-[1px] rounded-md border-slate-200 w-full placeholder:p-2 ${errors.lastName && 'border-red-500'}`}
                         />
                     </div>
                     {errors.lastName && <p aria-live='polite' className="text-red-500">{errors.lastName}</p>}
                     <div>
-                        <label htmlFor="email">Email</label>
+                        <label htmlFor="email" className="text-sm text-slate-500">Email</label>
                         <input
                             id='email'
                             onChange={onChangeHandler}
                             name='email'
                             type="email"
                             placeholder='eg. me@example.com'
-                            className={`p-1 border-[1px] rounded-sm border-black w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
+                            className={`p-1 border-[1px] rounded-md border-slate-200 w-full placeholder:p-2 ${errors.email && 'border-red-500'}`}
                         />
                     </div>
                     {errors.email && <p aria-live='polite' className="text-red-500">{errors.email}</p>}
                     <div>
-                        <label htmlFor="password">Password</label>
+                        <label htmlFor="password" className="text-sm text-slate-500">Password</label>
                         <div className='relative flex  flex-col justify-center'>
                             <input
                                 id='password'
@@ -108,16 +107,24 @@ function RegisterPage() {
                                 name='password'
                                 type={showPassword ? 'text' : 'password'}
                                 placeholder='eg. akshjdf9678werjh'
-                                className={`w-full p-1 pr-8 border-[1px] rounded-sm border-black placeholder:p-2 ${errors.password && 'border-red-500'}`}
+                                className={`w-full p-1 pr-8 border-[1px] rounded-md border-slate-200 placeholder:p-2 ${errors.password && 'border-red-500'}`}
                             />
-                            <FontAwesomeIcon className='absolute right-2' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
+                            <FontAwesomeIcon className='absolute right-2 text-slate-500' onClick={() => { setShowPassword(!showPassword) }} icon={showPassword ? faEye : faEyeSlash} />
                         </div>
                     </div>
                     {errors.password && <p aria-live='polite' className="text-red-500">{errors.password}</p>}
                 </form>
             </div>
-            <div className="flex self-start items-center gap-4">
-                <Button className='place-self-end' onClick={registerHandler}>Sign up</Button>
+            <div className="w-full flex self-start items-center gap-4">
+                <ButtonBnW dark={true} onClick={registerHandler}>Sign up</ButtonBnW>
+            </div>
+            <div className="w-full flex flex-col items-center justify-center">
+                <p className="font-thin text-md font-raleway">
+                    Have an account?
+                </p>
+                <Link to="/sign-in" className="border-[1px] border-black hover:bg-black hover:text-white rounded-full w-full p-1 text-center">
+                    Sign in
+                </Link>
             </div>
         </div>
     </>)
