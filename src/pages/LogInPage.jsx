@@ -84,7 +84,7 @@ function LogInPage() {
   return (
     <>
       <div className="max-w-md w-full p-4 flex flex-col items-center justify-center gap-3">
-        <h1 className="font-bold text-xl font-raleway">Log in</h1>
+        <h1 className="font-bold text-xl font-raleway">Sign in</h1>
         <div className="w-full flex flex-col justify-center items-center">
           <form className="w-full flex flex-col gap-3 font-light">
             <div>
@@ -120,7 +120,7 @@ function LogInPage() {
           </form>
         </div>
         <div className="flex flex-col w-full justify-between gap-2">
-          <ButtonBnW dark={true} onClick={logInHandler}>Log in</ButtonBnW>
+          <ButtonBnW dark={true} onClick={logInHandler}>Sign in</ButtonBnW>
           <div className="flex flex-col justify-between items-end gap-2">
             <a href="" className="underline font-light text-sm text-black/70 hover:text-[#4ba7d1]">
               Forgot your password
