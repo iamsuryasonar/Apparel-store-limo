@@ -3,10 +3,9 @@ import { useDispatch } from "react-redux";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { login } from "../store/slices/authSlice";
-import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import useScrollToTop from '../hooks/useScrollToTop'
-import Button from '../components/Button';
+import { faEyeSlash, faEye } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import useScrollToTop from '../hooks/useScrollToTop';
 import ButtonBnW from "../components/ButtonBnW";
 
 function LogInPage() {

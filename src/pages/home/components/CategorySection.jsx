@@ -26,7 +26,7 @@ function CategorySection() {
             })}
         </ul>}
         {
-            !categories && <div className="w-full h-full grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+            !categories && <div className="list-none w-full grid grid-cols-3 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-8 gap-2">
                 <CategoryShimmer />
             </div>
         }

@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import subscribe from '../../../assets/subscribe.jpg';
+import subscribe from '../../../assets/subscribe.webp';
 import { setMessage, clearMessage } from '../../../store/slices/messageSlice';
 
 function Subscribe() {

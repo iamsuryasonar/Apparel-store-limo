@@ -5,8 +5,7 @@ import ProductsComponent from '../../components/ProductsComponent';
 import useScrollToTop from '../../hooks/useScrollToTop'
 import usePaginationObserver from '../../hooks/usePaginationObserver';
 import ProductsWithFilter from './components/ProductsWithFilter';
-import bannerImage from '../../assets/banner.jpg'
-
+import bannerImage from '../../assets/banner.webp'
 
 function ShopPage() {
 

@@ -1,5 +1,5 @@
-import instagramImage1 from '../../../assets/instagram1.jpg'
-import instagramImage2 from '../../../assets/instagram2.jpg'
+import instagramImage1 from '../../../assets/instagram1.webp'
+import instagramImage2 from '../../../assets/instagram2.webp'
 import useOnScreen from '../../../hooks/useOnScreen'
 
 function InstagramWrapper() {

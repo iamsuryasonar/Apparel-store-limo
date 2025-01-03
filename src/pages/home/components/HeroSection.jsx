@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
-import heroImage from '../../../assets/heroImage.png'
+import heroImage from '../../../assets/heroImage.webp'
 
 function HeroSection() {
     return <section className='h-[550px] flex gap-2 relative'>
         <div className='absolute sm:relative inset-0 p-4 sm:inset-auto w-full h-full'>
             <div className='w-[90%] md:w-[70%] h-full relative m-auto'>
-                <div className='absolute top-[70px] left-0 right-0 bottom-[100px] w-full border-[10px] border-[#78B3CE]'></div>
-                <img className='absolute inset-0 w-full h-[500px] object-contain' src={heroImage}></img>
+                <div className='absolute top-[70px] left-0 right-0 bottom-[100px] border-[20px] border-[#78B3CE]'></div>
+                <img alt='hero image' className='absolute inset-0 w-full h-[430px] object-contain' src={heroImage}></img>
             </div>
         </div>
         <div className='absolute sm:relative inset-0 p-4 sm:inset-auto w-full flex flex-col gap-1 justify-center items-start'>

@@ -69,13 +69,19 @@ function Nav() {
                     <ul className='uppercase items-center md:flex md:gap-5 hidden list-none'>
                         {
                             NAV_ITEMS.map((item) => {
-                                return <li key={item.id}><Link state={item.title === 'Shop' ? { name: 'Shop' } : {}} to={item.path} className={`text-base hover:text-[#4ba7d1] hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-[#4ba7d1]' : ''}`}>{item.title}</Link></li>
+                                return <li key={item.id}>
+                                    <Link state={item.title === 'Shop' ? { name: 'Shop' } : {}} to={item.path} className={`text-base hover:text-[#4ba7d1] hover:underline underline-offset-4 ${currentPageName === item.path ? 'text-[#4ba7d1]' : ''}`}>
+                                        {item.title}
+                                    </Link>
+                                </li>
                             })
                         }
                     </ul>
 
                     {/* Logo */}
-                    <Link to={'/'} className='place-self-center text-2xl font-bold hover:text-[#4ba7d1]'>LIMO</Link>
+                    <div className='w-full flex justify-start items-center md:justify-center'>
+                        <Link to={'/'} className='text-2xl font-bold hover:text-[#4ba7d1]'>LIMO</Link>
+                    </div>
 
                     <div className='flex items-center gap-2'>
                         {/* search */}
