@@ -1,15 +1,12 @@
 import { useDispatch } from 'react-redux';
 import subscribe from '../../../assets/subscribe.webp';
-import { setMessage, clearMessage } from '../../../store/slices/messageSlice';
+import { toast } from 'react-toastify';
 
 function Subscribe() {
     const dispatch = useDispatch();
 
     function handleSubscribe() {
-        dispatch(setMessage('Not implemented!'));
-        setTimeout(() => {
-            dispatch(clearMessage());
-        }, 2000)
+        toast.info('Not implemented!');
     }
 
     return <section id="subscribe-section" className="w-full pt-6 flex flex-col md:grid md:grid-cols-2">

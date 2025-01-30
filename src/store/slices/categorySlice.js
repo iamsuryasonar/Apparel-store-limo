@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setMessage, clearMessage } from "./messageSlice";
 import { setLoading } from "./loadingSlice";
 import CategoriesService from '../../services/categories.services';
+import { toast } from 'react-toastify';
 
 export const get_categories = createAsyncThunk(
     'categories/get_categories',
@@ -17,12 +17,18 @@ export const get_categories = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            thunkAPI.dispatch(setMessage(message));
+            toast.error(message, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return thunkAPI.rejectWithValue();
         } finally {
-            setTimeout(() => {
-                thunkAPI.dispatch(clearMessage());
-            }, 3000);
             thunkAPI.dispatch(setLoading(false));
         }
     }

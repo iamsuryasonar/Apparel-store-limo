@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { setMessage, clearMessage } from "./messageSlice";
 import { setLoading } from "./loadingSlice";
 import CartServices from "../../services/cart.services";
+import { toast } from 'react-toastify';
 
 export const get_all_cart_items = createAsyncThunk(
     'cart/get_all_cart_items',
@@ -17,12 +17,18 @@ export const get_all_cart_items = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            // thunkAPI.dispatch(setMessage(message));
+            toast.error(message, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return thunkAPI.rejectWithValue();
         } finally {
-            setTimeout(() => {
-                thunkAPI.dispatch(clearMessage());
-            }, 3000);
             thunkAPI.dispatch(setLoading(false));
         }
     }
@@ -35,6 +41,16 @@ export const addToCart = createAsyncThunk(
             thunkAPI.dispatch(setLoading(true));
             let response = await CartServices.addToCart(data);
             thunkAPI.dispatch(get_all_cart_items());
+            toast.info("Added to cart", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return response;
         } catch (error) {
             const message =
@@ -43,12 +59,18 @@ export const addToCart = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            thunkAPI.dispatch(setMessage(message));
+            toast.error(message, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return thunkAPI.rejectWithValue();
         } finally {
-            setTimeout(() => {
-                thunkAPI.dispatch(clearMessage());
-            }, 3000);
             thunkAPI.dispatch(setLoading(false));
         }
     }
@@ -61,6 +83,16 @@ export const updateItemQuantity = createAsyncThunk(
             thunkAPI.dispatch(setLoading(true));
             let response = await CartServices.updateItemQuantity(data);
             thunkAPI.dispatch(get_all_cart_items());
+            toast.info("Cart updated", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return response;
         } catch (error) {
             const message =
@@ -69,12 +101,18 @@ export const updateItemQuantity = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            thunkAPI.dispatch(setMessage(message));
+            toast.error(message, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return thunkAPI.rejectWithValue();
         } finally {
-            setTimeout(() => {
-                thunkAPI.dispatch(clearMessage());
-            }, 3000);
             thunkAPI.dispatch(setLoading(false));
         }
     }
@@ -87,6 +125,16 @@ export const remove_item_from_cart = createAsyncThunk(
             thunkAPI.dispatch(setLoading(true));
             let response = await CartServices.removeItemFromCart(data);
             thunkAPI.dispatch(get_all_cart_items());
+            toast.info("Removed from cart", {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return response;
         } catch (error) {
             const message =
@@ -95,12 +143,18 @@ export const remove_item_from_cart = createAsyncThunk(
                     error.response.data.message) ||
                 error.message ||
                 error.toString();
-            thunkAPI.dispatch(setMessage(message));
+            toast.error(message, {
+                position: "bottom-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+            })
             return thunkAPI.rejectWithValue();
         } finally {
-            setTimeout(() => {
-                thunkAPI.dispatch(clearMessage());
-            }, 3000);
             thunkAPI.dispatch(setLoading(false));
         }
     }

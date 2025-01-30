@@ -31,7 +31,6 @@ function LogInPage() {
       [name]: value,
     });
 
-    console.log(input)
   };
 
   const validateForm = () => {

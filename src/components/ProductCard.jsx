@@ -42,7 +42,7 @@ function ProductCard({ product, animate }) {
 
     return <div tabIndex={0}
         ref={ref}
-        className={`group w-full place-self-center hover:-translate-y-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
+        className={`group w-full place-self-center hover:-translate-y-2 m-2 hover:shadow-md overflow-hidden relative flex flex-col cursor-pointer transition-all duration-500 ${isVisible ? 'opacity-1 translate-y-0' : animate ? 'opacity-0 translate-y-[100px]' : 'opacity-1'}`}
         onClick={handleCardClicked}
         onKeyDown={(e) => {
             if (e.key === 'Enter') {

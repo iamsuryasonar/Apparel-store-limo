@@ -1,12 +1,9 @@
 import { Outlet } from 'react-router-dom'
-import { useSelector } from 'react-redux';
 import Nav from './Nav';
 import Footer from '../components/Footer'
-import BottomAlert from './BottomAlert';
+import { ToastContainer } from 'react-toastify';
 
 function NavAndOutlet() {
-
-    const message = useSelector((state) => state.message.message);
 
     return <div className='relative bg-white font-poppins'>
         <Nav />
@@ -14,7 +11,17 @@ function NavAndOutlet() {
             <Outlet />
         </main>
         <Footer />
-        {message && <BottomAlert message={message} />}
+        <ToastContainer
+            position="bottom-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="light" />
     </div>
 }
 export default NavAndOutlet;

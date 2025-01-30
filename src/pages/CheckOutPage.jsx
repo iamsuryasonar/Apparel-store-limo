@@ -4,13 +4,13 @@ import { useSelector, useDispatch } from 'react-redux';
 import AddressService from '../services/address.services'
 import PaymentServices from '../services/payment.services'
 import { get_all_cart_items } from '../store/slices/cartSlice';
-import { setMessage } from '../store/slices/messageSlice';
 import razorpay from '../assets/logos/razorpay.png'
 import visa from '../assets/logos/visa.png'
 import mastercard from '../assets/logos/mastercard.png'
 import upi from '../assets/logos/upi.png'
 import next_page_svg from '../assets/next_page.svg'
 import AddAddressForm from '../components/AddAddressForm'
+import { toast } from 'react-toastify';
 
 function CheckOutPage() {
     let { state } = useLocation();
@@ -48,7 +48,7 @@ function CheckOutPage() {
     const checkOutHandler = async (e) => {
 
         if (!selectedAddress) {
-            dispatch(setMessage('Address required!'));
+            toast.info('Address required!');
             return;
         }
         setProcessingPayment(true);
@@ -84,7 +84,7 @@ function CheckOutPage() {
                 if (res.code == 200 || res.code == 201) {
                     navigate(`/order-placed?order_id=${response.razorpay_order_id}`);
                 } else {
-                    dispatch(setMessage('Refund initiated, Something went wrong!'));
+                    toast.error('Refund initiated, Something went wrong!');
                     setCreatingOrder(false);
                     setProcessingPayment(false);
                 }
@@ -95,7 +95,7 @@ function CheckOutPage() {
         };
         var rzp1 = new window.Razorpay(options);
         rzp1.on('payment.failed', function (response) {
-            dispatch(setMessage('Payment failed!'));
+            toast.error('Payment failed!');
             /*  alert(response.error.reason);
                 alert(response.error.code);
                 alert(response.error.description);

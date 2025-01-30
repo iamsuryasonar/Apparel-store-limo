@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { isValidToken, getAccessToken, getUserData } from '../../utilities/utility'
 import { LOCAL_STORAGE_NAME } from '../../utilities/constants'
-import { setMessage, clearMessage } from "./messageSlice";
 import AuthService from "../../services/auth.services";
 import { setLoading } from "./loadingSlice";
+import { toast } from 'react-toastify';
 
 export const initialiseUser = createAsyncThunk(
   'auth/initialise',
@@ -28,12 +28,9 @@ export const initialiseUser = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
+      toast.error(message)
       return thunkAPI.rejectWithValue();
     } finally {
-      setTimeout(() => {
-        thunkAPI.dispatch(clearMessage());
-      }, 3000);
       thunkAPI.dispatch(setLoading(false));
     }
   }
@@ -44,9 +41,8 @@ export const register = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      thunkAPI.dispatch(clearMessage());
       const response = await AuthService.register(credentials);
-      thunkAPI.dispatch(setMessage(response.data.message));
+      toast.info(response.data.message)
       return response.data;
     } catch (error) {
       const message =
@@ -55,12 +51,9 @@ export const register = createAsyncThunk(
           error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
+      toast.error(message)
       return thunkAPI.rejectWithValue();
     } finally {
-      setTimeout(() => {
-        thunkAPI.dispatch(clearMessage());
-      }, 3000);
       thunkAPI.dispatch(setLoading(false));
     }
   }
@@ -71,7 +64,6 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      thunkAPI.dispatch(clearMessage());
       const res = await AuthService.login(credentials);
       const data = {
         userData: {
@@ -86,12 +78,9 @@ export const login = createAsyncThunk(
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
+      toast.error(message)
       return thunkAPI.rejectWithValue();
     } finally {
-      setTimeout(() => {
-        thunkAPI.dispatch(clearMessage());
-      }, 3000);
       thunkAPI.dispatch(setLoading(false));
     }
   });
@@ -101,7 +90,6 @@ export const logout = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       thunkAPI.dispatch(setLoading(true));
-      thunkAPI.dispatch(clearMessage());
       AuthService.logout();
       return;
     } catch (error) {
@@ -109,12 +97,9 @@ export const logout = createAsyncThunk(
         (error.response && error.response.data && error.response.data.message) ||
         error.message ||
         error.toString();
-      thunkAPI.dispatch(setMessage(message));
+      toast.error(message)
       return thunkAPI.rejectWithValue();
     } finally {
-      setTimeout(() => {
-        thunkAPI.dispatch(clearMessage());
-      }, 3000);
       thunkAPI.dispatch(setLoading(false));
     }
   });

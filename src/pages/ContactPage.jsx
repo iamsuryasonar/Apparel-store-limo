@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useDispatch } from 'react-redux'
 import ContactUsServices from '../services/contactUs.services'
-import { setMessage, clearMessage } from '../store/slices/messageSlice'
 import useScrollToTop from '../hooks/useScrollToTop'
 import Button from '../components/Button';
+import { toast } from 'react-toastify';
 
 const OPTIONS = [
     {
@@ -73,11 +73,7 @@ function ContactPage() {
 
         if (Object.keys(errors).length === 0) {
             await ContactUsServices.sendEmail(formData);
-            dispatch(setMessage('Email sent...'))
-
-            setTimeout(() => {
-                dispatch(clearMessage());
-            }, 1000);
+            toast.info('Email sent...');
 
             setFormData({
                 name: '',
