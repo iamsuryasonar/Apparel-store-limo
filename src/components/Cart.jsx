@@ -110,7 +110,7 @@ const CartItem = (props) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
     }
 
-    return <div className='relative flex flex-col sm:flex-row justify-between m-1 p-2 gap-2 shadow-md bg-white rounded-md cursor-pointer'
+    return <div className='w-full flex flex-row m-1 p-2 gap-1 shadow-md bg-white rounded-md cursor-pointer'
         onClick={
             () => {
                 navigate(`/product/${product?.product?._id}`, {
@@ -118,31 +118,33 @@ const CartItem = (props) => {
                 })
                 toggleCart()
             }}>
-        <LazyLoadImage className='w-40 aspect-square bg-slate-50' src={product?.colorvariant.images[0].url} alt='product' />
-        <div className='flex flex-col gap-1'>
-            <p>{product?.product?.name}</p>
-            <div className='flex flex-row sm:flex-col justify-between sm:justify-normal items-center sm:items-baseline'>
-                <p>size: {product?.sizevariant?.name}</p>
-                <p className=''>Rs. {product?.sizevariant?.selling_price}</p>
-            </div>
-            <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
-                <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        incrementDecrementHandler(product._id, 'DECREMENT')
-                    }}>-</p>
-                <p className='px-1 cursor-pointer'>{product?.quantity}</p>
-                <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
-                    onClick={(e) => {
-                        e.stopPropagation()
-                        incrementDecrementHandler(product._id, 'INCREMENT')
-                    }}>+</p>
+        <div className='w-full flex flex-col sm:flex-row justify-between gap-2'>
+            <LazyLoadImage className='w-40 aspect-square bg-slate-50' src={product?.colorvariant.images[0].url} alt='product' />
+            <div className='flex flex-col gap-2'>
+                <p>{product?.product?.name}</p>
+                <div className='flex flex-row sm:flex-col justify-between sm:justify-normal items-center sm:items-baseline'>
+                    <p>size: {product?.sizevariant?.name}</p>
+                    <p className=''>Rs. {product?.sizevariant?.selling_price}</p>
+                </div>
+                <div className=' place-self-end gap-2 border-[1px] border-black flex items-center'>
+                    <p className='text-xl font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            incrementDecrementHandler(product._id, 'DECREMENT')
+                        }}>-</p>
+                    <p className='px-1 cursor-pointer'>{product?.quantity}</p>
+                    <p className='text-lg font-bold px-1 cursor-pointer hover:bg-black hover:text-white'
+                        onClick={(e) => {
+                            e.stopPropagation()
+                            incrementDecrementHandler(product._id, 'INCREMENT')
+                        }}>+</p>
+                </div>
             </div>
         </div>
         <div onClick={(e) => {
             e.stopPropagation()
             removeItemFromCart(product)
-        }} className='absolute top-1 right-1 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center cursor-pointer' >
+        }} className='h-6 w-6 aspect-square bg-black  text-white  hover:bg-slate-900 hover:text-red-600  rounded-full flex justify-center items-center cursor-pointer' >
             <FontAwesomeIcon icon={faXmark} />
         </div>
     </div>

@@ -9,8 +9,8 @@ function Subscribe() {
         toast.info('Not implemented!');
     }
 
-    return <section id="subscribe-section" className="w-full pt-6 flex flex-col md:grid md:grid-cols-2">
-        <img alt='subscribe banner' className="object-cover h-[25rem]" src={subscribe} />
+    return <section id="subscribe-section" className="w-full pt-6 grid grid-rows-1 md:grid md:grid-cols-2">
+        <img alt='subscribe banner' className="object-cover w-full h-[25rem]" src={subscribe} />
         <div className="w-full h-[25rem] bg-black none flex flex-col justify-center items-center gap-8">
             <label htmlFor='subscribe_input' className='text-white text-3xl font-bold'>GET ON OUR LIST</label>
             <div className="relative w-10/12 ">
