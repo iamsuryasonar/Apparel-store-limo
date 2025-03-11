@@ -8,6 +8,8 @@ import useLocalStorageLimited from '../../hooks/useLocalStorageLimited';
 import { LOCAL_STORAGE_RECENTLY_VIEWED } from '../../utilities/constants'
 import ProductCard from '../../components/ProductCard'
 import { setLoading } from "../../store/slices/loadingSlice";
+import ReviewForm from "../../components/ReviewForm";
+import StarRating from "../../components/StarRating";
 
 /* page to display single product information */
 function ProductPage() {
@@ -21,18 +23,21 @@ function ProductPage() {
     const [product, setProduct] = useState(null);
     const [selectedColorVariantIndex, setSelectedColorVariantIndex] = useState(0);
     const [selectedSizeVariantIndex, setSelectedSizeVariantIndex] = useState(0);
+    const [showAddReviewForm, setShowAddReviewForm] = useState(false);
+    const [showEditReviewForm, setShowEditReviewForm] = useState(false);
+    const [selectedReview, setSelectedReview] = useState(0);
 
     const [recentlyViewed, setRecentlyViewed] = useLocalStorageLimited(LOCAL_STORAGE_RECENTLY_VIEWED, 4);
 
     const getAProduct = async () => {
-        dispatch(setLoading(true))
+        dispatch(setLoading(true));
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
         });
         const response = await ProductsService.getProduct(state?.productId);
-        setProduct(response?.product)
-        dispatch(setLoading(false))
+        setProduct(response?.product);
+        dispatch(setLoading(false));
     }
 
     const addToCartHandler = () => {
@@ -42,6 +47,10 @@ function ProductPage() {
             colorVariantId: product?.colorvariants[selectedColorVariantIndex]._id,
             sizeVariantId: product?.colorvariants[selectedColorVariantIndex].sizevariants[selectedSizeVariantIndex]._id,
         }))
+    }
+
+    function reloadProductCallback() {
+        getAProduct();
     }
 
     useEffect(() => {
@@ -152,16 +161,43 @@ function ProductPage() {
                 </div>
             </div>
             <div className="flex flex-col gap-0">
-                <p className="font-light text-3xl px-4 uppercase ">Recently viewed</p>
+                <p className="font-light text-2xl px-4 uppercase ">Recently viewed</p>
                 <div className={`w-full grid grid-cols-2 sm:grid-cols-[repeat(auto-fill,minmax(220px,max-content))] justify-center p-4 md:p-8 gap-4`}>
                     {recentlyViewed.length > 0 && recentlyViewed?.map((product, index) => {
                         return <ProductCard key={index} product={product} index={index} arr={recentlyViewed} animate={true} />
                     })}
                 </div>
             </div>
+            <div className="flex flex-col gap-2">
+                <div className="px-4 flex justify-between items-center gap-1">
+                    <p className="font-light text-2xl uppercase">Reviews</p>
+                    {
+                        user && user?._id && <button onClick={() => setShowAddReviewForm(true)} className="font-light text-xl px-4 bg-teal-400 hover:bg-teal-600 text-white">Add review</button>
+                    }
+                </div>
+                <div className={`w-full px-4 flex flex-col gap-2`}>
+                    {
+                        product?.reviews.length > 0 ? product?.reviews.map((review, index) => {
+                            return <div className="px-4 py-2 bg-slate-100 text-black">
+                                <div className="flex justify-between items-center">
+                                    <p className="font-bold">{review.reviewer_name}</p>
+                                    {
+                                        (user && review.customer === user?._id) && <button onClick={() => { setShowEditReviewForm(true); setSelectedReview(index) }} className="px-4 py-1 bg-black text-white hover:bg-transparent hover:text-black border-[1px] border-black">edit</button>}
+                                </div>
+                                <StarRating type={'SHOW'} rating={review.rating} total={5} iconSize={25} />
+                                {review?.message && <p className="">{review.message}</p>}
+                            </div>
+                        }) : <p className="text-lg">No reviews yet!</p>
+
+                    }
+                </div>
+            </div>
         </div>
         }
-    </div>
+        {showAddReviewForm && <ReviewForm type="ADD" productId={product._id} setShowReviewForm={setShowAddReviewForm} reloadProductCallback={reloadProductCallback} />}
+        {showEditReviewForm && <ReviewForm type="EDIT" review={product?.reviews[selectedReview]} productId={product._id} setShowReviewForm={setShowEditReviewForm} reloadProductCallback={reloadProductCallback} />}
+    </div >
     );
 }
 export default ProductPage;
+

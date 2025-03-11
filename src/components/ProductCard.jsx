@@ -73,7 +73,7 @@ function ProductCard({ product, animate }) {
                             <p className="text-xs sm:text-base font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
                         </del>
                     </div>
-                    <p className='text-[#4ebef1] text-xs sm:text-base'>{product?.tag}</p>
+                    <p className='text-teal-400 text-xs sm:text-base'>{product?.tag}</p>
                 </div>
                 <div className="m-1 ml-auto text-black bg-transparent text-lg sm:text-2xl  hover:scale-110 transition-all duration-500 ">
                     <FontAwesomeIcon className='' icon={faCartPlus}

@@ -67,6 +67,9 @@ export const login = createAsyncThunk(
       const res = await AuthService.login(credentials);
       const data = {
         userData: {
+          _id: res._id,
+          firstName: res.firstName,
+          lastName: res.lastName,
           email: res.email,
         },
         accessToken: res.token,
