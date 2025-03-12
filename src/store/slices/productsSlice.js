@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { setLoading } from "./loadingSlice";
-import productsService from '../../services/products.services';
+import ProductsServices from '../../services/products.services';
 import { toast } from 'react-toastify';
 
 export const get_products = createAsyncThunk(
@@ -9,7 +9,7 @@ export const get_products = createAsyncThunk(
         try {
             thunkAPI.dispatch(setLoading(true));
             thunkAPI.dispatch(clearProducts());
-            let response = await productsService.getProducts(data);
+            let response = await ProductsServices.getProducts(data);
             return response;
         } catch (error) {
             const message =
@@ -40,7 +40,7 @@ export const get_more_products = createAsyncThunk(
     async (data, thunkAPI) => {
         try {
             thunkAPI.dispatch(setLoading(true));
-            let response = await productsService.getProducts(data);
+            let response = await ProductsServices.getProducts(data);
             return response;
         } catch (error) {
             const message =

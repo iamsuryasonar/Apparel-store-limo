@@ -68,9 +68,9 @@ function ProductCard({ product, animate }) {
             <div className="flex items-center">
                 <div className='flex flex-col items-start'>
                     <div className='flex items-center'>
-                        <p className="text-xs sm:text-base font-normal text-black cursor-auto">₹{product?.sizevariants.selling_price}</p>
+                        <p className="text-xs sm:text-base font-normal text-black cursor-pointer">₹{product?.sizevariants.selling_price}</p>
                         <del>
-                            <p className="text-xs sm:text-base font-light text-gray-600 cursor-auto ml-2">₹{product?.sizevariants.mrp}</p>
+                            <p className="text-xs sm:text-base font-light text-gray-600 cursor-pointer ml-2">₹{product?.sizevariants.mrp}</p>
                         </del>
                     </div>
                     <p className='text-teal-400 text-xs sm:text-base'>{product?.tag}</p>

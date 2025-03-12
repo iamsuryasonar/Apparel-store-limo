@@ -50,11 +50,11 @@ const getProductsByCategoryId = async (data) => {
     return response.data.results
 }
 
-const ProductsService = {
+const ProductsServices = {
     getProduct,
     getProducts,
     getProductsByTag,
     getProductsByCategoryId
 }
 
-export default ProductsService;
+export default ProductsServices;

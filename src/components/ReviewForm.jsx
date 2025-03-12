@@ -3,7 +3,7 @@ import ReviewServices from "../services/review.services";
 import { MdClose } from "react-icons/md";
 import StarRating from "./StarRating";
 
-function ReviewForm({ type = 'ADD', review, productId, setShowReviewForm, reloadProductCallback }) {
+function ReviewForm({ type = 'ADD', review, productId, setShowReviewForm, reloadReviewCallback }) {
     const [value, setValue] = useState(review?.rating || 5);
     const [message, setMessage] = useState(review?.message || '');
     const [errors, setErrors] = useState({});
@@ -25,11 +25,11 @@ function ReviewForm({ type = 'ADD', review, productId, setShowReviewForm, reload
 
         if (type === 'ADD') {
             await ReviewServices.addReview({ productId, message, rating: value });
-            reloadProductCallback();
+            reloadReviewCallback();
             setShowReviewForm(false);
         } else if (type === 'EDIT') {
             await ReviewServices.updateReview({ _id: review._id, message, rating: value });
-            reloadProductCallback();
+            reloadReviewCallback();
             setShowReviewForm(false);
         }
     }

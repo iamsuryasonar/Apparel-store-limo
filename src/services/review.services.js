@@ -1,6 +1,17 @@
 import axios from "axios";
 import { API_URL } from '../utilities/constants'
-import { getAuthHeaders } from '../utilities/utility'
+import { getAuthHeaders, getNonAuthHeaders } from '../utilities/utility'
+
+const getReview = async (data) => {
+    const response = await axios
+        .get(API_URL + 'review/' + data.productId, {
+            params: {
+                page: data?.page,
+            },
+            headers: getNonAuthHeaders()
+        })
+    return response.data.results
+}
 
 const addReview = async (data) => {
     const response = await axios
@@ -21,6 +32,7 @@ const removeReview = async (data) => {
 }
 
 const ReviewServices = {
+    getReview,
     addReview,
     updateReview,
     removeReview

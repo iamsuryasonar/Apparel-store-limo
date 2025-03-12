@@ -19,7 +19,7 @@ function OrderHistoryComponent() {
 
     return (
         <div className="my-4 flex flex-col gap-4">
-            <p className="text-5xl font-bold">Order History</p>
+            <p className="text-5xl font-bold text-[#78B3CE]">Order History</p>
             <div className="flex flex-col gap-4">
                 {!orders && <OrderShimmer />}
                 {orders && orders?.length < 1 && <p>You haven't placed any orders yet.</p>}

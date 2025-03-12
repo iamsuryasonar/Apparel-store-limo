@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setLoading } from '../../../store/slices/loadingSlice';
-import ProductsService from '../../../services/products.services'
+import ProductsServices from '../../../services/products.services'
 import ProductCard from '../../../components/ProductCard'
 import MultiCarousel from '../../../components/MultiCarousel';
 import { TAGS } from '../../../utilities/constants';
@@ -19,7 +19,7 @@ function ProductsByTagsSection() {
 
     const fetchProductsByTag = async (tag) => {
         dispatch(setLoading(true));
-        const res = await ProductsService.getProductsByTag({ tag, pageNo: 0, from: 0, to: 99999 });
+        const res = await ProductsServices.getProductsByTag({ tag, pageNo: 0, from: 0, to: 99999 });
         setProductByTag((prev) => ({ ...prev, [tag]: res.products }));
         dispatch(setLoading(false));
     };
