@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux';
 import { setShowSearch } from '../store/slices/searchSlice';
@@ -34,7 +34,11 @@ function ProductCard({ product, animate }) {
 
     function handleCardClicked(e) {
         navigate(`/product/${product?._id}`, {
-            state: { colorVariantId: product?.colorvariants?._id, sizeVariantId: product?.sizevariants?._id, productId: product._id }
+            state: {
+                colorVariantId: product?.colorvariants?._id,
+                sizeVariantId: product?.sizevariants?._id,
+                productId: product._id
+            }
         })
         /* if search modal is enabled, this will disable that */
         dispatch(setShowSearch(false));

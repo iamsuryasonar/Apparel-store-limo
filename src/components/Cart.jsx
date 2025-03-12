@@ -110,7 +110,7 @@ const CartItem = (props) => {
         dispatch(remove_item_from_cart({ itemId: item?._id }));
     }
 
-    return <div className='w-full flex flex-row m-1 p-2 gap-1 shadow-md bg-white rounded-md cursor-pointer'
+    return <div className='w-full flex flex-row p-2 gap-1 shadow-md bg-white rounded-md cursor-pointer'
         onClick={
             () => {
                 navigate(`/product/${product?.product?._id}`, {

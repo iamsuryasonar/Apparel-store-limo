@@ -66,7 +66,6 @@ function ProductPage() {
     }
 
     async function handleReviewPagination(type) {
-        console.log(type)
         if (type === "PREV" && reviewPageNo === 1) return;
         if (type === "NEXT" && reviews.pagination?.page_no === reviews.pagination?.total_pages) return;
 
