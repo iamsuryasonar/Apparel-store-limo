@@ -1,5 +1,6 @@
 import { lazy, Suspense } from 'react'
 import { Routes, Route } from "react-router-dom";
+import usePageTracking from './hooks/usePageTracking';
 
 import PublicRoute from "./components/auth_guards/public_route";
 import PrivateRoute from "./components/auth_guards/private_route";
@@ -21,6 +22,8 @@ const TermsAndConditionsPage = lazy(() => import("./pages/TermsAndConditionsPage
 const NoPage = lazy(() => import("./pages/NoPage"));
 
 function App() {
+  usePageTracking();
+
   return (
     <Routes>
       <Route element={<NavAndOutlet />}>
