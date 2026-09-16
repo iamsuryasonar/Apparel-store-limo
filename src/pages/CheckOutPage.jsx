@@ -10,6 +10,7 @@ import mastercard from '../assets/logos/mastercard.png'
 import upi from '../assets/logos/upi.png'
 import next_page_svg from '../assets/next_page.svg'
 import AddAddressForm from '../components/AddAddressForm'
+import { pushEcommerceEvent } from '../utilities/gtm'
 
 function CheckOutPage() {
     let { state } = useLocation();
@@ -71,6 +72,18 @@ function CheckOutPage() {
                 dispatch(get_all_cart_items());
 
                 if (res.code == 200 || res.code == 201) {
+                    pushEcommerceEvent('purchase', {
+                        transaction_id: response.razorpay_order_id,
+                        value: totalPrice,
+                        currency: 'INR',
+                        items: state.map((item) => ({
+                            item_id: item?.product?._id,
+                            item_name: item?.product?.name,
+                            item_variant: item?.sizevariant?.name,
+                            price: item?.sizevariant?.selling_price,
+                            quantity: item?.quantity,
+                        })),
+                    });
                     navigate(`/order-placed?order_id=${response.razorpay_order_id}`)
                 }
             },

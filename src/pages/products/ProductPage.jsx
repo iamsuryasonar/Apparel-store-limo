@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from "react-router-dom";
 import ProductsService from "../../services/products.services";
 import { addToCart } from "../../store/slices/cartSlice";
+import { pushEcommerceEvent } from "../../utilities/gtm";
 import ImageCarousel from "../../components/carousal/ImageCarousel";
 import useLocalStorageLimited from '../../hooks/useLocalStorageLimited';
 import { LOCAL_STORAGE_RECENTLY_VIEWED } from '../../utilities/constants'
@@ -36,12 +37,26 @@ function ProductPage() {
     }
 
     const addToCartHandler = () => {
+        const sizeVariant = product?.colorvariants[selectedColorVariantIndex].sizevariants[selectedSizeVariantIndex];
+
         dispatch(addToCart({
             quantity,
             productId: product?._id,
             colorVariantId: product?.colorvariants[selectedColorVariantIndex]._id,
-            sizeVariantId: product?.colorvariants[selectedColorVariantIndex].sizevariants[selectedSizeVariantIndex]._id,
+            sizeVariantId: sizeVariant._id,
         }))
+
+        pushEcommerceEvent('add_to_cart', {
+            currency: 'INR',
+            value: sizeVariant?.selling_price * quantity,
+            items: [{
+                item_id: product?._id,
+                item_name: product?.name,
+                item_variant: sizeVariant?.name,
+                price: sizeVariant?.selling_price,
+                quantity: Number(quantity),
+            }],
+        });
     }
 
     useEffect(() => {

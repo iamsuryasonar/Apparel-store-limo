@@ -6,6 +6,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { Transition } from 'react-transition-group';
 import { updateItemQuantity, remove_item_from_cart, incrementQuantity, decrementQuantity } from '../store/slices/cartSlice'
 import LazyLoadImage from '../components/LazyLoadImage';
+import { pushEcommerceEvent } from '../utilities/gtm';
 
 function Cart(props) {
     const { show, toggleCart } = props;
@@ -61,6 +62,17 @@ function Cart(props) {
                                 {cartItems?.length > 0 && <>
                                     <p>Shipping, taxes and discount codes are calculated at check-out</p>
                                     <button onClick={() => {
+                                        pushEcommerceEvent('begin_checkout', {
+                                            currency: 'INR',
+                                            value: totalPrice,
+                                            items: cartItems.map((item) => ({
+                                                item_id: item?.product?._id,
+                                                item_name: item?.product?.name,
+                                                item_variant: item?.sizevariant?.name,
+                                                price: item?.sizevariant?.selling_price,
+                                                quantity: item?.quantity,
+                                            })),
+                                        });
                                         toggleCart()
                                         navigate('/check-out', { state: cartItems })
                                     }} className='w-full py-2 bg-black text-white font-thin'>Check Out</button>
