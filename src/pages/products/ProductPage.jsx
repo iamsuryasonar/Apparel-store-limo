@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ProductsService from "../../services/products.services";
 import { addToCart } from "../../store/slices/cartSlice";
 import { pushEcommerceEvent } from "../../utilities/gtm";
@@ -16,6 +16,7 @@ function ProductPage() {
     const user = useSelector((state) => state.auth.userData);
 
     let { state } = useLocation();
+    const { id } = useParams();
     const navigate = useNavigate();
 
     const [quantity, setQuantity] = useState(1);
@@ -31,7 +32,7 @@ function ProductPage() {
             top: 0,
             behavior: 'smooth'
         });
-        const response = await ProductsService.getProduct(state?.productId);
+        const response = await ProductsService.getProduct(id);
         setProduct(response?.product)
         dispatch(setLoading(false))
     }
@@ -61,7 +62,7 @@ function ProductPage() {
 
     useEffect(() => {
         getAProduct();
-    }, [state]);
+    }, [id]);
 
     useEffect(() => {
         if (product && state) {
