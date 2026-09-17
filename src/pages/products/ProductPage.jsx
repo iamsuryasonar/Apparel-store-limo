@@ -33,8 +33,21 @@ function ProductPage() {
             behavior: 'smooth'
         });
         const response = await ProductsService.getProduct(id);
-        setProduct(response?.product)
+        const fetchedProduct = response?.product;
+        setProduct(fetchedProduct)
         dispatch(setLoading(false))
+
+        const sizeVariant = fetchedProduct?.colorvariants?.[0]?.sizevariants?.[0];
+        pushEcommerceEvent('view_item', {
+            currency: 'INR',
+            value: sizeVariant?.selling_price,
+            items: [{
+                item_id: fetchedProduct?._id,
+                item_name: fetchedProduct?.name,
+                item_variant: sizeVariant?.name,
+                price: sizeVariant?.selling_price,
+            }],
+        });
     }
 
     const addToCartHandler = () => {
